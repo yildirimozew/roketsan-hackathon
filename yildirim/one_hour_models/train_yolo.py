@@ -12,6 +12,13 @@ import wandb
 from ultralytics import YOLO
 
 
+def log_train_epoch(trainer) -> None:
+    """Record YOLO losses and learning rates without relying on global settings."""
+    metrics = trainer.label_loss_items(trainer.tloss, prefix="train")
+    metrics.update(trainer.lr)
+    wandb.log(metrics, step=trainer.epoch + 1)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--variant", choices=("yolo26s-p2", "yolo12l"), required=True)
@@ -41,6 +48,7 @@ def main() -> None:
         model = YOLO("yolo26s-p2.yaml").load("yolo26s.pt")
     else:
         model = YOLO("yolo12l.pt")
+    model.add_callback("on_train_epoch_end", log_train_epoch)
 
     train_result = model.train(
         data=str(args.data.resolve()),
