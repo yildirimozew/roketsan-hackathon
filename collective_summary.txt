@@ -4,6 +4,7 @@
 - Scene holdout: Added a fixed 5,176/1,295 scene-grouped split with zero scene-group or exact-duplicate crossings and test-matched resolution/brightness.
 - Cascade express run: Split Cascade R-CNN ConvNeXt-T into a 50-minute checkpoint-aware `qgpu_exp` training job and a dependent evaluation job; fixed environment/network startup issues and records W&B offline for login-node sync.
 - RF-DETR test ensemble: Added full-grid tiled test inference that saves raw tile predictions and owner-filtered/NMS merged predictions keyed by original image ID.
+- Three-model ensemble: RF-DETR + Cascade ConvNeXt-T + YOLO11m weighted box fusion scores 0.8150 Fold 1 mAP@0.5 (vs. 0.7920 RF-DETR) and produces a format-checked 2,118-image submission.
 - RF-DETR class-fix A/B: Added matched `scene_holdout_v1` runs comparing rare-class-centered sampling alone against the same data with mild IA-BCE class weights; both use three `qgpu_exp` epochs and fixed original-image competition evaluation.
 - Clariden D-FINE: Ported `eli-training-4` to one four-GH200 node under `infra01`, using the CSCS PyTorch container and offline W&B capture.
 
