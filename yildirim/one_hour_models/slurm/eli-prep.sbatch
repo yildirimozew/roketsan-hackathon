@@ -122,9 +122,15 @@ sed \
     "$SOURCE_DIR/cascade_eli_convnext_t.py" \
     > "$ELI_ROOT/repos/mmdetection/configs/eli/cascade_eli_convnext_t.py"
 
-curl -L --fail --retry 3 \
-    -o "$ELI_ROOT/weights/cascade_convnext_t_coco.pth" \
-    https://download.openmmlab.com/mmdetection/v2.0/convnext/cascade_mask_rcnn_convnext-t_p4_w7_fpn_giou_4conv1f_fp16_ms-crop_3x_coco/cascade_mask_rcnn_convnext-t_p4_w7_fpn_giou_4conv1f_fp16_ms-crop_3x_coco_20220509_204200-8f07c40b.pth
+CASCADE_WEIGHT="$ELI_ROOT/weights/cascade_convnext_t_coco.pth"
+CASCADE_SHA256=8f07c40bd70aad8a496d9e3ac44a26236269a959847624112c13f22620dc98b8
+if ! echo "$CASCADE_SHA256  $CASCADE_WEIGHT" | sha256sum --check --status; then
+    curl -L --fail --retry 3 \
+        -o "$CASCADE_WEIGHT.part" \
+        https://download.openmmlab.com/mmdetection/v2.0/convnext/cascade_mask_rcnn_convnext-t_p4_w7_fpn_giou_4conv1f_fp16_ms-crop_3x_coco/cascade_mask_rcnn_convnext-t_p4_w7_fpn_giou_4conv1f_fp16_ms-crop_3x_coco_20220509_204200-8f07c40b.pth
+    echo "$CASCADE_SHA256  $CASCADE_WEIGHT.part" | sha256sum --check
+    mv "$CASCADE_WEIGHT.part" "$CASCADE_WEIGHT"
+fi
 sed -i \
     "s|load_from = 'https://[^']*'|load_from = '$ELI_ROOT/weights/cascade_convnext_t_coco.pth'|" \
     "$ELI_ROOT/repos/mmdetection/configs/eli/cascade_eli_convnext_t.py"
