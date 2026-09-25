@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eli-training-5
+#SBATCH --job-name=eli-eval-5
 #SBATCH --account=open-37-16
 #SBATCH --partition=qgpu_exp
 #SBATCH --nodes=1
@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --gres=gpu:a100:1
 #SBATCH --mem=96G
-#SBATCH --time=00:59:00
+#SBATCH --time=00:45:00
 
 set -euo pipefail
 module purge
@@ -24,28 +24,16 @@ export OMP_NUM_THREADS=8
 export WANDB_ENTITY="${WANDB_ENTITY:-yildirimozew-eth-z-rich}"
 export WANDB_PROJECT="${WANDB_PROJECT:-eli-training}"
 export WANDB_RUN_GROUP=one-hour-pilots
-export WANDB_NAME=eli-training-5
+export WANDB_NAME=eli-training-5-eval
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
 export WANDB_MODE="${WANDB_MODE:-online}"
 export WANDB_SILENT=true
-mkdir -p "$WANDB_DIR"
-mkdir -p "$OUTPUT"
-cd "$MMDET"
+mkdir -p "$WANDB_DIR" "$OUTPUT/evaluation"
 
-resume_args=()
-if [[ -f "$OUTPUT/last_checkpoint" ]]; then
-    resume_args=(--resume)
-fi
-
-set +e
-timeout --signal=TERM --kill-after=60s 3000s \
-    "$ELI_ROOT/venvs/mmdet/bin/python" tools/train.py "$CONFIG" \
-    --work-dir "$OUTPUT" "${resume_args[@]}"
-train_status=$?
-set -e
-if [[ $train_status -ne 0 && $train_status -ne 124 && $train_status -ne 143 ]]; then
-    exit "$train_status"
-fi
 checkpoint=$(find "$OUTPUT" -maxdepth 1 -type f -name 'epoch_*.pth' -print | sort -V | tail -1)
 test -n "$checkpoint"
-echo "Training segment complete; newest checkpoint: $checkpoint"
+echo "Evaluating checkpoint: $checkpoint"
+cd "$MMDET"
+"$ELI_ROOT/venvs/mmdet/bin/python" tools/test.py "$CONFIG" "$checkpoint" \
+    --work-dir "$OUTPUT/evaluation" \
+    --cfg-options vis_backends.1.init_kwargs.name=eli-training-5-eval
