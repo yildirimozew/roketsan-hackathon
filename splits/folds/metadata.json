@@ -1,0 +1,69 @@
+{
+  "annotations_sha256": "c946f29a627438bc4567544cc654234df2eab6a8e342a9ee4d9a6fd997e857ce",
+  "folds": [
+    {
+      "fold": 1,
+      "train_images": 5176,
+      "validation_image_class_presence": {
+        "background": 58,
+        "bus": 391,
+        "car": 1221,
+        "truck": 699,
+        "van": 971
+      },
+      "validation_images": 1295
+    },
+    {
+      "fold": 2,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "background": 58,
+        "bus": 390,
+        "car": 1221,
+        "truck": 700,
+        "van": 969
+      },
+      "validation_images": 1294
+    },
+    {
+      "fold": 3,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "background": 58,
+        "bus": 391,
+        "car": 1221,
+        "truck": 699,
+        "van": 970
+      },
+      "validation_images": 1294
+    },
+    {
+      "fold": 4,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "background": 58,
+        "bus": 391,
+        "car": 1220,
+        "truck": 699,
+        "van": 970
+      },
+      "validation_images": 1294
+    },
+    {
+      "fold": 5,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "background": 58,
+        "bus": 391,
+        "car": 1220,
+        "truck": 697,
+        "van": 970
+      },
+      "validation_images": 1294
+    }
+  ],
+  "number_of_folds": 5,
+  "seed": 42,
+  "strategy": "class-combination-stratified 5-fold cross-validation",
+  "total_images": 6471
+}

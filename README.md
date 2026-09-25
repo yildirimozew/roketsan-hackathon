@@ -31,6 +31,11 @@ checksum so teammates can confirm that they have the same dataset version.
 Treat these manifests as the team's common benchmark. Change them only when the
 team agrees to adopt a new split.
 
+For five-fold cross-validation, use the paired train/validation manifests in
+`splits/folds/`. Across the five folds, every image is used for validation
+exactly once. See `splits/folds/metadata.json` for counts and the dataset
+checksum.
+
 ## Collaboration
 
 Each teammate and their coding agents must work only inside that teammate's
