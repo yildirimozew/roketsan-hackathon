@@ -9,6 +9,7 @@ __include__: [
 output_dir: __OUTPUT_DIR__
 num_classes: 4
 remap_mscoco_category: False
+eval_spatial_size: [960, 960]
 epochs: 999
 checkpoint_freq: 1
 print_freq: 50

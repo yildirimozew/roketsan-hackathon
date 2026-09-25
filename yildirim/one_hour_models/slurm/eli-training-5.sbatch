@@ -19,6 +19,7 @@ OUTPUT="$ELI_ROOT/runs/cascade_convnext_t"
 export XDG_CACHE_HOME="$ELI_ROOT/cache"
 export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
+export PYTHONPATH="$MMDET${PYTHONPATH:+:$PYTHONPATH}"
 export OMP_NUM_THREADS=8
 export WANDB_PROJECT=eli-training
 export WANDB_RUN_GROUP=one-hour-pilots
