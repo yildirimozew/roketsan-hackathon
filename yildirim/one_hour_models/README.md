@@ -20,4 +20,4 @@ budget. Training and validation metrics are logged to the W&B project
 
 Karolina currently records W&B runs in offline mode because the configured API
 credential has read but not write access to the project. After fixing project
-permissions, sync them with `wandb sync /mnt/proj1/open-37-16/yildirimozew/eli-training/runs/wandb/offline-run-*`.
+permissions, sync them with `wandb sync /mnt/proj1/open-37-16/yildirimozew/eli-training/runs/wandb/wandb/offline-run-*`.
