@@ -15,10 +15,10 @@ module load Python/3.12.3-GCCcore-13.3.0
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
-RUN_DIR="$ELI_ROOT/runs/rfdetr_convnext_cv"
-export WANDB_RUN_GROUP=rfdetr-convnext-cv
-export WANDB_NAME=rfdetr-convnext-cv-calibration
-export WANDB_DIR="$ELI_ROOT/runs/wandb/rfdetr-convnext-cv-calibration"
+RUN_DIR="${RUN_DIR:-$ELI_ROOT/runs/rfdetr_convnext_cv}"
+export WANDB_RUN_GROUP="${WANDB_RUN_GROUP:-rfdetr-convnext-cv}"
+export WANDB_NAME="${WANDB_NAME:-rfdetr-convnext-cv-calibration}"
+export WANDB_DIR="${WANDB_DIR:-$ELI_ROOT/runs/wandb/rfdetr-convnext-cv-calibration}"
 source "$SOURCE_DIR/wandb_karolina.env"
 mkdir -p "$WANDB_DIR"
 
