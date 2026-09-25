@@ -21,3 +21,12 @@ budget. Training and validation metrics are logged to the W&B project
 Karolina currently records W&B runs in offline mode because the configured API
 credential has read but not write access to the project. After fixing project
 permissions, sync every framework's run with `find /mnt/proj1/open-37-16/yildirimozew/eli-training/runs -type d -name 'offline-run-*' -exec wandb sync {} +`.
+
+## RF-DETR scene-holdout A/B
+
+`submit_rfdetr_ab.sh` prepares a separate `scene_holdout_v1` RF-DETR dataset,
+then submits matched three-epoch A/B jobs to `qgpu_exp`. Both arms use the same
+704px grid and rare-class-centered crops; arm B alone enables mild normalized
+class weights. Dependent evaluation jobs reconstruct the original validation
+images and report the competition's all-point mAP@0.5 at the fixed owner-only,
+class-wise NMS 0.60 configuration.

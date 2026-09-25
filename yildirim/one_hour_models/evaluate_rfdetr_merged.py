@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -38,6 +39,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--score-threshold", type=float, default=0.001)
     parser.add_argument("--max-det", type=int, default=500)
     parser.add_argument("--nms-iou", type=float, nargs="+", default=(0.4, 0.5, 0.6, 0.7))
+    parser.add_argument("--owner-mode", choices=("both", "owner", "all"), default="both")
+    parser.add_argument("--min-area", type=float, default=0.0)
+    parser.add_argument("--wandb-run")
     return parser.parse_args()
 
 
@@ -218,7 +222,7 @@ def predict_tiles(args: argparse.Namespace, raw_path: Path) -> dict[str, np.ndar
 
 
 def merged_predictions(
-    raw: dict[str, np.ndarray], owner_only: bool, nms_iou: float, max_det: int
+    raw: dict[str, np.ndarray], owner_only: bool, nms_iou: float, max_det: int, min_area: float = 0.0
 ) -> list[dict]:
     predictions = []
     for image_id in np.unique(raw["image_ids"]):
@@ -228,6 +232,11 @@ def merged_predictions(
         boxes = torch.from_numpy(raw["boxes"][mask])
         scores = torch.from_numpy(raw["scores"][mask])
         labels = torch.from_numpy(raw["labels"][mask].astype(np.int64))
+        if min_area > 0:
+            large_enough = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1]) >= min_area
+            boxes = boxes[large_enough]
+            scores = scores[large_enough]
+            labels = labels[large_enough]
         keep = batched_nms(boxes, scores, labels, nms_iou)
         keep = keep[:max_det]
         for index in keep.tolist():
@@ -241,6 +250,77 @@ def merged_predictions(
                 }
             )
     return predictions
+
+
+def _iou_one_to_many(box: np.ndarray, boxes: np.ndarray) -> np.ndarray:
+    x1 = np.maximum(box[0], boxes[:, 0])
+    y1 = np.maximum(box[1], boxes[:, 1])
+    x2 = np.minimum(box[0] + box[2], boxes[:, 0] + boxes[:, 2])
+    y2 = np.minimum(box[1] + box[3], boxes[:, 1] + boxes[:, 3])
+    intersection = np.clip(x2 - x1, 0, None) * np.clip(y2 - y1, 0, None)
+    union = box[2] * box[3] + boxes[:, 2] * boxes[:, 3] - intersection
+    return intersection / np.maximum(union, 1e-9)
+
+
+def _average_precision(recall: np.ndarray, precision: np.ndarray) -> float:
+    recall = np.concatenate(([0.0], recall, [1.0]))
+    precision = np.concatenate(([0.0], precision, [0.0]))
+    precision = np.maximum.accumulate(precision[::-1])[::-1]
+    changed = np.where(recall[1:] != recall[:-1])[0]
+    return float(np.sum((recall[changed + 1] - recall[changed]) * precision[changed + 1]))
+
+
+def competition_evaluate(annotation_path: Path, predictions: list[dict], min_area: float) -> dict:
+    payload = load_json(annotation_path)
+    ground_truth: dict[int, dict[int, list[list[float]]]] = defaultdict(lambda: defaultdict(list))
+    for annotation in payload["annotations"]:
+        if float(annotation["area"]) >= min_area:
+            ground_truth[int(annotation["category_id"])][int(annotation["image_id"])].append(
+                [float(value) for value in annotation["bbox"]]
+            )
+
+    per_class = {}
+    n_gt = {}
+    for category_id, class_name in enumerate(CLASS_NAMES):
+        class_ground_truth = {
+            image_id: np.asarray(boxes, dtype=np.float64)
+            for image_id, boxes in ground_truth[category_id].items()
+        }
+        used = {image_id: np.zeros(len(boxes), dtype=bool) for image_id, boxes in class_ground_truth.items()}
+        class_predictions = [
+            prediction for prediction in predictions if int(prediction["category_id"]) == category_id
+        ]
+        class_predictions.sort(key=lambda prediction: -float(prediction["score"]))
+        positives = sum(len(boxes) for boxes in class_ground_truth.values())
+        n_gt[class_name] = positives
+        true_positive = np.zeros(len(class_predictions), dtype=np.float64)
+        false_positive = np.zeros(len(class_predictions), dtype=np.float64)
+        for index, prediction in enumerate(class_predictions):
+            image_id = int(prediction["image_id"])
+            candidates = class_ground_truth.get(image_id)
+            if candidates is None:
+                false_positive[index] = 1
+                continue
+            ious = _iou_one_to_many(np.asarray(prediction["bbox"], dtype=np.float64), candidates)
+            ious[used[image_id]] = -1
+            best = int(np.argmax(ious))
+            if ious[best] >= 0.5:
+                used[image_id][best] = True
+                true_positive[index] = 1
+            else:
+                false_positive[index] = 1
+        recall = np.cumsum(true_positive) / max(1, positives)
+        precision = np.cumsum(true_positive) / np.maximum(
+            np.cumsum(true_positive) + np.cumsum(false_positive), 1e-12
+        )
+        per_class[class_name] = _average_precision(recall, precision)
+    return {
+        "map50": float(np.mean(list(per_class.values()))),
+        "per_class_ap50": per_class,
+        "n_gt": n_gt,
+        "metric": "competition all-point interpolated AP at IoU 0.5",
+        "min_area": min_area,
+    }
 
 
 def evaluate(annotation_path: Path, predictions: list[dict], max_det: int) -> dict:
@@ -283,20 +363,27 @@ def main() -> None:
 
     all_results = []
     annotation_path = args.original / "_annotations.coco.json"
-    for owner_only in (False, True):
+    owner_options = {
+        "both": (False, True),
+        "owner": (True,),
+        "all": (False,),
+    }[args.owner_mode]
+    for owner_only in owner_options:
         for nms_iou in args.nms_iou:
-            predictions = merged_predictions(raw, owner_only, nms_iou, args.max_det)
+            predictions = merged_predictions(raw, owner_only, nms_iou, args.max_det, args.min_area)
             metrics = evaluate(annotation_path, predictions, args.max_det)
+            metrics["competition"] = competition_evaluate(annotation_path, predictions, args.min_area)
             metrics.update({"owner_only": owner_only, "nms_iou": nms_iou})
             all_results.append(metrics)
             print(json.dumps(metrics, sort_keys=True), flush=True)
 
-    best = max(all_results, key=lambda result: result["map50"])
+    best = max(all_results, key=lambda result: result["competition"]["map50"])
     best_predictions = merged_predictions(
         raw,
         bool(best["owner_only"]),
         float(best["nms_iou"]),
         args.max_det,
+        args.min_area,
     )
     (args.output / "merged_predictions.json").write_text(json.dumps(best_predictions))
     summary = {
@@ -307,6 +394,38 @@ def main() -> None:
         "all_results": all_results,
     }
     (args.output / "merged_metrics.json").write_text(json.dumps(summary, indent=2) + "\n")
+    if args.wandb_run:
+        import wandb
+
+        run = wandb.init(
+            project=os.environ.get("WANDB_PROJECT", "eli-training"),
+            name=args.wandb_run,
+            group=os.environ.get("WANDB_RUN_GROUP", "rfdetr-scene-ab"),
+            config={
+                "checkpoint": str(args.checkpoint),
+                "owner_only": bool(best["owner_only"]),
+                "nms_iou": float(best["nms_iou"]),
+                "max_det": args.max_det,
+                "min_area": args.min_area,
+                "evaluation_images": len(load_json(annotation_path)["images"]),
+            },
+        )
+        values = {
+            "competition/mAP50": best["competition"]["map50"],
+            "coco/mAP50": best["map50"],
+            "coco/mAP50_95": best["map50_95"],
+        }
+        values.update(
+            {
+                f"competition/AP50_{name}": value
+                for name, value in best["competition"]["per_class_ap50"].items()
+            }
+        )
+        run.log(values)
+        artifact = wandb.Artifact(f"{args.wandb_run}-metrics", type="evaluation")
+        artifact.add_file(str(args.output / "merged_metrics.json"))
+        run.log_artifact(artifact)
+        run.finish()
     print(json.dumps(summary, indent=2), flush=True)
 
 

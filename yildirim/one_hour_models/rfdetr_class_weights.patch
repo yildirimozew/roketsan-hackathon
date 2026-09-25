@@ -1,0 +1,134 @@
+diff --git a/src/rfdetr/config.py b/src/rfdetr/config.py
+index 9b1508a4..ee601679 100644
+--- a/src/rfdetr/config.py
++++ b/src/rfdetr/config.py
+@@ -1124,6 +1124,7 @@ class TrainConfig(BaseConfig):
+     lr_component_decay: float = 0.7
+     drop_path: float = 0.0
+     cls_loss_coef: float = 1.0
++    class_loss_weights: list[float] | None = None
+     # Detection-vs-keypoint distinction is derived by callers via `include_keypoints`, not
+     # stored on this field. See rfdetr.datasets.transforms.AlbumentationsWrapper.from_config
+     # for the None/[]/[...] tri-state contract applied at the augmentation-pipeline boundary.
+diff --git a/src/rfdetr/models/_types.py b/src/rfdetr/models/_types.py
+index 5f02184e..eef8fe1e 100644
+--- a/src/rfdetr/models/_types.py
++++ b/src/rfdetr/models/_types.py
+@@ -65,6 +65,7 @@ class BuilderArgs(Protocol):
+     positional_encoding_size: int
+     ia_bce_loss: bool
+     cls_loss_coef: float
++    class_loss_weights: list[float] | None
+     segmentation_head: bool
+     mask_downsample_ratio: int
+     num_queries: int
+diff --git a/src/rfdetr/models/criterion.py b/src/rfdetr/models/criterion.py
+index 97672f6c..c4e9412a 100644
+--- a/src/rfdetr/models/criterion.py
++++ b/src/rfdetr/models/criterion.py
+@@ -55,6 +55,7 @@ def _batched_detection_loss_tensors(
+     target_lengths: Tensor,
+     num_boxes: Tensor,
+     focal_alpha: float,
++    class_loss_weights: Tensor | None = None,
+ ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+     """Compute layer-batched IA-BCE classification, box, GIoU, and cardinality losses.
+
+@@ -101,7 +102,14 @@ def _batched_detection_loss_tensors(
+     # a vector too.
+     num_boxes = num_boxes.reshape(1)
+     classification = negative_weights * logits - F.logsigmoid(logits) * (positive_weights + negative_weights)
+-    loss_ce = classification.sum(dim=(1, 2, 3)) / num_boxes
++    if class_loss_weights is None:
++        class_loss_weights = torch.ones(logits.shape[-1], dtype=logits.dtype, device=logits.device)
++    matched_classification = classification[positive_indices]
++    matched_weight_delta = (class_loss_weights[target_labels] - 1) * valid_mask
++    loss_ce = (
++        classification.sum(dim=(1, 2, 3))
++        + (matched_classification * matched_weight_delta).sum(dim=1)
++    ) / num_boxes
+
+     loss_bbox_values = F.l1_loss(selected_boxes, target_boxes, reduction="none") * valid_mask[:, :, None]
+     loss_giou_values = 1 - box_ops.elementwise_generalized_box_iou(flat_selected_xyxy, flat_target_xyxy)
+@@ -503,6 +511,7 @@ class SetCriterion(nn.Module):
+         ia_bce_loss: bool = False,
+         mask_point_sample_ratio: int = 16,
+         num_keypoints_per_class: list[int] | None = None,
++        class_loss_weights: list[float] | None = None,
+     ) -> None:
+         """Create the criterion.
+
+@@ -527,6 +536,13 @@ class SetCriterion(nn.Module):
+         self.ia_bce_loss = ia_bce_loss
+         self.mask_point_sample_ratio = mask_point_sample_ratio
+         self.num_keypoints_per_class = num_keypoints_per_class or []
++        if class_loss_weights is None:
++            class_loss_weights = [1.0] * num_classes
++        if len(class_loss_weights) != num_classes:
++            raise ValueError(
++                f"class_loss_weights must contain {num_classes} values, got {len(class_loss_weights)}"
++            )
++        self.register_buffer("class_loss_weights", torch.as_tensor(class_loss_weights, dtype=torch.float32))
+         self._compile_batched_detection_losses = False
+         self._compiled_batched_detection_losses: Callable[..., tuple[Tensor, Tensor, Tensor, Tensor]] | None = None
+
+@@ -680,8 +696,12 @@ class SetCriterion(nn.Module):
+                 )
+             # a reformulation of the standard loss_ce = - pos_weights * prob.log() - neg_weights * (1 - prob).log()
+             # with a focus on statistical stability by using fused logsigmoid
+-            loss_ce = neg_weights * src_logits - F.logsigmoid(src_logits) * (pos_weights + neg_weights)
+-            loss_ce = loss_ce.sum() / num_boxes
++            classification = neg_weights * src_logits - F.logsigmoid(src_logits) * (pos_weights + neg_weights)
++            matched_classification = classification[tuple(pos_ind)]
++            matched_weight_delta = self.class_loss_weights[target_classes_o] - 1
++            if valid_mask is not None:
++                matched_weight_delta = matched_weight_delta * valid_mask
++            loss_ce = (classification.sum() + (matched_classification * matched_weight_delta).sum()) / num_boxes
+
+         elif self.use_position_supervised_loss:
+             if target_boxes is None:
+@@ -1158,6 +1178,7 @@ class SetCriterion(nn.Module):
+             target_lengths,
+             num_boxes,
+             self.focal_alpha,
++            self.class_loss_weights,
+         )
+
+         layer_losses = []
+diff --git a/src/rfdetr/models/lwdetr.py b/src/rfdetr/models/lwdetr.py
+index 69ae42d9..8f9c174b 100644
+--- a/src/rfdetr/models/lwdetr.py
++++ b/src/rfdetr/models/lwdetr.py
+@@ -907,6 +907,16 @@ def build_criterion_and_postprocessors(args: "BuilderArgs") -> tuple[SetCriterio
+         losses.append("keypoints")
+
+     sum_group_losses = getattr(args, "sum_group_losses", False)
++    class_loss_weights = getattr(args, "class_loss_weights", None)
++    if class_loss_weights is not None:
++        if len(class_loss_weights) != args.num_classes:
++            raise ValueError(
++                f"class_loss_weights must contain {args.num_classes} dataset-class values, "
++                f"got {len(class_loss_weights)}"
++            )
++        # RF-DETR's criterion reserves one additional output class. It is never a
++        # matched dataset target, so its multiplier remains neutral.
++        class_loss_weights = [*class_loss_weights, 1.0]
+     if args.segmentation_head:
+         criterion = SetCriterion(
+             args.num_classes + 1,
+@@ -921,6 +931,7 @@ def build_criterion_and_postprocessors(args: "BuilderArgs") -> tuple[SetCriterio
+             ia_bce_loss=args.ia_bce_loss,
+             mask_point_sample_ratio=args.mask_point_sample_ratio,
+             num_keypoints_per_class=getattr(args, "num_keypoints_per_class", []),
++            class_loss_weights=class_loss_weights,
+         )
+     else:
+         criterion = SetCriterion(
+@@ -935,6 +946,7 @@ def build_criterion_and_postprocessors(args: "BuilderArgs") -> tuple[SetCriterio
+             use_position_supervised_loss=args.use_position_supervised_loss,
+             ia_bce_loss=args.ia_bce_loss,
+             num_keypoints_per_class=getattr(args, "num_keypoints_per_class", []),
++            class_loss_weights=class_loss_weights,
+         )
+     criterion.to(device)
+     postprocess = PostProcess(
