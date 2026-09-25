@@ -14,6 +14,9 @@ module purge
 module load Python/3.12.3-GCCcore-13.3.0
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 SOURCE_DIR=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/yildirim/one_hour_models
+export XDG_CACHE_HOME="$ELI_ROOT/cache"
+export HF_HOME="$ELI_ROOT/cache/huggingface"
+export TORCH_HOME="$ELI_ROOT/cache/torch"
 export OMP_NUM_THREADS=8
 export YOLO_CONFIG_DIR="$ELI_ROOT/runs/yolo-config"
 export WANDB_PROJECT=eli-training

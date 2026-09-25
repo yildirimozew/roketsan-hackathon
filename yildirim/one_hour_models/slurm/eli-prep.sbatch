@@ -13,8 +13,15 @@ set -euo pipefail
 REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
+RFDETR_COMMIT=4f68814adb3df5a1ac4769fc11f7b32d8e2d404f
+DFINE_COMMIT=956d1709314c2c6a4df6f34de232054578a7449f
 
 mkdir -p "$ELI_ROOT"/{logs,repos,runs,venvs,weights}
+export XDG_CACHE_HOME="$ELI_ROOT/cache"
+export PIP_CACHE_DIR="$ELI_ROOT/cache/pip"
+export HF_HOME="$ELI_ROOT/cache/huggingface"
+export TORCH_HOME="$ELI_ROOT/cache/torch"
+mkdir -p "$PIP_CACHE_DIR" "$HF_HOME" "$TORCH_HOME"
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
@@ -44,15 +51,15 @@ create_venv "$ELI_ROOT/venvs/common"
 if [[ ! -d "$ELI_ROOT/repos/rf-detr/.git" ]]; then
     git clone https://github.com/roboflow/rf-detr.git "$ELI_ROOT/repos/rf-detr"
 fi
-git -C "$ELI_ROOT/repos/rf-detr" fetch --depth=1 origin
-git -C "$ELI_ROOT/repos/rf-detr" checkout --detach FETCH_HEAD
+git -C "$ELI_ROOT/repos/rf-detr" fetch --depth=1 origin "$RFDETR_COMMIT"
+git -C "$ELI_ROOT/repos/rf-detr" checkout --detach "$RFDETR_COMMIT"
 "$ELI_ROOT/venvs/common/bin/pip" install -e "$ELI_ROOT/repos/rf-detr[train,loggers]" wandb
 
 if [[ ! -d "$ELI_ROOT/repos/D-FINE/.git" ]]; then
     git clone https://github.com/Peterande/D-FINE.git "$ELI_ROOT/repos/D-FINE"
 fi
-git -C "$ELI_ROOT/repos/D-FINE" fetch --depth=1 origin
-git -C "$ELI_ROOT/repos/D-FINE" checkout --detach FETCH_HEAD
+git -C "$ELI_ROOT/repos/D-FINE" fetch --depth=1 origin "$DFINE_COMMIT"
+git -C "$ELI_ROOT/repos/D-FINE" checkout --detach "$DFINE_COMMIT"
 "$ELI_ROOT/venvs/common/bin/pip" install -r "$ELI_ROOT/repos/D-FINE/requirements.txt" wandb
 
 for alias in yolo rfdetr dfine; do
