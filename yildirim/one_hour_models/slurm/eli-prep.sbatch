@@ -111,9 +111,11 @@ touch "$ELI_ROOT/venvs/mmdet/.standalone"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install mmengine==0.10.7
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     "$ELI_ROOT/weights/mmcv-2.1.0-cp311-cp311-manylinux1_x86_64.whl"
+"$ELI_ROOT/venvs/mmdet/bin/pip" install opencv-python==4.11.0.86
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     mmpretrain==1.2.0 matplotlib einops model-index
-"$ELI_ROOT/venvs/mmdet/bin/pip" install -v -e "$ELI_ROOT/repos/mmdetection"
+"$ELI_ROOT/venvs/mmdet/bin/pip" install -v --no-build-isolation \
+    -e "$ELI_ROOT/repos/mmdetection"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install wandb
 mkdir -p "$ELI_ROOT/repos/mmdetection/configs/eli"
 sed \
