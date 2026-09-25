@@ -1,5 +1,5 @@
 - Project setup: Added balanced five-fold manifests; all 6,471 images appear in validation exactly once.
-- One-hour pilots: Added five A100 Slurm pipelines with Fold 1 preparation and W&B tracking; Karolina jobs 5111190, 5111191, 5111195, 5111193, and 5111194 depend on preparation job 5111189.
+- One-hour pilots: Added five A100 Slurm pipelines with Fold 1 preparation and W&B tracking; active Karolina training jobs are 5111604-5111607 and 5111619.
 
 yildirim models training:
 * YOLO26-S-P2

@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --gres=gpu:a100:1
 #SBATCH --mem=96G
-#SBATCH --time=02:30:00
+#SBATCH --time=02:00:00
 
 set -euo pipefail
 module purge
