@@ -40,6 +40,9 @@ Every agent must add a very short summary of its work and primary result to
 `collective_summary.txt`. Read that file first and do not redo work already
 completed by another agent.
 
+Pull before starting work, and commit, push, and pull frequently so every agent
+stays up to date.
+
 Create a short-lived branch for each experiment, keep configuration changes
 with the corresponding code, and merge into `main` through pull requests. Do
 not commit datasets, model weights, predictions, or secrets.
