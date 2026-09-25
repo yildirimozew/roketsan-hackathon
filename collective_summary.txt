@@ -11,6 +11,7 @@
 - Clariden D-FINE: Ported `eli-training-4` to one four-GH200 node under `infra01`, using the CSCS PyTorch container and offline W&B capture.
 - RF-DETR A long run: Resume the fixed-split, unweighted A checkpoint from epoch 3 to epoch 15 in four chained `qgpu_exp` segments, validating every three epochs; then evaluate the best EMA checkpoint and create full tiled test predictions plus a submission CSV.
 - RF-DETR car/van fusion: Added a leakage-safe ConvNeXt-Tiny crop classifier plus scene-grouped OOF fusion of classifier and RF-DETR query logits; deployment requires at least +0.005 fixed-split mAP and otherwise produces a detector-only fallback.
+- Epoch-9 car/van probe: RF-DETR reached 0.8041 fixed-split mAP@0.5, but scene-grouped ConvNeXt fusion fell to 0.7780 (-0.0261), so the classifier was rejected and detector-only NMS 0.70 remains selected.
 
 yildirim models training:
 * YOLO26-S-P2
