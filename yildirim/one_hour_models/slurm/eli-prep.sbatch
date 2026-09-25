@@ -63,10 +63,10 @@ for alias in yolo rfdetr dfine; do
     ln -sfn common "$alias_path"
 done
 
-python "$SOURCE_DIR/prepare_data.py" \
+"$ELI_ROOT/venvs/common/bin/python" "$SOURCE_DIR/prepare_data.py" \
     --repo "$REMOTE_REPO" \
     --output "$ELI_ROOT/prepared"
-python "$SOURCE_DIR/check_prepared.py" --prepared "$ELI_ROOT/prepared"
+"$ELI_ROOT/venvs/common/bin/python" "$SOURCE_DIR/check_prepared.py" --prepared "$ELI_ROOT/prepared"
 
 sed \
     -e "s|__DATA_ROOT__|$ELI_ROOT/prepared/coco|g" \
