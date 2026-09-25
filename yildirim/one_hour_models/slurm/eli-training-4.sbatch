@@ -20,11 +20,12 @@ export XDG_CACHE_HOME="$ELI_ROOT/cache"
 export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
 export OMP_NUM_THREADS=8
-export WANDB_PROJECT=eli-training
+export WANDB_ENTITY="${WANDB_ENTITY:-yildirimozew-eth-z-rich}"
+export WANDB_PROJECT="${WANDB_PROJECT:-eli-training}"
 export WANDB_RUN_GROUP=one-hour-pilots
 export WANDB_NAME=eli-training-4
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
-export WANDB_MODE=offline
+export WANDB_MODE="${WANDB_MODE:-online}"
 export WANDB_SILENT=true
 mkdir -p "$WANDB_DIR"
 mkdir -p "$OUTPUT"

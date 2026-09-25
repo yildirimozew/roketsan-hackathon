@@ -23,7 +23,7 @@ def main() -> None:
         raise FileNotFoundError(f"No RF-DETR checkpoint found in {args.output}")
     checkpoint = candidates[0]
     model = RFDETRLarge(pretrain_weights=str(checkpoint), resolution=704)
-    metrics = model.evaluate(dataset_dir=str(args.data.resolve()), split="valid")
+    metrics = model.evaluate(dataset_dir=str(args.data.resolve()), split="val")
     serializable = {
         "checkpoint": str(checkpoint),
         "metrics": str(metrics),
