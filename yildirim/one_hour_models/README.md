@@ -33,3 +33,13 @@ then submits matched three-epoch A/B jobs to `qgpu_exp`. Both arms use the same
 class weights. Dependent evaluation jobs reconstruct the original validation
 images and report the competition's all-point mAP@0.5 at the fixed owner-only,
 class-wise NMS 0.60 configuration.
+
+## YOLO26 sliced-data pilots
+
+`submit_yolo_sliced_pilots.sh` prepares deterministic 704px sliced datasets from
+`scene_holdout_v2`, then runs three YOLO26-S-P2 pilots. Pilots 1 and 2 compare
+AdamW learning rates `1e-3` and `5e-4` on the same 25% rare-class-centered data.
+The better learning rate, subject to a 0.005 weighted-mAP improvement threshold,
+feeds pilot 3 on 40% centered data. Evaluation uses owner-filtered full-grid
+inference on original validation images, the exact competition mAP@0.5, and the
+test-stratum-weighted score. All W&B runs are captured offline for later sync.
