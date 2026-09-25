@@ -1,1 +1,8 @@
 - Project setup: Added balanced five-fold manifests; all 6,471 images appear in validation exactly once.
+
+yildirim models training:
+* YOLO26-S-P2
+* YOLO12-L
+* RF-DETR Large
+* D-FINE-L
+* Cascade R-CNN ConvNeXt-T/FPN
