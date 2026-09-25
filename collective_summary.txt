@@ -3,6 +3,8 @@
 - Pilot metrics: YOLO26-S-P2 reached 0.714 full-image AP50; RF-DETR Large reached 0.791 tile AP50. Future jobs default to online W&B, but Karolina's current key needs write access before offline histories can upload.
 - Scene holdout: Added a fixed 5,176/1,295 scene-grouped split with zero scene-group or exact-duplicate crossings and test-matched resolution/brightness.
 - Cascade express run: Split Cascade R-CNN ConvNeXt-T into a 50-minute checkpoint-aware `qgpu_exp` training job and a dependent evaluation job; fixed environment/network startup issues and records W&B offline for login-node sync.
+- RF-DETR test ensemble: Added full-grid tiled test inference that saves raw tile predictions and owner-filtered/NMS merged predictions keyed by original image ID.
+- Clariden D-FINE: Ported `eli-training-4` to one four-GH200 node under `infra01`, using the CSCS PyTorch container and offline W&B capture.
 
 yildirim models training:
 * YOLO26-S-P2
