@@ -82,7 +82,7 @@ def main() -> None:
         amp="bf16",
         seed=42,
         deterministic=True,
-        cache="disk",
+        cache=False,
         rect=False,
         mosaic=0.30,
         mixup=0.0,

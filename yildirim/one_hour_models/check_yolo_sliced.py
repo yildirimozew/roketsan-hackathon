@@ -11,7 +11,9 @@ from prepare_rfdetr_ab import sha256_file
 
 
 def manifest_paths(root: Path, name: str) -> list[Path]:
-    return [(root / line).resolve() for line in (root / name).read_text().splitlines() if line]
+    lines = [line for line in (root / name).read_text().splitlines() if line]
+    assert all(line.startswith("./") for line in lines), f"{name} contains launch-CWD-relative paths"
+    return [(root / line).resolve() for line in lines]
 
 
 def main() -> None:

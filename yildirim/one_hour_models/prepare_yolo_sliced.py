@@ -220,7 +220,9 @@ def ratio_name(ratio: float) -> str:
 
 def write_manifest(output: Path, name: str, paths: list[Path]) -> Path:
     path = output / name
-    path.write_text("".join(f"{os.path.relpath(item, output)}\n" for item in paths))
+    # Ultralytics anchors only entries beginning with "./" to the manifest's
+    # directory. Bare relative paths instead resolve against the launch CWD.
+    path.write_text("".join(f"./{os.path.relpath(item, output)}\n" for item in paths))
     return path
 
 
