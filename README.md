@@ -22,6 +22,8 @@ The expected annotation columns are `image_id,x,y,w,h,label`.
 ## Shared split
 
 The committed manifests in `splits/` define the shared train/validation split.
+Treat `val.txt` and every `fold_*_val.txt` manifest as validation-only; never
+include those image IDs in the corresponding training run.
 They contain image IDs without file extensions. The split uses seed 42 and
 reserves 20% of images for validation. It is
 stratified by the complete set of classes present in each image, including
