@@ -1,5 +1,6 @@
 - Project setup: Added balanced five-fold manifests; all 6,471 images appear in validation exactly once.
 - One-hour pilots: Added five Fold 1 A100 Slurm pipelines with offline W&B tracking; active Karolina jobs are 5112038-5112041 and 5112125.
+- Scene holdout: Added a fixed 5,176/1,295 scene-grouped split with zero scene-group or exact-duplicate crossings and test-matched resolution/brightness.
 
 yildirim models training:
 * YOLO26-S-P2

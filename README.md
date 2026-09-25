@@ -38,6 +38,15 @@ For five-fold cross-validation, use the paired train/validation manifests in
 exactly once. See `splits/folds/metadata.json` for counts and the dataset
 checksum.
 
+For future model selection, prefer
+`splits/scene_holdout_v1/{train,val}.txt`. Use its `val.txt` for validation
+only. This fixed split keeps visually similar same-resolution scene groups on
+one side of the split and matches the unlabeled test set's resolution and
+brightness distributions while preserving class, density, and object-scale
+balance. `groups.csv` records each image's atomic scene group, and
+`metadata.json` documents the construction and audit. The original random
+split and five folds remain available for comparison with earlier pilots.
+
 ## Collaboration
 
 Each teammate and their coding agents must work only inside that teammate's

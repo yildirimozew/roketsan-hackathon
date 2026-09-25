@@ -1,0 +1,176 @@
+{
+  "annotations_sha256": "c946f29a627438bc4567544cc654234df2eab6a8e342a9ee4d9a6fd997e857ce",
+  "audit": {
+    "exact_duplicate_groups": 2,
+    "exact_duplicate_groups_crossing_train_validation": 0,
+    "maximum_same_resolution_cross_split_cosine_similarity": 0.8999903202056885,
+    "scene_groups_crossing_train_validation": 0
+  },
+  "created_on": "2026-09-25",
+  "files": {
+    "groups.csv": {
+      "lines": 6471,
+      "sha256": "1891fe08b4d5b9511103d880ba3da894918054320820a6b8ccfe10c84ea0f77b"
+    },
+    "train.txt": {
+      "lines": 5176,
+      "sha256": "f4cc66110bc17ba00bbbadb21de55c7f906d5bc505c1cfcbb49833cb2b148678"
+    },
+    "val.txt": {
+      "lines": 1295,
+      "sha256": "c0ddf4ef726abebd8687a02ea036b0ec79947d801070ba9d03cb7b6849586029"
+    }
+  },
+  "name": "fixed scene-held-out split v1",
+  "purpose": "Primary validation split for future model and hyperparameter selection; existing random folds remain available for comparison with earlier pilots.",
+  "seed": 42,
+  "strategy": {
+    "scene_grouping": {
+      "edge_rule": "cosine similarity >= 0.90 and identical native image dimensions",
+      "embedding": "torchvision ResNet-18 ImageNet-1K V1 global-average-pooled features, L2 normalized",
+      "grouping": "undirected connected components; exact duplicate images are therefore atomic",
+      "largest_group_images": 129,
+      "multi_image_groups": 466,
+      "nearest_neighbors": 50,
+      "preprocessing": "ResNet18_Weights.DEFAULT",
+      "scene_groups": 4891
+    },
+    "selection": {
+      "hard_constraints": [
+        "exactly 1,295 validation images",
+        "each scene group wholly train or validation"
+      ],
+      "method": "mixed-integer group assignment",
+      "solver_status": "feasible incumbent at time limit; all integrity constraints satisfied",
+      "supervised_balance_features": [
+        "per-class box counts",
+        "per-class image presence",
+        "background images",
+        "object-density bins",
+        "median-box-area bins"
+      ],
+      "test_image_features_used": [
+        "native resolution",
+        "64x64 grayscale mean-brightness bin",
+        "32-bin ResNet visual-domain cluster"
+      ],
+      "test_labels_used": false
+    }
+  },
+  "train": {
+    "annotation_box_counts": {
+      "bus": 4486,
+      "car": 99859,
+      "truck": 9683,
+      "van": 18228
+    },
+    "annotation_class_shares": {
+      "bus": 0.033919,
+      "car": 0.755043,
+      "truck": 0.073214,
+      "van": 0.137824
+    },
+    "annotations": 132256,
+    "box_area_percentiles": {
+      "p10": 352.0,
+      "p50": 1598.0,
+      "p90": 10302.0
+    },
+    "dark_images_below_55": 666,
+    "image_class_presence": {
+      "background": 232,
+      "bus": 1563,
+      "car": 4882,
+      "truck": 2795,
+      "van": 3880
+    },
+    "images": 5176,
+    "mean_brightness": 96.6561,
+    "objects_per_image_percentiles": {
+      "p0": 0.0,
+      "p10": 3.0,
+      "p100": 218.0,
+      "p25": 10.0,
+      "p50": 20.0,
+      "p75": 35.0,
+      "p90": 55.0,
+      "p99": 107.0
+    },
+    "resolution_counts": {
+      "1344x756": 1,
+      "1360x765": 403,
+      "1389x1042": 1,
+      "1398x1048": 30,
+      "1400x1050": 2330,
+      "1400x788": 729,
+      "1916x1078": 445,
+      "1920x1080": 308,
+      "2000x1500": 772,
+      "480x360": 1,
+      "960x540": 156
+    }
+  },
+  "unlabeled_test_reference": {
+    "dark_images_below_55": 411,
+    "images": 2118,
+    "labels_used": false,
+    "mean_brightness": 91.8518,
+    "resolution_counts": {
+      "1360x765": 556,
+      "1400x1050": 274,
+      "1400x788": 933,
+      "1916x1078": 151,
+      "1920x1080": 50,
+      "960x540": 154
+    }
+  },
+  "validation": {
+    "annotation_box_counts": {
+      "bus": 1124,
+      "car": 24984,
+      "truck": 2426,
+      "van": 4559
+    },
+    "annotation_class_shares": {
+      "bus": 0.033965,
+      "car": 0.754963,
+      "truck": 0.073309,
+      "van": 0.137763
+    },
+    "annotations": 33093,
+    "box_area_percentiles": {
+      "p10": 351.0,
+      "p50": 1484.0,
+      "p90": 7919.5999999999985
+    },
+    "dark_images_below_55": 251,
+    "image_class_presence": {
+      "background": 58,
+      "bus": 391,
+      "car": 1221,
+      "truck": 699,
+      "van": 970
+    },
+    "images": 1295,
+    "mean_brightness": 91.7034,
+    "objects_per_image_percentiles": {
+      "p0": 0.0,
+      "p10": 4.0,
+      "p100": 202.0,
+      "p25": 9.0,
+      "p50": 20.0,
+      "p75": 34.0,
+      "p90": 55.0,
+      "p99": 115.05999999999995
+    },
+    "resolution_counts": {
+      "1360x765": 340,
+      "1400x1050": 168,
+      "1400x788": 570,
+      "1916x1078": 92,
+      "1920x1080": 31,
+      "960x540": 94
+    }
+  },
+  "validation_fraction": 0.20012363
+}
