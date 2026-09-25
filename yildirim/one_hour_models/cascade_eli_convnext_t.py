@@ -9,6 +9,9 @@ metainfo = dict(classes=class_names)
 model = dict(
     type='CascadeRCNN',
     data_preprocessor=dict(pad_mask=False),
+    # The complete COCO detector checkpoint is loaded below. Avoid a redundant
+    # ImageNet backbone download because Karolina compute nodes have no DNS.
+    backbone=dict(init_cfg=None),
     rpn_head=dict(
         anchor_generator=dict(
             type='AnchorGenerator',
