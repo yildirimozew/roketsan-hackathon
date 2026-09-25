@@ -18,9 +18,12 @@ process gets 3,600 seconds; validation and environment setup are outside that
 budget. Training and validation metrics are logged to the W&B project
 `eli-training`, with one run named after each Slurm job.
 
-Karolina currently records W&B runs in offline mode because the configured API
-credential has read but not write access to the project. After fixing project
-permissions, sync every framework's run with `find /mnt/proj1/open-37-16/yildirimozew/eli-training/runs -type d -name 'offline-run-*' -exec wandb sync {} +`.
+Karolina compute jobs always capture W&B data offline because compute-node
+network access is unreliable. The login-node credential has verified write
+access to `yildirimozew-eth-z-rich/eli-training`. After jobs finish, run
+`bash yildirim/one_hour_models/sync_wandb_karolina.sh` from the repository on a
+Karolina login node. The helper loads the correct Python module, verifies the
+credential, skips active and already-synced runs, and uploads the remainder.
 
 ## RF-DETR scene-holdout A/B
 

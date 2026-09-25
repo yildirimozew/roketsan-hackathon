@@ -13,6 +13,7 @@ set -euo pipefail
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
+SOURCE_DIR=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/yildirim/one_hour_models
 DFINE="$ELI_ROOT/repos/D-FINE"
 CONFIG="$DFINE/configs/dfine/dfine_eli_l.yml"
 OUTPUT="$ELI_ROOT/runs/dfine_l"
@@ -20,13 +21,10 @@ export XDG_CACHE_HOME="$ELI_ROOT/cache"
 export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
 export OMP_NUM_THREADS=8
-export WANDB_ENTITY="${WANDB_ENTITY:-yildirimozew-eth-z-rich}"
-export WANDB_PROJECT="${WANDB_PROJECT:-eli-training}"
+source "$SOURCE_DIR/wandb_karolina.env"
 export WANDB_RUN_GROUP=one-hour-pilots
 export WANDB_NAME=eli-training-4
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
-export WANDB_MODE="${WANDB_MODE:-online}"
-export WANDB_SILENT=true
 mkdir -p "$WANDB_DIR"
 mkdir -p "$OUTPUT"
 cd "$DFINE"

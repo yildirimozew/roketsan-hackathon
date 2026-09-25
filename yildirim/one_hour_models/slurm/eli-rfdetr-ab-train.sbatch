@@ -29,13 +29,10 @@ export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
 export TORCHINDUCTOR_CACHE_DIR="$ELI_ROOT/cache/torchinductor/$RUN_NAME"
 export OMP_NUM_THREADS=8
-export WANDB_ENTITY="${WANDB_ENTITY:-yildirimozew-eth-z-rich}"
-export WANDB_PROJECT="${WANDB_PROJECT:-eli-training}"
+source "$SOURCE_DIR/wandb_karolina.env"
 export WANDB_RUN_GROUP=rfdetr-scene-ab
 export WANDB_NAME="$RUN_NAME"
 export WANDB_DIR="$ELI_ROOT/runs/wandb/$RUN_NAME"
-export WANDB_MODE=offline
-export WANDB_SILENT=true
 export ELI_GIT_COMMIT="${ELI_GIT_COMMIT:-unknown}"
 mkdir -p "$WANDB_DIR" "$TORCHINDUCTOR_CACHE_DIR"
 

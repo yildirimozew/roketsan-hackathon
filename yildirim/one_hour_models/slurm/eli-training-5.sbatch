@@ -13,6 +13,7 @@ set -euo pipefail
 module purge
 module load Python/3.11.3-GCCcore-12.3.0 CUDA/12.1.1
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
+SOURCE_DIR=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/yildirim/one_hour_models
 MMDET="$ELI_ROOT/repos/mmdetection"
 CONFIG="$MMDET/configs/eli/cascade_eli_convnext_t.py"
 OUTPUT="$ELI_ROOT/runs/cascade_convnext_t"
@@ -21,13 +22,10 @@ export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
 export PYTHONPATH="$MMDET${PYTHONPATH:+:$PYTHONPATH}"
 export OMP_NUM_THREADS=8
-export WANDB_ENTITY="${WANDB_ENTITY:-yildirimozew-eth-z-rich}"
-export WANDB_PROJECT="${WANDB_PROJECT:-eli-training}"
+source "$SOURCE_DIR/wandb_karolina.env"
 export WANDB_RUN_GROUP=one-hour-pilots
 export WANDB_NAME=eli-training-5
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
-export WANDB_MODE="${WANDB_MODE:-offline}"
-export WANDB_SILENT=true
 mkdir -p "$WANDB_DIR"
 mkdir -p "$OUTPUT"
 cd "$MMDET"
