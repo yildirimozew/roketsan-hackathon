@@ -1,0 +1,29 @@
+{
+  "annotation_box_counts": {
+    "bus": 5610,
+    "car": 124843,
+    "truck": 12109,
+    "van": 22787
+  },
+  "annotations_sha256": "c946f29a627438bc4567544cc654234df2eab6a8e342a9ee4d9a6fd997e857ce",
+  "seed": 42,
+  "strategy": "stratified by image-level class combination",
+  "total_images": 6471,
+  "train_image_class_presence": {
+    "background": 232,
+    "bus": 1563,
+    "car": 4883,
+    "truck": 2796,
+    "van": 3880
+  },
+  "train_images": 5177,
+  "validation_fraction": 0.2,
+  "validation_image_class_presence": {
+    "background": 58,
+    "bus": 391,
+    "car": 1220,
+    "truck": 698,
+    "van": 970
+  },
+  "validation_images": 1294
+}

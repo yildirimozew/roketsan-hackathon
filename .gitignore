@@ -1,0 +1,35 @@
+# Keep the data directory itself, but never commit its contents.
+data/*
+!data/.gitkeep
+
+# Generated training artifacts
+outputs/
+runs/
+models/
+checkpoints/
+submissions/
+wandb/
+mlruns/
+
+# Model weights and exported models
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and local configuration
+.env
+*.secret
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+*.swp
