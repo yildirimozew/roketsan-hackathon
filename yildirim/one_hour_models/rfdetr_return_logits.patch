@@ -35,7 +35,7 @@ index 5e9f3da..bf472ab 100644
 +                raw_logits,
 +                1,
 +                selected_query_indices.unsqueeze(-1).expand(-1, -1, raw_logits.shape[2]),
-+            )
++            )[..., : len(self.class_names)]
          results = self.model.postprocess(predictions, target_sizes=target_sizes, score_threshold=threshold)
 @@ -2887,6 +2905,10 @@ class RFDETR:
              scores = scores[keep_idx]

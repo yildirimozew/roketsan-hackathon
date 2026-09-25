@@ -30,8 +30,11 @@ def main() -> None:
     labels = np.asarray(extended.class_id)
     expected = 1 / (1 + np.exp(-logits[np.arange(len(labels)), labels]))
     np.testing.assert_allclose(expected, extended.confidence, atol=2e-5, rtol=2e-5)
-    if logits.shape != (len(extended), 4) or extended.data["query_index"].shape != (len(extended),):
-        raise AssertionError("invalid extended prediction shapes")
+    query_shape = extended.data["query_index"].shape
+    if logits.shape != (len(extended), 4) or query_shape != (len(extended),):
+        raise AssertionError(
+            f"invalid extended prediction shapes: logits={logits.shape}, query_index={query_shape}"
+        )
     print(f"RF-DETR logit interface verified on {len(extended)} detections")
 
 
