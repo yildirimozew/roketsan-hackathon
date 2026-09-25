@@ -38,6 +38,15 @@ class-wise NMS 0.60 configuration.
 trains to epoch 15 through four dependent `qgpu_exp` jobs. It then evaluates
 the best EMA checkpoint and writes full tiled test predictions and a submission CSV.
 
+## ConvNeXt car/van reclassifier
+
+`submit_convnext_cv.sh` builds leakage-safe car/van crops from
+`scene_holdout_v1`, fine-tunes ImageNet ConvNeXt-Tiny, extracts aligned RF-DETR
+query logits from the long-run best EMA checkpoint, and fits scene-grouped OOF
+logit fusion. Test-time relabeling is enabled only when OOF competition mAP
+improves by at least 0.005; otherwise the pipeline emits the detector-only
+fallback. GPU allocations total 40 minutes and all outputs use separate paths.
+
 ## YOLO26 sliced-data pilots
 
 `submit_yolo_sliced_pilots.sh` prepares deterministic 704px sliced datasets from
