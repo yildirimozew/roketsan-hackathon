@@ -15,7 +15,7 @@ model = dict(
     rpn_head=dict(
         anchor_generator=dict(
             type='AnchorGenerator',
-            scales=[4, 8],
+            scales=[4],
             ratios=[0.5, 1.0, 2.0],
             strides=[4, 8, 16, 32, 64])),
     roi_head=dict(
@@ -150,7 +150,7 @@ optim_wrapper = dict(optimizer=dict(lr=0.0001))
 default_hooks = dict(
     checkpoint=dict(type='CheckpointHook', interval=1, max_keep_ckpts=3, save_last=True),
     logger=dict(type='LoggerHook', interval=25))
-randomness = dict(seed=42, deterministic=True)
+randomness = dict(seed=42, deterministic=False)
 vis_backends = [
     dict(type='LocalVisBackend'),
     dict(
