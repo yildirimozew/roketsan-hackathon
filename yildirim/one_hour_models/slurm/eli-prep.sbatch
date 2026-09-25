@@ -107,7 +107,7 @@ touch "$ELI_ROOT/venvs/mmdet/.standalone"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     torch==2.1.2 torchvision==0.16.2 \
     --index-url https://download.pytorch.org/whl/cu121
-"$ELI_ROOT/venvs/mmdet/bin/pip" install setuptools==70.3.0 'numpy<2'
+"$ELI_ROOT/venvs/mmdet/bin/pip" install setuptools==69.5.1 'numpy<2'
 "$ELI_ROOT/venvs/mmdet/bin/pip" install mmengine==0.10.7
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     "$ELI_ROOT/weights/mmcv-2.1.0-cp311-cp311-manylinux1_x86_64.whl"
