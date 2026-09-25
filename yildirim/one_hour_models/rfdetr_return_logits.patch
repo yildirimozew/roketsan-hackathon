@@ -37,10 +37,16 @@ index 5e9f3da..bf472ab 100644
 +                selected_query_indices.unsqueeze(-1).expand(-1, -1, raw_logits.shape[2]),
 +            )[..., : len(self.class_names)]
          results = self.model.postprocess(predictions, target_sizes=target_sizes, score_threshold=threshold)
-@@ -2887,6 +2905,10 @@ class RFDETR:
+@@ -2887,6 +2905,16 @@ class RFDETR:
              scores = scores[keep_idx]
              labels = labels[keep_idx]
              boxes = boxes[keep_idx]
++            if return_logits:
++                foreground = (labels >= 0) & (labels < len(self.class_names))
++                scores = scores[foreground]
++                labels = labels[foreground]
++                boxes = boxes[foreground]
++                keep_idx = keep_idx[foreground]
 +            class_logits = selected_class_logits[i][keep_idx] if selected_class_logits is not None else None
 +            query_indices = (
 +                selected_query_indices[i][keep_idx] if selected_query_indices is not None else None

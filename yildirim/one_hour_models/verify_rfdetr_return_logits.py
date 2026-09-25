@@ -23,9 +23,10 @@ def main() -> None:
     extended = model.predict(image, threshold=0.001, include_source_image=False, return_logits=True)
     if "class_logits" in ordinary.data or "query_index" in ordinary.data:
         raise AssertionError("default prediction unexpectedly includes logits")
-    np.testing.assert_array_equal(ordinary.xyxy, extended.xyxy)
-    np.testing.assert_array_equal(ordinary.class_id, extended.class_id)
-    np.testing.assert_array_equal(ordinary.confidence, extended.confidence)
+    foreground = (ordinary.class_id >= 0) & (ordinary.class_id < 4)
+    np.testing.assert_array_equal(ordinary.xyxy[foreground], extended.xyxy)
+    np.testing.assert_array_equal(ordinary.class_id[foreground], extended.class_id)
+    np.testing.assert_array_equal(ordinary.confidence[foreground], extended.confidence)
     logits = np.asarray(extended.data["class_logits"])
     labels = np.asarray(extended.class_id)
     expected = 1 / (1 + np.exp(-logits[np.arange(len(labels)), labels]))

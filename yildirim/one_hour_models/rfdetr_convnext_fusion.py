@@ -112,8 +112,9 @@ def predict_tiles(args: argparse.Namespace, originals: dict[str, dict], raw_path
             query_indices = np.asarray(detection.data["query_index"], dtype=np.int16)
             labels = np.asarray(detection.class_id, dtype=np.int16)
             scores = np.asarray(detection.confidence, dtype=np.float32)
-            expected = sigmoid(logits[np.arange(len(labels)), labels])
-            if not np.allclose(expected, scores, atol=2e-5, rtol=2e-5):
+            foreground = (labels >= 0) & (labels < len(CLASS_NAMES))
+            expected = sigmoid(logits[np.arange(len(labels))[foreground], labels[foreground]])
+            if not np.allclose(expected, scores[foreground], atol=2e-5, rtol=2e-5):
                 raise AssertionError("RF-DETR class logits do not align with detection confidence")
 
             original_id = str(tile["original_image_id"])
