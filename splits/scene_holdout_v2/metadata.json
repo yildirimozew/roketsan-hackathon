@@ -1,0 +1,922 @@
+{
+  "annotations_sha256": "c946f29a627438bc4567544cc654234df2eab6a8e342a9ee4d9a6fd997e857ce",
+  "annotations_sha256_matches_v1": true,
+  "assumptions": [
+    "dark threshold 55 (64x64 grayscale mean) is taken from v1",
+    "the +-3% (min 3 images) stratum tolerance exists to keep the MILP feasible under whole-group assignment",
+    "the within-stratum class mix of the test set is assumed equal to the labelled pool's; this cannot be verified without test labels",
+    "no stratum gives more than 50% of its labelled images to validation, so train keeps every test domain (without the cap all 224 dark 1400x788 images would go to validation); capped strata are under-represented in unweighted validation and restored by the val_strata.csv weights",
+    "annotation statistics exclude 1 exact duplicate annotation row (v1 counted it)",
+    "CBC stops at a 120 s wall-clock limit, so a rerun on a different machine may return a different incumbent"
+  ],
+  "audit": {
+    "brightness_check_against_v1": {
+      "test": {
+        "recomputed": 411,
+        "relative_difference": 0.0,
+        "v1": 411
+      },
+      "train": {
+        "recomputed": 666,
+        "relative_difference": 0.0,
+        "v1": 666
+      },
+      "validation": {
+        "recomputed": 251,
+        "relative_difference": 0.0,
+        "v1": 251
+      }
+    },
+    "cross_split_cosine_guarantee": "inherited from v1: scene groups are v1's connected components of the same-resolution cosine >= 0.90 graph and none crosses the split, so every same-resolution train/validation pair has cosine < 0.90 (v1 measured max 0.9000 over its 50-NN graph)",
+    "dhash_near_duplicates": {
+      "informational_only": true,
+      "method": "dHash, 9x8 grayscale Lanczos resize, horizontal gradient sign, 64 bits",
+      "threshold_hamming": 4,
+      "v1_train_vs_validation": {
+        "first_split_images": 2,
+        "pairs": 3,
+        "second_split_images": 3
+      },
+      "v2_train_vs_validation": {
+        "first_split_images": 2,
+        "pairs": 3,
+        "second_split_images": 3
+      }
+    },
+    "exact_duplicate_groups": 2,
+    "exact_duplicate_groups_crossing_train_validation": 0,
+    "scene_groups_crossing_train_validation": 0,
+    "strata_within_tolerance": true,
+    "train_plus_validation_images": 6471,
+    "train_validation_intersection": 0
+  },
+  "comparison": {
+    "labelled_pool": {
+      "1400x788_bus_box_share": 0.1058,
+      "1400x788_dark_rate": 0.1724,
+      "global_box_class_shares": {
+        "bus": 0.0339,
+        "car": 0.755,
+        "truck": 0.0732,
+        "van": 0.1378
+      },
+      "images": 6471,
+      "mean_brightness": 95.67,
+      "stratum_shares": {
+        "1344x756_light": 0.0002,
+        "1360x765_dark": 0.0022,
+        "1360x765_light": 0.1127,
+        "1389x1042_light": 0.0002,
+        "1398x1048_light": 0.0046,
+        "1400x1050_dark": 0.0892,
+        "1400x1050_light": 0.2969,
+        "1400x788_dark": 0.0346,
+        "1400x788_light": 0.1661,
+        "1916x1078_dark": 0.0002,
+        "1916x1078_light": 0.0828,
+        "1920x1080_dark": 0.0028,
+        "1920x1080_light": 0.0496,
+        "2000x1500_dark": 0.0091,
+        "2000x1500_light": 0.1102,
+        "480x360_light": 0.0002,
+        "960x540_dark": 0.0037,
+        "960x540_light": 0.0349
+      }
+    },
+    "test": {
+      "1400x788_dark_rate": 0.4073,
+      "images": 2118,
+      "mean_brightness": 91.86,
+      "stratum_shares": {
+        "1360x765_dark": 0.0042,
+        "1360x765_light": 0.2583,
+        "1400x1050_dark": 0.0076,
+        "1400x1050_light": 0.1218,
+        "1400x788_dark": 0.1794,
+        "1400x788_light": 0.2611,
+        "1916x1078_light": 0.0713,
+        "1920x1080_dark": 0.0005,
+        "1920x1080_light": 0.0231,
+        "960x540_dark": 0.0024,
+        "960x540_light": 0.0703
+      }
+    },
+    "v1_train": {
+      "1400x788_bus_box_share": 0.1293,
+      "1400x788_dark_rate": 0.0974,
+      "global_box_class_shares": {
+        "bus": 0.0339,
+        "car": 0.755,
+        "truck": 0.0732,
+        "van": 0.1378
+      },
+      "images": 5176,
+      "mean_brightness": 96.66,
+      "stratum_shares": {
+        "1344x756_light": 0.0002,
+        "1360x765_dark": 0.0019,
+        "1360x765_light": 0.0759,
+        "1389x1042_light": 0.0002,
+        "1398x1048_light": 0.0058,
+        "1400x1050_dark": 0.0954,
+        "1400x1050_light": 0.3547,
+        "1400x788_dark": 0.0137,
+        "1400x788_light": 0.1271,
+        "1916x1078_dark": 0.0002,
+        "1916x1078_light": 0.0858,
+        "1920x1080_dark": 0.0035,
+        "1920x1080_light": 0.056,
+        "2000x1500_dark": 0.0114,
+        "2000x1500_light": 0.1378,
+        "480x360_light": 0.0002,
+        "960x540_dark": 0.0025,
+        "960x540_light": 0.0276
+      }
+    },
+    "v1_validation": {
+      "1400x788_bus_box_share": 0.0734,
+      "1400x788_dark_rate": 0.2684,
+      "global_box_class_shares": {
+        "bus": 0.034,
+        "car": 0.755,
+        "truck": 0.0733,
+        "van": 0.1378
+      },
+      "images": 1295,
+      "mean_brightness": 91.71,
+      "stratum_shares": {
+        "1360x765_dark": 0.0031,
+        "1360x765_light": 0.2595,
+        "1400x1050_dark": 0.0641,
+        "1400x1050_light": 0.0656,
+        "1400x788_dark": 0.1181,
+        "1400x788_light": 0.322,
+        "1916x1078_light": 0.071,
+        "1920x1080_light": 0.0239,
+        "960x540_dark": 0.0085,
+        "960x540_light": 0.0641
+      }
+    },
+    "v2_train": {
+      "1400x788_bus_box_share": 0.1062,
+      "1400x788_dark_rate": 0.139,
+      "global_box_class_shares": {
+        "bus": 0.0301,
+        "car": 0.7636,
+        "truck": 0.0707,
+        "van": 0.1357
+      },
+      "images": 5176,
+      "mean_brightness": 94.62,
+      "stratum_shares": {
+        "1344x756_light": 0.0002,
+        "1360x765_dark": 0.0015,
+        "1360x765_light": 0.0707,
+        "1389x1042_light": 0.0002,
+        "1398x1048_light": 0.0058,
+        "1400x1050_dark": 0.1095,
+        "1400x1050_light": 0.3369,
+        "1400x788_dark": 0.0216,
+        "1400x788_light": 0.1341,
+        "1916x1078_dark": 0.0002,
+        "1916x1078_light": 0.0835,
+        "1920x1080_dark": 0.0033,
+        "1920x1080_light": 0.0554,
+        "2000x1500_dark": 0.0114,
+        "2000x1500_light": 0.1378,
+        "480x360_light": 0.0002,
+        "960x540_dark": 0.0039,
+        "960x540_light": 0.0238
+      }
+    },
+    "v2_validation": {
+      "1400x788_bus_box_share": 0.1051,
+      "1400x788_dark_rate": 0.2272,
+      "global_box_class_shares": {
+        "bus": 0.0505,
+        "car": 0.7186,
+        "truck": 0.0839,
+        "van": 0.147
+      },
+      "images": 1295,
+      "mean_brightness": 99.87,
+      "stratum_shares": {
+        "1360x765_dark": 0.0046,
+        "1360x765_light": 0.2803,
+        "1400x1050_dark": 0.0077,
+        "1400x1050_light": 0.1367,
+        "1400x788_dark": 0.0865,
+        "1400x788_light": 0.2942,
+        "1916x1078_light": 0.0803,
+        "1920x1080_dark": 0.0008,
+        "1920x1080_light": 0.0263,
+        "960x540_dark": 0.0031,
+        "960x540_light": 0.0795
+      }
+    },
+    "v2_validation_weighted": {
+      "1400x788_bus_box_share": 0.1016,
+      "1400x788_dark_rate": 0.4073,
+      "global_box_class_shares": {
+        "bus": 0.0519,
+        "car": 0.7206,
+        "truck": 0.0843,
+        "van": 0.1432
+      },
+      "images": 1295,
+      "mean_brightness": 93.23,
+      "stratum_shares": {
+        "1360x765_dark": 0.0042,
+        "1360x765_light": 0.2583,
+        "1400x1050_dark": 0.0076,
+        "1400x1050_light": 0.1218,
+        "1400x788_dark": 0.1794,
+        "1400x788_light": 0.2611,
+        "1916x1078_light": 0.0713,
+        "1920x1080_dark": 0.0005,
+        "1920x1080_light": 0.0231,
+        "960x540_dark": 0.0024,
+        "960x540_light": 0.0703
+      }
+    }
+  },
+  "created_on": "2026-09-25",
+  "duplicate_annotation_rows_removed": 1,
+  "files": {
+    "groups.csv": {
+      "lines": 6471,
+      "sha256": "e5e333a4b8a59a3b08c1135a54111ec9615cfbb9d5341bac547db0a5674d100f"
+    },
+    "train.txt": {
+      "lines": 5176,
+      "sha256": "c544705973b00df50c0f3c13373b1430bd780b14ef0c8c8fb02c26a817cff4a1"
+    },
+    "val.txt": {
+      "lines": 1295,
+      "sha256": "35b881a4c14fd8e61f09ddeabc440f595d16962b3cf9c680f4042c024f076c1e"
+    },
+    "val_strata.csv": {
+      "lines": 1295,
+      "sha256": "f717adab1b975b7f798a8f92e85d57212fc360b6500dd553158130424c989be6"
+    }
+  },
+  "name": "fixed scene-held-out split v2",
+  "purpose": "Validation split for model selection whose resolution x brightness strata follow the unlabeled test set and whose within-stratum class mix follows the labelled pool; supersedes the class-mix compromise in v1 for 1400x788.",
+  "seed": 42,
+  "solver": {
+    "band_widened": false,
+    "final_tolerance_band": 0.03,
+    "runs": [
+      {
+        "binary_group_variables": 4891,
+        "deviation_variables": 198,
+        "objective": 16.217761,
+        "seconds": 120.7,
+        "solution_status": "Solution Found",
+        "status": "Optimal",
+        "summary": "integer-feasible incumbent at time limit (optimality not proven); all hard constraints satisfied",
+        "time_limit_seconds": 120,
+        "tolerance_band": 0.03
+      }
+    ]
+  },
+  "strata": {
+    "1344x756_light": {
+      "cap": 0,
+      "capped": false,
+      "labelled_pool_images": 1,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "1360x765_dark": {
+      "cap": 7,
+      "capped": false,
+      "labelled_pool_images": 14,
+      "target_T": 6.19,
+      "target_T_uncapped": 5.5,
+      "test_images": 9,
+      "test_share": 0.0042,
+      "tolerance": 3,
+      "validation_images": 6,
+      "validation_share": 0.0046,
+      "within_tolerance": true
+    },
+    "1360x765_light": {
+      "cap": 364,
+      "capped": true,
+      "labelled_pool_images": 729,
+      "target_T": 364.0,
+      "target_T_uncapped": 334.45,
+      "test_images": 547,
+      "test_share": 0.2583,
+      "tolerance": 11,
+      "validation_images": 363,
+      "validation_share": 0.2803,
+      "within_tolerance": true
+    },
+    "1389x1042_light": {
+      "cap": 0,
+      "capped": false,
+      "labelled_pool_images": 1,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "1398x1048_light": {
+      "cap": 15,
+      "capped": false,
+      "labelled_pool_images": 30,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "1400x1050_dark": {
+      "cap": 288,
+      "capped": false,
+      "labelled_pool_images": 577,
+      "target_T": 11.0,
+      "target_T_uncapped": 9.78,
+      "test_images": 16,
+      "test_share": 0.0076,
+      "tolerance": 3,
+      "validation_images": 10,
+      "validation_share": 0.0077,
+      "within_tolerance": true
+    },
+    "1400x1050_light": {
+      "cap": 960,
+      "capped": false,
+      "labelled_pool_images": 1921,
+      "target_T": 177.42,
+      "target_T_uncapped": 157.75,
+      "test_images": 258,
+      "test_share": 0.1218,
+      "tolerance": 6,
+      "validation_images": 177,
+      "validation_share": 0.1367,
+      "within_tolerance": true
+    },
+    "1400x788_dark": {
+      "cap": 112,
+      "capped": true,
+      "labelled_pool_images": 224,
+      "target_T": 112.0,
+      "target_T_uncapped": 232.34,
+      "test_images": 380,
+      "test_share": 0.1794,
+      "tolerance": 4,
+      "validation_images": 112,
+      "validation_share": 0.0865,
+      "within_tolerance": true
+    },
+    "1400x788_light": {
+      "cap": 537,
+      "capped": false,
+      "labelled_pool_images": 1075,
+      "target_T": 380.27,
+      "target_T_uncapped": 338.12,
+      "test_images": 553,
+      "test_share": 0.2611,
+      "tolerance": 12,
+      "validation_images": 381,
+      "validation_share": 0.2942,
+      "within_tolerance": true
+    },
+    "1916x1078_dark": {
+      "cap": 0,
+      "capped": false,
+      "labelled_pool_images": 1,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "1916x1078_light": {
+      "cap": 268,
+      "capped": false,
+      "labelled_pool_images": 536,
+      "target_T": 103.84,
+      "target_T_uncapped": 92.33,
+      "test_images": 151,
+      "test_share": 0.0713,
+      "tolerance": 4,
+      "validation_images": 104,
+      "validation_share": 0.0803,
+      "within_tolerance": true
+    },
+    "1920x1080_dark": {
+      "cap": 9,
+      "capped": false,
+      "labelled_pool_images": 18,
+      "target_T": 0.69,
+      "target_T_uncapped": 0.61,
+      "test_images": 1,
+      "test_share": 0.0005,
+      "tolerance": 3,
+      "validation_images": 1,
+      "validation_share": 0.0008,
+      "within_tolerance": true
+    },
+    "1920x1080_light": {
+      "cap": 160,
+      "capped": false,
+      "labelled_pool_images": 321,
+      "target_T": 33.7,
+      "target_T_uncapped": 29.96,
+      "test_images": 49,
+      "test_share": 0.0231,
+      "tolerance": 3,
+      "validation_images": 34,
+      "validation_share": 0.0263,
+      "within_tolerance": true
+    },
+    "2000x1500_dark": {
+      "cap": 29,
+      "capped": false,
+      "labelled_pool_images": 59,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "2000x1500_light": {
+      "cap": 356,
+      "capped": false,
+      "labelled_pool_images": 713,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "480x360_light": {
+      "cap": 0,
+      "capped": false,
+      "labelled_pool_images": 1,
+      "target_T": 0.0,
+      "target_T_uncapped": 0.0,
+      "test_images": 0,
+      "test_share": 0.0,
+      "tolerance": 0,
+      "validation_images": 0,
+      "validation_share": 0.0,
+      "within_tolerance": true
+    },
+    "960x540_dark": {
+      "cap": 12,
+      "capped": false,
+      "labelled_pool_images": 24,
+      "target_T": 3.44,
+      "target_T_uncapped": 3.06,
+      "test_images": 5,
+      "test_share": 0.0024,
+      "tolerance": 3,
+      "validation_images": 4,
+      "validation_share": 0.0031,
+      "within_tolerance": true
+    },
+    "960x540_light": {
+      "cap": 113,
+      "capped": false,
+      "labelled_pool_images": 226,
+      "target_T": 102.46,
+      "target_T_uncapped": 91.1,
+      "test_images": 149,
+      "test_share": 0.0703,
+      "tolerance": 4,
+      "validation_images": 103,
+      "validation_share": 0.0795,
+      "within_tolerance": true
+    }
+  },
+  "strategy": {
+    "scene_grouping": {
+      "edge_rule": "cosine similarity >= 0.90 and identical native image dimensions",
+      "embedding": "torchvision ResNet-18 ImageNet-1K V1 global-average-pooled features, L2 normalized",
+      "grouping": "undirected connected components; exact duplicate images are therefore atomic",
+      "largest_group_images": 129,
+      "multi_image_groups": 466,
+      "nearest_neighbors": 50,
+      "preprocessing": "ResNet18_Weights.DEFAULT",
+      "scene_groups": 4891,
+      "source": "splits/scene_holdout_v1/groups.csv, used unchanged (no new embeddings or edges)"
+    },
+    "selection": {
+      "global_class_share_constraint": false,
+      "hard_constraints": [
+        "exactly 1,295 validation images",
+        "each scene group wholly train or validation",
+        "per stratum |val_s - T_s| <= max(3, ceil(0.03 * T_s)), T_s = 1295 * p_test(s)",
+        "per stratum val_s <= floor(0.5 * N_s); a capped stratum gets T_s = cap and its excess is redistributed to uncapped test strata in proportion to p_test",
+        "strata absent from test contribute 0 validation images"
+      ],
+      "median_box_area_quartiles": [
+        903.0,
+        1884.5,
+        4648.0
+      ],
+      "method": "mixed-integer group assignment (pulp + CBC 2.10.3, default non-parallel mode)",
+      "objective": "sum over strata s and features f of |val_sf - pool_sf * T_s / N_s| / max(target, 1); mixed dark/light groups contribute per image",
+      "solver_status": "integer-feasible incumbent at time limit (optimality not proven); all hard constraints satisfied",
+      "stratification": "native resolution x (64x64 grayscale mean brightness < 55)",
+      "supervised_balance_features": [
+        "per-class box counts",
+        "per-class image presence",
+        "background images",
+        "object-density bins (0, 1-10, 11-30, 31-60, 61+ boxes)",
+        "median-box-area quartile bins (quartiles over all labelled images)"
+      ],
+      "test_image_features_used": [
+        "native resolution",
+        "64x64 grayscale mean brightness < 55"
+      ],
+      "test_labels_used": false
+    }
+  },
+  "tolerance_band": 0.03,
+  "train": {
+    "annotation_box_counts": {
+      "bus": 4028,
+      "car": 102328,
+      "truck": 9480,
+      "van": 18180
+    },
+    "annotation_class_shares": {
+      "bus": 0.030056,
+      "car": 0.763551,
+      "truck": 0.070738,
+      "van": 0.135655
+    },
+    "annotations": 134016,
+    "box_area_percentiles": {
+      "p10": 360.0,
+      "p50": 1656.0,
+      "p90": 10428.0
+    },
+    "dark_images_below_55": 784,
+    "image_class_presence": {
+      "background": 223,
+      "bus": 1472,
+      "car": 4892,
+      "truck": 2774,
+      "van": 3892
+    },
+    "images": 5176,
+    "mean_brightness": 94.6205,
+    "objects_per_image_percentiles": {
+      "p0": 0.0,
+      "p10": 3.0,
+      "p100": 218.0,
+      "p25": 10.0,
+      "p50": 20.0,
+      "p75": 35.0,
+      "p90": 56.0,
+      "p99": 108.0
+    },
+    "resolution_counts": {
+      "1344x756": 1,
+      "1360x765": 374,
+      "1389x1042": 1,
+      "1398x1048": 30,
+      "1400x1050": 2311,
+      "1400x788": 806,
+      "1916x1078": 433,
+      "1920x1080": 304,
+      "2000x1500": 772,
+      "480x360": 1,
+      "960x540": 143
+    }
+  },
+  "unlabeled_test_reference": {
+    "dark_images_below_55": 411,
+    "images": 2118,
+    "labels_used": false,
+    "mean_brightness": 91.8602,
+    "resolution_counts": {
+      "1360x765": 556,
+      "1400x1050": 274,
+      "1400x788": 933,
+      "1916x1078": 151,
+      "1920x1080": 50,
+      "960x540": 154
+    }
+  },
+  "validation": {
+    "annotation_box_counts": {
+      "bus": 1582,
+      "car": 22514,
+      "truck": 2629,
+      "van": 4607
+    },
+    "annotation_class_shares": {
+      "bus": 0.050492,
+      "car": 0.718562,
+      "truck": 0.083908,
+      "van": 0.147038
+    },
+    "annotations": 31332,
+    "box_area_percentiles": {
+      "p10": 324.0,
+      "p50": 1292.0,
+      "p90": 7166.60000000002
+    },
+    "dark_images_below_55": 133,
+    "image_class_presence": {
+      "background": 67,
+      "bus": 482,
+      "car": 1211,
+      "truck": 720,
+      "van": 958
+    },
+    "images": 1295,
+    "mean_brightness": 99.8744,
+    "objects_per_image_percentiles": {
+      "p0": 0.0,
+      "p10": 4.0,
+      "p100": 166.0,
+      "p25": 9.0,
+      "p50": 19.0,
+      "p75": 34.0,
+      "p90": 52.0,
+      "p99": 101.29999999999973
+    },
+    "resolution_counts": {
+      "1360x765": 369,
+      "1400x1050": 187,
+      "1400x788": 493,
+      "1916x1078": 104,
+      "1920x1080": 35,
+      "960x540": 107
+    }
+  },
+  "validation_fraction": 0.20012363,
+  "within_stratum_class_box_shares": {
+    "1360x765_dark": {
+      "pool": {
+        "bus": 0.0,
+        "car": 0.8506,
+        "truck": 0.0115,
+        "van": 0.1379
+      },
+      "v1_validation": {
+        "bus": 0.0,
+        "car": 0.8125,
+        "truck": 0.0156,
+        "van": 0.1719
+      },
+      "v2_validation": {
+        "bus": 0.0,
+        "car": 0.8824,
+        "truck": 0.0,
+        "van": 0.1176
+      }
+    },
+    "1360x765_light": {
+      "pool": {
+        "bus": 0.0161,
+        "car": 0.7838,
+        "truck": 0.0763,
+        "van": 0.1239
+      },
+      "v1_validation": {
+        "bus": 0.0081,
+        "car": 0.7937,
+        "truck": 0.0722,
+        "van": 0.126
+      },
+      "v2_validation": {
+        "bus": 0.0164,
+        "car": 0.7829,
+        "truck": 0.0772,
+        "van": 0.1235
+      }
+    },
+    "1400x1050_dark": {
+      "pool": {
+        "bus": 0.007,
+        "car": 0.8956,
+        "truck": 0.0259,
+        "van": 0.0716
+      },
+      "v1_validation": {
+        "bus": 0.0078,
+        "car": 0.9098,
+        "truck": 0.013,
+        "van": 0.0695
+      },
+      "v2_validation": {
+        "bus": 0.0045,
+        "car": 0.8924,
+        "truck": 0.0314,
+        "van": 0.0717
+      }
+    },
+    "1400x1050_light": {
+      "pool": {
+        "bus": 0.0198,
+        "car": 0.7857,
+        "truck": 0.0806,
+        "van": 0.1138
+      },
+      "v1_validation": {
+        "bus": 0.0076,
+        "car": 0.8563,
+        "truck": 0.0368,
+        "van": 0.0992
+      },
+      "v2_validation": {
+        "bus": 0.0194,
+        "car": 0.787,
+        "truck": 0.0798,
+        "van": 0.1138
+      }
+    },
+    "1400x788_all": {
+      "pool": {
+        "bus": 0.1058,
+        "car": 0.6038,
+        "truck": 0.0933,
+        "van": 0.1971
+      },
+      "v1_validation": {
+        "bus": 0.0734,
+        "car": 0.656,
+        "truck": 0.092,
+        "van": 0.1786
+      },
+      "v2_validation": {
+        "bus": 0.1051,
+        "car": 0.609,
+        "truck": 0.0933,
+        "van": 0.1926
+      }
+    },
+    "1400x788_dark": {
+      "pool": {
+        "bus": 0.0806,
+        "car": 0.7379,
+        "truck": 0.0928,
+        "van": 0.0888
+      },
+      "v1_validation": {
+        "bus": 0.0714,
+        "car": 0.7482,
+        "truck": 0.0993,
+        "van": 0.0812
+      },
+      "v2_validation": {
+        "bus": 0.0815,
+        "car": 0.7377,
+        "truck": 0.0927,
+        "van": 0.0881
+      }
+    },
+    "1400x788_light": {
+      "pool": {
+        "bus": 0.1085,
+        "car": 0.5898,
+        "truck": 0.0933,
+        "van": 0.2085
+      },
+      "v1_validation": {
+        "bus": 0.0738,
+        "car": 0.6394,
+        "truck": 0.0907,
+        "van": 0.1962
+      },
+      "v2_validation": {
+        "bus": 0.1086,
+        "car": 0.59,
+        "truck": 0.0934,
+        "van": 0.208
+      }
+    },
+    "1916x1078_light": {
+      "pool": {
+        "bus": 0.0141,
+        "car": 0.7381,
+        "truck": 0.1087,
+        "van": 0.1391
+      },
+      "v1_validation": {
+        "bus": 0.0006,
+        "car": 0.7661,
+        "truck": 0.1125,
+        "van": 0.1208
+      },
+      "v2_validation": {
+        "bus": 0.0142,
+        "car": 0.7374,
+        "truck": 0.1095,
+        "van": 0.139
+      }
+    },
+    "1920x1080_dark": {
+      "pool": {
+        "bus": 0.0053,
+        "car": 0.8519,
+        "truck": 0.1058,
+        "van": 0.037
+      },
+      "v1_validation": {
+        "bus": null,
+        "car": null,
+        "truck": null,
+        "van": null
+      },
+      "v2_validation": {
+        "bus": 0.0,
+        "car": 0.8571,
+        "truck": 0.1429,
+        "van": 0.0
+      }
+    },
+    "1920x1080_light": {
+      "pool": {
+        "bus": 0.0315,
+        "car": 0.8342,
+        "truck": 0.0364,
+        "van": 0.0979
+      },
+      "v1_validation": {
+        "bus": 0.0092,
+        "car": 0.9202,
+        "truck": 0.0098,
+        "van": 0.0609
+      },
+      "v2_validation": {
+        "bus": 0.032,
+        "car": 0.8355,
+        "truck": 0.0371,
+        "van": 0.0953
+      }
+    },
+    "960x540_dark": {
+      "pool": {
+        "bus": 0.0,
+        "car": 0.8,
+        "truck": 0.0621,
+        "van": 0.1379
+      },
+      "v1_validation": {
+        "bus": 0.0,
+        "car": 0.8929,
+        "truck": 0.0536,
+        "van": 0.0536
+      },
+      "v2_validation": {
+        "bus": 0.0,
+        "car": 0.8261,
+        "truck": 0.087,
+        "van": 0.087
+      }
+    },
+    "960x540_light": {
+      "pool": {
+        "bus": 0.0147,
+        "car": 0.7751,
+        "truck": 0.0942,
+        "van": 0.1159
+      },
+      "v1_validation": {
+        "bus": 0.0027,
+        "car": 0.7742,
+        "truck": 0.1129,
+        "van": 0.1102
+      },
+      "v2_validation": {
+        "bus": 0.0149,
+        "car": 0.7731,
+        "truck": 0.0932,
+        "van": 0.1188
+      }
+    }
+  }
+}
