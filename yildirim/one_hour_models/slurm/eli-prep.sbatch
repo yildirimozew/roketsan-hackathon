@@ -94,15 +94,24 @@ YOLO("yolo12l.pt")
 PY
 
 module purge
-module load PyTorch/2.1.2-foss-2023a-CUDA-12.1.1
+module load Python/3.11.3-GCCcore-12.3.0 CUDA/12.1.1
 if [[ ! -d "$ELI_ROOT/repos/mmdetection/.git" ]]; then
     git clone --branch v3.3.0 --depth 1 https://github.com/open-mmlab/mmdetection.git "$ELI_ROOT/repos/mmdetection"
 fi
 git -C "$ELI_ROOT/repos/mmdetection" checkout --detach v3.3.0
-create_system_venv "$ELI_ROOT/venvs/mmdet"
-"$ELI_ROOT/venvs/mmdet/bin/pip" install openmim mmpretrain
+if [[ -x "$ELI_ROOT/venvs/mmdet/bin/python" && ! -f "$ELI_ROOT/venvs/mmdet/.standalone" ]]; then
+    mv "$ELI_ROOT/venvs/mmdet" "$ELI_ROOT/venvs/mmdet.module-$(date +%s)"
+fi
+create_venv "$ELI_ROOT/venvs/mmdet"
+touch "$ELI_ROOT/venvs/mmdet/.standalone"
+"$ELI_ROOT/venvs/mmdet/bin/pip" install \
+    torch==2.1.2 torchvision==0.16.2 \
+    --index-url https://download.pytorch.org/whl/cu121
+"$ELI_ROOT/venvs/mmdet/bin/pip" install mmengine==0.10.7
 MAX_JOBS=16 MMCV_WITH_OPS=1 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     'mmcv==2.1.0' --no-build-isolation
+"$ELI_ROOT/venvs/mmdet/bin/pip" install \
+    mmpretrain==1.2.0 matplotlib einops model-index
 "$ELI_ROOT/venvs/mmdet/bin/pip" install -v -e "$ELI_ROOT/repos/mmdetection"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install wandb
 mkdir -p "$ELI_ROOT/repos/mmdetection/configs/eli"

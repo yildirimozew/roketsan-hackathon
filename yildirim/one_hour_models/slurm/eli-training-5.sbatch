@@ -11,7 +11,7 @@
 
 set -euo pipefail
 module purge
-module load PyTorch/2.1.2-foss-2023a-CUDA-12.1.1
+module load Python/3.11.3-GCCcore-12.3.0 CUDA/12.1.1
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 MMDET="$ELI_ROOT/repos/mmdetection"
 CONFIG="$MMDET/configs/eli/cascade_eli_convnext_t.py"
