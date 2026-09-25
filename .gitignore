@@ -11,6 +11,7 @@ submissions/
 wandb/
 mlruns/
 
+proje_bilgileri
 # Local utilities (the repository only shares generated split information)
 scripts/
 

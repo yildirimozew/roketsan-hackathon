@@ -1,0 +1,14 @@
+[project]
+name = "hakan-roketsan"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.11.2",
+    "numpy>=2.4.6",
+    "pandas>=3.0.6",
+    "pillow>=12.3.0",
+    "seaborn>=0.13.2",
+    "tqdm>=4.70.1",
+]
