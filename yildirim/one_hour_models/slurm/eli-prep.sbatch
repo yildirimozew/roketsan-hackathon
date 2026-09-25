@@ -107,6 +107,7 @@ touch "$ELI_ROOT/venvs/mmdet/.standalone"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     torch==2.1.2 torchvision==0.16.2 \
     --index-url https://download.pytorch.org/whl/cu121
+"$ELI_ROOT/venvs/mmdet/bin/pip" install setuptools==70.3.0 'numpy<2'
 "$ELI_ROOT/venvs/mmdet/bin/pip" install mmengine==0.10.7
 MAX_JOBS=16 MMCV_WITH_OPS=1 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     'mmcv==2.1.0' --no-build-isolation
