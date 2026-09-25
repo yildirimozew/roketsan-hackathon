@@ -1,0 +1,9 @@
+prepared/
+runs/
+repos/
+venvs/
+weights/
+logs/
+*.out
+*.err
+__pycache__/

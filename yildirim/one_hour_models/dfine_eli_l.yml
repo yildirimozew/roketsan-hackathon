@@ -1,0 +1,79 @@
+__include__: [
+  '../dataset/coco_detection.yml',
+  '../runtime.yml',
+  './include/dataloader.yml',
+  './include/optimizer.yml',
+  './include/dfine_hgnetv2.yml',
+]
+
+output_dir: __OUTPUT_DIR__
+num_classes: 4
+remap_mscoco_category: False
+epochs: 999
+checkpoint_freq: 1
+print_freq: 50
+use_ema: True
+use_wandb: True
+project_name: eli-training
+exp_name: eli-training-4
+
+HGNetv2:
+  name: 'B4'
+  return_idx: [1, 2, 3]
+  freeze_stem_only: True
+  freeze_at: 0
+  freeze_norm: True
+
+optimizer:
+  type: AdamW
+  params:
+    - params: '^(?=.*backbone)(?!.*norm|bn).*$'
+      lr: 0.00001
+    - params: '^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$'
+      weight_decay: 0.
+  lr: 0.0001
+  betas: [0.9, 0.999]
+  weight_decay: 0.000125
+
+train_dataloader:
+  dataset:
+    img_folder: __DATA_ROOT__/train/
+    ann_file: __DATA_ROOT__/train/_annotations.coco.json
+    transforms:
+      ops:
+        - {type: RandomPhotometricDistort, p: 0.5}
+        - {type: RandomZoomOut, fill: 0}
+        - {type: RandomIoUCrop, p: 0.6}
+        - {type: SanitizeBoundingBoxes, min_size: 1}
+        - {type: RandomHorizontalFlip, p: 0.5}
+        - {type: Resize, size: [960, 960]}
+        - {type: SanitizeBoundingBoxes, min_size: 1}
+        - {type: ConvertPILImage, dtype: 'float32', scale: True}
+        - {type: ConvertBoxes, fmt: 'cxcywh', normalize: True}
+      policy:
+        name: stop_epoch
+        epoch: 998
+        ops: ['RandomPhotometricDistort', 'RandomZoomOut', 'RandomIoUCrop']
+  collate_fn:
+    type: BatchImageCollateFunction
+    base_size: 960
+    base_size_repeat: 1
+    stop_epoch: 998
+    ema_restart_decay: 0.9999
+  total_batch_size: 8
+  num_workers: 12
+  shuffle: True
+  drop_last: True
+
+val_dataloader:
+  dataset:
+    img_folder: __DATA_ROOT__/valid/
+    ann_file: __DATA_ROOT__/valid/_annotations.coco.json
+    transforms:
+      ops:
+        - {type: Resize, size: [960, 960]}
+        - {type: ConvertPILImage, dtype: 'float32', scale: True}
+  total_batch_size: 8
+  num_workers: 12
+  shuffle: False
+  drop_last: False
