@@ -33,6 +33,9 @@ team agrees to adopt a new split.
 
 ## Collaboration
 
+Each teammate and their coding agents must work only inside that teammate's
+personal folder.
+
 Create a short-lived branch for each experiment, keep configuration changes
 with the corresponding code, and merge into `main` through pull requests. Do
 not commit datasets, model weights, predictions, or secrets.
