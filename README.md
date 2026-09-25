@@ -19,23 +19,17 @@ data/
 
 The expected annotation columns are `image_id,x,y,w,h,label`.
 
-## Reproduce the split
+## Shared split
 
 The committed manifests in `splits/` define the shared train/validation split.
-They contain image IDs without file extensions. Regenerate them from the local
-dataset with:
-
-```bash
-python3 scripts/create_split.py
-```
-
-The default split uses seed 42 and reserves 20% of images for validation. It is
+They contain image IDs without file extensions. The split uses seed 42 and
+reserves 20% of images for validation. It is
 stratified by the complete set of classes present in each image, including
 background-only images. `splits/metadata.json` records the source annotation
 checksum so teammates can confirm that they have the same dataset version.
 
-Do not regenerate the committed split with different settings unless the team
-agrees to change the common benchmark.
+Treat these manifests as the team's common benchmark. Change them only when the
+team agrees to adopt a new split.
 
 ## Collaboration
 

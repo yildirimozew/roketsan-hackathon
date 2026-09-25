@@ -11,6 +11,9 @@ submissions/
 wandb/
 mlruns/
 
+# Local utilities (the repository only shares generated split information)
+scripts/
+
 # Model weights and exported models
 *.pt
 *.pth

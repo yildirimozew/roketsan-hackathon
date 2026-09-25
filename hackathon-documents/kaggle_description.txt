@@ -1,0 +1,88 @@
+Overview
+Bu yarışmada, drone görüntülerindeki araçları tespit eden bir model geliştirmeniz bekleniyor.
+
+Görev
+Her test görüntüsünde alanı 200 px² veya daha büyük olan araçları tespit edin ve doğru sınıfa yerleştirin.
+
+Sınıflar:
+
+car
+van
+truck
+bus
+Modelinizi train setindeki görüntülerle eğitecek, ardından test setindeki araçların konumlarını ve sınıflarını tahmin edeceksiniz.
+
+Evaluation
+Tahminleriniz, dört araç sınıfı için mAP@0.5 metriğiyle değerlendirilecektir.
+
+mAP@0.5, modelin araçları hem doğru sınıflandırmasını hem de görüntü üzerinde doğru konumlandırmasını ölçer. Bir tahmin, sınıfı doğruysa ve tahmin kutusu ile gerçek kutu arasındaki IoU değeri en az 0.5 ise doğru kabul edilir; her sınıfın precision-recall performansı hesaplanır ve bu değerlerin ortalaması yarışma puanını oluşturur.
+
+Her sınıftaki tahminler confidence değerine göre sıralanır. Tahmin edilen kutular, IoU değeri 0.5 veya üzerindeyse gerçek kutularla eşleştirilir. Her sınıf için AP hesaplanır ve yarışma puanınız bu dört değerin ortalaması olur.
+
+Metrikle ilgili şu ve şu linkler üzerinden daha fazla bilgi edinebilirsiniz.
+
+Dikkat etmeniz gereken noktalar:
+
+Alanı 200 px²’den küçük araçlara ait tahminler puanınızı etkilemez.
+Yaya, boş alan veya yanlış araç sınıfı için oluşturulan kutular yanlış tahmin sayılır.
+Düşük confidence değerine sahip kutuları gönderebilirsiniz. Burada önemli olan, doğru tahminlerin hatalı tahminlerden daha yüksek confidence ile sıralanmasıdır.
+Kutuların dosyadaki sırası önemli değildir. Sıralama confidence değerlerine göre yapılır.
+Yarışma sırasında görünen skor, test setinin Public bölümünden hesaplanır.
+Final sıralaması, yarışma sona erdiğinde açıklanan Private bölümün skoruna göre belirlenir.
+Public/Private dağılımı %40/%60 olarak yapılmıştır.
+Submission Dosyası
+Test setindeki her görüntü için dosyada bir satır bulunmalıdır.
+
+PredictionString alanı, boşluklarla ayrılmış label confidence x y w h gruplarından oluşur:
+
+image_id,PredictionString
+img_000001,car 0.93 976 533 98 95 van 0.71 1012 276 150 76
+img_000002,none
+Alanların anlamı:
+
+label: car, van, truck veya bus
+confidence: 0 ile 1 arasında güven skoru
+x, y: Kutunun sol üst köşesinin piksel cinsinden koordinatları
+w, h: Kutunun piksel cinsinden genişliği ve yüksekliği
+ÖNEMLİ: Bir görüntüde hiç araç tahmini yapmadıysanız PredictionString alanına none yazın. Hücreyi boş bırakmayın.
+
+sample_submission.csv dosyası gerekli tüm görüntüleri içerir. Dosyaya yeni satır eklemeyin ve mevcut satırları silmeyin.
+
+Dataset Description
+Bu veri setinde, drone görüntülerindeki araçları tespit eden bir model geliştirmeniz bekleniyor. Eğitim görüntülerindeki araçların konumları ve sınıfları verilmiştir. Test görüntülerindeki araçları ise modelinizle sizin tespit etmeniz gerekir.
+
+Modelinizin şu dört araç sınıfını bulması beklenir:
+
+car
+van
+truck
+bus
+Yalnızca kutu alanı 200 px² veya daha büyük olan araçlar değerlendirmeye alınır. Başka bir ifadeyle, kutunun genişliği ile yüksekliğinin çarpımı en az 200 olmalıdır.
+
+Daha küçük araçlar ile yaya ve bisiklet gibi diğer nesneler etiketlenmemiştir. 200 px²’den küçük bir araca kutu çizmeniz puanınızı etkilemez. Ancak yaya, boş alan veya yanlış araç sınıfı için oluşturulan kutular yanlış tahmin sayılır.
+
+Dosyalar
+train/images/: 6.471 eğitim görüntüsü (JPEG)
+train/annotations.csv: Eğitim görüntülerindeki araçların etiketleri. Her satır bir aracı temsil eder.
+test/images/: Tahmin yapacağınız 2.118 etiketsiz test görüntüsü
+sample_submission.csv: Sonuçlarınızı göndermek için kullanacağınız örnek dosya
+Kolonlar
+train/annotations.csv
+image_id: Görüntünün uzantısız dosya adı
+x, y: Kutunun sol üst köşesinin piksel cinsinden koordinatları
+w, h: Kutunun piksel cinsinden genişliği ve yüksekliği
+label: Aracın sınıfı (car, van, truck veya bus)
+sample_submission.csv
+image_id: Test setindeki her görüntü için bir satır içerir. Satır eklemeyin veya silmeyin.
+PredictionString: Tahminlerinizi label confidence x y w h formatında, aralarında boşluk bırakarak yazacağınız alan
+ÖNEMLİ: Bir görüntüde hiç araç tahmini yapmadıysanız PredictionString alanına none yazın. Hücreyi boş bırakmayın.
+
+Örnek:
+
+image_id,PredictionString
+img_000001,car 0.93 976 533 98 95 van 0.71 1012 276 150 76
+img_000002,none
+Notlar
+Görüntü boyutları değişebilir. Bu nedenle koordinatlar her görüntünün kendi piksel ölçülerine göre verilmiştir.
+Bazı test görüntülerinde değerlendirmeye alınan hiçbir araç bulunmayabilir.
+Eğitim setinde de 200 px²’den küçük araçlar etiketlenmemiştir. Bu araçları eğitim sırasında nasıl ele alacağınız size bırakılmıştır.
