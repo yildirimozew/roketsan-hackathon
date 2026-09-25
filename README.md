@@ -36,6 +36,10 @@ team agrees to adopt a new split.
 Each teammate and their coding agents must work only inside that teammate's
 personal folder.
 
+Every agent must add a very short summary of its work and primary result to
+`collective_summary.txt`. Read that file first and do not redo work already
+completed by another agent.
+
 Create a short-lived branch for each experiment, keep configuration changes
 with the corresponding code, and merge into `main` through pull requests. Do
 not commit datasets, model weights, predictions, or secrets.
