@@ -4,7 +4,14 @@
 - Scene holdout: Added a fixed 5,176/1,295 scene-grouped split with zero scene-group or exact-duplicate crossings and test-matched resolution/brightness.
 - Cascade express run: Split Cascade R-CNN ConvNeXt-T into a 50-minute checkpoint-aware `qgpu_exp` training job and a dependent evaluation job; fixed environment/network startup issues and records W&B offline for login-node sync.
 - RF-DETR test ensemble: Added full-grid tiled test inference that saves raw tile predictions and owner-filtered/NMS merged predictions keyed by original image ID.
+- Three-model ensemble: RF-DETR + Cascade ConvNeXt-T + YOLO11m weighted box fusion scores 0.8150 Fold 1 mAP@0.5 (vs. 0.7920 RF-DETR) and produces a format-checked 2,118-image submission.
+- RF-DETR class-fix A/B: Added matched `scene_holdout_v1` runs comparing rare-class-centered sampling alone against the same data with mild IA-BCE class weights; both use three `qgpu_exp` epochs and fixed original-image competition evaluation.
+- W&B on Karolina: Compute jobs now always capture offline and `sync_wandb_karolina.sh` uploads completed histories from a correctly module-loaded login shell; recovered earlier YOLO, RF-DETR, D-FINE, and Cascade runs.
+- YOLO26 sliced pilots: Added three `scene_holdout_v2` 704px runs comparing `1e-3`/`5e-4` LR at 25% rare-class-centered sampling, then 40% sampling with the selected LR; evaluation merges full-grid predictions and ranks exact plus test-stratum-weighted mAP@0.5.
 - Clariden D-FINE: Ported `eli-training-4` to one four-GH200 node under `infra01`, using the CSCS PyTorch container and offline W&B capture.
+- RF-DETR A long run: Resume the fixed-split, unweighted A checkpoint from epoch 3 to epoch 15 in four chained `qgpu_exp` segments, validating every three epochs; then evaluate the best EMA checkpoint and create full tiled test predictions plus a submission CSV.
+- RF-DETR car/van fusion: Added a leakage-safe ConvNeXt-Tiny crop classifier plus scene-grouped OOF fusion of classifier and RF-DETR query logits; deployment requires at least +0.005 fixed-split mAP and otherwise produces a detector-only fallback.
+- Epoch-9 car/van probe: RF-DETR reached 0.8041 fixed-split mAP@0.5, but scene-grouped ConvNeXt fusion fell to 0.7780 (-0.0261), so the classifier was rejected and detector-only NMS 0.70 remains selected.
 
 yildirim models training:
 * YOLO26-S-P2

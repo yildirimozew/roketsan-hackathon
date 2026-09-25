@@ -19,12 +19,9 @@ export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
 export OMP_NUM_THREADS=8
 export YOLO_CONFIG_DIR="$ELI_ROOT/runs/yolo-config"
-export WANDB_ENTITY="${WANDB_ENTITY:-yildirimozew-eth-z-rich}"
-export WANDB_PROJECT="${WANDB_PROJECT:-eli-training}"
+source "$SOURCE_DIR/wandb_karolina.env"
 export WANDB_RUN_GROUP=one-hour-pilots
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
-export WANDB_MODE="${WANDB_MODE:-online}"
-export WANDB_SILENT=true
 mkdir -p "$WANDB_DIR" "$YOLO_CONFIG_DIR"
 "$ELI_ROOT/venvs/yolo/bin/python" "$SOURCE_DIR/train_yolo.py" \
     --variant yolo26s-p2 \

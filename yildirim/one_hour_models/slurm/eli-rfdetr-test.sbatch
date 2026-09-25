@@ -24,13 +24,20 @@ export TORCH_HOME="$ELI_ROOT/cache/torch"
 export WANDB_MODE=disabled
 export OMP_NUM_THREADS=8
 
+RUN_DIR="${RUN_DIR:-$ELI_ROOT/runs/rfdetr_large}"
+CHECKPOINT="${CHECKPOINT:-$RUN_DIR/checkpoint_best_ema.pth}"
+OUTPUT_DIR="${OUTPUT_DIR:-$RUN_DIR/test_predictions}"
+
 "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/predict_rfdetr_test.py" \
     --images "$REMOTE_REPO/data/test/images" \
-    --checkpoint "$ELI_ROOT/runs/rfdetr_large/checkpoint_best_ema.pth" \
-    --output "$ELI_ROOT/runs/rfdetr_large/test_predictions" \
+    --checkpoint "$CHECKPOINT" \
+    --output "$OUTPUT_DIR" \
     --batch-size 16 \
     --tile-size 704 \
     --tile-overlap 0.25 \
     --score-threshold 0.001 \
-    --max-det 1000 \
-    --nms-iou 0.6
+    --max-det 500 \
+    --nms-iou 0.6 \
+    --min-area 200 \
+    --sample-submission "$REMOTE_REPO/data/sample_submission.csv" \
+    --submission "$OUTPUT_DIR/submission.csv"

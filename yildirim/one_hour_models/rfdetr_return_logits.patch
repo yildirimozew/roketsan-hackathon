@@ -1,0 +1,75 @@
+diff --git a/src/rfdetr/detr.py b/src/rfdetr/detr.py
+index 5e9f3da..bf472ab 100644
+--- a/src/rfdetr/detr.py
++++ b/src/rfdetr/detr.py
+@@ -2510,5 +2510,6 @@ class RFDETR:
+         shape: tuple[int, int] | None = None,
+         patch_size: int | None = None,
+         include_source_image: bool = True,
++        return_logits: bool = False,
+         **kwargs: Any,
+     ) -> Detections | KeyPoints | list[Detections | KeyPoints]:
+@@ -2540,3 +2541,7 @@ class RFDETR:
+                 needed.
++            return_logits:
++                When ``True``, attach the selected query's complete raw class-logit vector and query index to
++                ``detections.data["class_logits"]`` and ``detections.data["query_index"]``. The default ``False``
++                preserves the existing prediction interface and avoids additional device-to-host transfers.
+             **kwargs:
+                 Additional keyword arguments.
+@@ -2830,4 +2835,19 @@ class RFDETR:
+                     return_predictions["pred_masks"] = predictions[2]
+             predictions = return_predictions
+         target_sizes = torch.tensor(orig_sizes, device=self.model.device)
++        selected_class_logits = None
++        selected_query_indices = None
++        if return_logits:
++            raw_logits = predictions["pred_logits"]
++            flat_probabilities = raw_logits.sigmoid().view(raw_logits.shape[0], -1)
++            num_select = min(self.model.postprocess.num_select, flat_probabilities.shape[1])
++            selected_flat_indices = torch.argsort(
++                flat_probabilities, dim=1, descending=True, stable=True
++            )[:, :num_select]
++            selected_query_indices = selected_flat_indices // raw_logits.shape[2]
++            selected_class_logits = torch.gather(
++                raw_logits,
++                1,
++                selected_query_indices.unsqueeze(-1).expand(-1, -1, raw_logits.shape[2]),
++            )[..., : len(self.class_names)]
+         results = self.model.postprocess(predictions, target_sizes=target_sizes, score_threshold=threshold)
+@@ -2887,6 +2905,16 @@ class RFDETR:
+             scores = scores[keep_idx]
+             labels = labels[keep_idx]
+             boxes = boxes[keep_idx]
++            if return_logits:
++                foreground = (labels >= 0) & (labels < len(self.class_names))
++                scores = scores[foreground]
++                labels = labels[foreground]
++                boxes = boxes[foreground]
++                keep_idx = keep_idx[foreground]
++            class_logits = selected_class_logits[i][keep_idx] if selected_class_logits is not None else None
++            query_indices = (
++                selected_query_indices[i][keep_idx] if selected_query_indices is not None else None
++            )
+             has_keypoints_result = "keypoints" in result
+             has_masks = "masks" in result
+             has_kp_precision = "keypoint_precision_cholesky" in result
+@@ -2933,5 +2955,9 @@ class RFDETR:
+             keypoint_precision_cpu = (
+                 keypoint_precision.float().to("cpu", non_blocking=is_cuda) if keypoint_precision is not None else None
+             )
++            class_logits_cpu = (
++                class_logits.float().to("cpu", non_blocking=is_cuda) if class_logits is not None else None
++            )
++            query_indices_cpu = query_indices.to("cpu", non_blocking=is_cuda) if query_indices is not None else None
+             if is_cuda:
+                 torch.cuda.current_stream(boxes.device).synchronize()
+@@ -2957,5 +2983,8 @@ class RFDETR:
+             if keypoint_precision_cpu is not None:
+                 detections.data["keypoint_precision_cholesky"] = keypoint_precision_cpu.numpy()
++            if class_logits_cpu is not None and query_indices_cpu is not None:
++                detections.data["class_logits"] = class_logits_cpu.numpy()
++                detections.data["query_index"] = query_indices_cpu.numpy()
+
+             if include_source_image:
+                 detections.metadata["source_image"] = source_images[i]  # type: ignore[index]
