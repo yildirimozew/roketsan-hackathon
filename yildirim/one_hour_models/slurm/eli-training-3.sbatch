@@ -21,6 +21,10 @@ export WANDB_NAME=eli-training-3
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
 export WANDB_SILENT=true
 mkdir -p "$WANDB_DIR"
+"$ELI_ROOT/venvs/rfdetr/bin/python" - <<'PY'
+from rfdetr import RFDETRLarge
+RFDETRLarge(resolution=704)
+PY
 set +e
 timeout --signal=TERM --kill-after=120s 3600s \
     "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/train_rfdetr.py" \
