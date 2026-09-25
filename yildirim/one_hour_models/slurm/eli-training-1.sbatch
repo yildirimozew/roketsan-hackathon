@@ -22,8 +22,9 @@ export YOLO_CONFIG_DIR="$ELI_ROOT/runs/yolo-config"
 export WANDB_PROJECT=eli-training
 export WANDB_RUN_GROUP=one-hour-pilots
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
+export WANDB_MODE=offline
 export WANDB_SILENT=true
-mkdir -p "$WANDB_DIR"
+mkdir -p "$WANDB_DIR" "$YOLO_CONFIG_DIR"
 "$ELI_ROOT/venvs/yolo/bin/python" "$SOURCE_DIR/train_yolo.py" \
     --variant yolo26s-p2 \
     --data "$ELI_ROOT/prepared/yolo/dataset.yaml" \

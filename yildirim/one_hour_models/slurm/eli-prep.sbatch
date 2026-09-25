@@ -114,8 +114,6 @@ touch "$ELI_ROOT/venvs/mmdet/.standalone"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install opencv-python==4.11.0.86
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     mmpretrain==1.2.0 matplotlib einops model-index
-"$ELI_ROOT/venvs/mmdet/bin/pip" install -v --no-build-isolation \
-    -e "$ELI_ROOT/repos/mmdetection"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install wandb
 mkdir -p "$ELI_ROOT/repos/mmdetection/configs/eli"
 sed \

@@ -17,3 +17,7 @@ one-GPU jobs named `eli-training-1` through `eli-training-5`. Each training
 process gets 3,600 seconds; validation and environment setup are outside that
 budget. Training and validation metrics are logged to the W&B project
 `eli-training`, with one run named after each Slurm job.
+
+Karolina currently records W&B runs in offline mode because the configured API
+credential has read but not write access to the project. After fixing project
+permissions, sync them with `wandb sync /mnt/proj1/open-37-16/yildirimozew/eli-training/runs/wandb/offline-run-*`.

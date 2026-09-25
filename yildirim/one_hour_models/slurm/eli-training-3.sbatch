@@ -22,6 +22,7 @@ export WANDB_PROJECT=eli-training
 export WANDB_RUN_GROUP=one-hour-pilots
 export WANDB_NAME=eli-training-3
 export WANDB_DIR="$ELI_ROOT/runs/wandb"
+export WANDB_MODE=offline
 export WANDB_SILENT=true
 mkdir -p "$WANDB_DIR"
 "$ELI_ROOT/venvs/rfdetr/bin/python" - <<'PY'
