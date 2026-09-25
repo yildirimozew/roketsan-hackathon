@@ -70,9 +70,11 @@ for alias in yolo rfdetr dfine; do
     ln -sfn common "$alias_path"
 done
 
-"$ELI_ROOT/venvs/common/bin/python" "$SOURCE_DIR/prepare_data.py" \
-    --repo "$REMOTE_REPO" \
-    --output "$ELI_ROOT/prepared"
+if [[ ! -f "$ELI_ROOT/prepared/READY.json" ]]; then
+    "$ELI_ROOT/venvs/common/bin/python" "$SOURCE_DIR/prepare_data.py" \
+        --repo "$REMOTE_REPO" \
+        --output "$ELI_ROOT/prepared"
+fi
 "$ELI_ROOT/venvs/common/bin/python" "$SOURCE_DIR/check_prepared.py" --prepared "$ELI_ROOT/prepared"
 
 sed \
@@ -99,7 +101,8 @@ fi
 git -C "$ELI_ROOT/repos/mmdetection" checkout --detach v3.3.0
 create_system_venv "$ELI_ROOT/venvs/mmdet"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install openmim mmpretrain
-"$ELI_ROOT/venvs/mmdet/bin/mim" install 'mmcv==2.1.0'
+MAX_JOBS=16 MMCV_WITH_OPS=1 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
+    'mmcv==2.1.0' --no-build-isolation
 "$ELI_ROOT/venvs/mmdet/bin/pip" install -v -e "$ELI_ROOT/repos/mmdetection"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install wandb
 mkdir -p "$ELI_ROOT/repos/mmdetection/configs/eli"
