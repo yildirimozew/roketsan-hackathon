@@ -9,6 +9,7 @@
 - W&B on Karolina: Compute jobs now always capture offline and `sync_wandb_karolina.sh` uploads completed histories from a correctly module-loaded login shell; recovered earlier YOLO, RF-DETR, D-FINE, and Cascade runs.
 - YOLO26 sliced pilots: Added three `scene_holdout_v2` 704px runs comparing `1e-3`/`5e-4` LR at 25% rare-class-centered sampling, then 40% sampling with the selected LR; evaluation merges full-grid predictions and ranks exact plus test-stratum-weighted mAP@0.5.
 - Clariden D-FINE: Ported `eli-training-4` to one four-GH200 node under `infra01`, using the CSCS PyTorch container and offline W&B capture.
+- RF-DETR A long run: Resume the fixed-split, unweighted A checkpoint from epoch 3 to epoch 15 in four chained `qgpu_exp` segments, validating every three epochs; then evaluate the best EMA checkpoint and create full tiled test predictions plus a submission CSV.
 
 yildirim models training:
 * YOLO26-S-P2

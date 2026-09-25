@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -35,7 +36,42 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--score-threshold", type=float, default=0.001)
     parser.add_argument("--max-det", type=int, default=1000)
     parser.add_argument("--nms-iou", type=float, default=0.6)
+    parser.add_argument("--min-area", type=float, default=0.0)
+    parser.add_argument("--sample-submission", type=Path)
+    parser.add_argument("--submission", type=Path)
     return parser.parse_args()
+
+
+def write_submission(predictions: list[dict], sample_path: Path, output_path: Path) -> None:
+    grouped: dict[str, list[dict]] = {}
+    for prediction in predictions:
+        grouped.setdefault(str(prediction["image_id"]), []).append(prediction)
+
+    with sample_path.open(newline="") as source:
+        sample = list(csv.DictReader(source))
+    if not sample or set(sample[0]) != {"image_id", "PredictionString"}:
+        raise ValueError(f"Unexpected sample-submission columns: {sample_path}")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", newline="") as destination:
+        writer = csv.DictWriter(destination, fieldnames=("image_id", "PredictionString"))
+        writer.writeheader()
+        for row in sample:
+            values: list[str] = []
+            for prediction in grouped.get(row["image_id"], []):
+                values.extend(
+                    [
+                        str(prediction["class_name"]),
+                        f'{prediction["score"]:.8g}',
+                        *(f"{coordinate:.8g}" for coordinate in prediction["bbox"]),
+                    ]
+                )
+            writer.writerow(
+                {
+                    "image_id": row["image_id"],
+                    "PredictionString": " ".join(values) if values else "none",
+                }
+            )
 
 
 def sha256(path: Path) -> str:
@@ -164,6 +200,8 @@ def predict_tiles(
 
 def main() -> None:
     args = parse_args()
+    if (args.sample_submission is None) != (args.submission is None):
+        raise ValueError("--sample-submission and --submission must be supplied together")
     args.output.mkdir(parents=True, exist_ok=True)
     originals = image_manifest(args.images)
     numeric_to_name = {
@@ -194,6 +232,7 @@ def main() -> None:
         owner_only=True,
         nms_iou=args.nms_iou,
         max_det=args.max_det,
+        min_area=args.min_area,
     )
     predictions = []
     for prediction in numeric_predictions:
@@ -208,6 +247,8 @@ def main() -> None:
             }
         )
     (args.output / "merged_predictions.json").write_text(json.dumps(predictions))
+    if args.submission is not None:
+        write_submission(predictions, args.sample_submission, args.submission)
 
     np.savez_compressed(
         args.output / "merged_predictions.npz",
@@ -228,6 +269,8 @@ def main() -> None:
         "owner_only": True,
         "nms_iou": args.nms_iou,
         "max_det": args.max_det,
+        "min_area": args.min_area,
+        "submission": str(args.submission) if args.submission else None,
         "box_format": "xywh in original-image pixels",
         "class_names": list(CLASS_NAMES),
     }

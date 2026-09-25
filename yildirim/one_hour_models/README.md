@@ -34,6 +34,10 @@ class weights. Dependent evaluation jobs reconstruct the original validation
 images and report the competition's all-point mAP@0.5 at the fixed owner-only,
 class-wise NMS 0.60 configuration.
 
+`submit_rfdetr_a_long.sh` resumes arm A from its full epoch-3 checkpoint and
+trains to epoch 15 through four dependent `qgpu_exp` jobs. It then evaluates
+the best EMA checkpoint and writes full tiled test predictions and a submission CSV.
+
 ## YOLO26 sliced-data pilots
 
 `submit_yolo_sliced_pilots.sh` prepares deterministic 704px sliced datasets from

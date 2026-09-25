@@ -20,9 +20,9 @@ REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
 PREPARED="$ELI_ROOT/prepared/rfdetr_scene_ab"
 RUN_DIR="$ELI_ROOT/runs/rfdetr_scene_$AB_ARM"
-EVAL_DIR="$RUN_DIR/eval_original"
-RUN_NAME="rfdetr-scene-$AB_ARM-eval"
-CHECKPOINT="$RUN_DIR/checkpoint_best_ema.pth"
+EVAL_DIR="${EVAL_DIR:-$RUN_DIR/eval_original}"
+RUN_NAME="${RUN_NAME:-rfdetr-scene-$AB_ARM-eval}"
+CHECKPOINT="${CHECKPOINT:-$RUN_DIR/checkpoint_best_ema.pth}"
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
