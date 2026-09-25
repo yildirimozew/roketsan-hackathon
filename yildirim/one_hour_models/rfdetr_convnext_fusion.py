@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import multiprocessing as mp
 import os
 from collections import defaultdict
 from pathlib import Path
@@ -276,14 +277,20 @@ def average_precision(recall: np.ndarray, precision: np.ndarray) -> float:
     return float(np.sum((recall[changed + 1] - recall[changed]) * precision[changed + 1]))
 
 
-def competition_metric(payload: dict, predictions: list[dict], allowed_images: set[int] | None = None) -> dict:
+def competition_metric(
+    payload: dict,
+    predictions: list[dict],
+    allowed_images: set[int] | None = None,
+    category_ids: tuple[int, ...] = tuple(range(len(CLASS_NAMES))),
+) -> dict:
     ground: dict[int, dict[int, list[list[float]]]] = defaultdict(lambda: defaultdict(list))
     for annotation in payload["annotations"]:
         image_id = int(annotation["image_id"])
         if float(annotation["area"]) >= 200 and (allowed_images is None or image_id in allowed_images):
             ground[int(annotation["category_id"])][image_id].append(annotation["bbox"])
     values = {}
-    for category, name in enumerate(CLASS_NAMES):
+    for category in category_ids:
+        name = CLASS_NAMES[category]
         category_ground = {image_id: np.asarray(boxes, dtype=np.float64) for image_id, boxes in ground[category].items()}
         used = {image_id: np.zeros(len(boxes), dtype=bool) for image_id, boxes in category_ground.items()}
         selected = [p for p in predictions if int(p["category_id"]) == category and (allowed_images is None or int(p["image_id"]) in allowed_images)]
@@ -410,18 +417,39 @@ def decision_values(
     return dict(zip(map(int, indices), map(float, values), strict=True))
 
 
+_BIAS_CONTEXT: tuple | None = None
+
+
+def score_bias(bias: float) -> tuple[float, float]:
+    if _BIAS_CONTEXT is None:
+        raise RuntimeError("bias worker was not initialized")
+    raw, selected, nms_iou, decisions, payload, allowed_images = _BIAS_CONTEXT
+    predictions = final_predictions(raw, selected, nms_iou, decisions, bias, allowed_images)
+    metric = competition_metric(payload, predictions, allowed_images, category_ids=(0, 1))
+    score = (metric["per_class_ap50"]["car"] + metric["per_class_ap50"]["van"]) / 2
+    return bias, float(score)
+
+
+def initialize_bias_worker() -> None:
+    torch.set_num_threads(1)
+
+
 def tune_bias(
     raw: dict[str, np.ndarray], selected: np.ndarray, nms_iou: float,
     decisions: dict[int, float], payload: dict, allowed_images: set[int],
 ) -> tuple[float, float]:
-    best_bias, best_score = 0.0, -1.0
-    for bias in np.round(np.arange(-1.5, 1.5001, 0.05), 2):
-        predictions = final_predictions(raw, selected, nms_iou, decisions, float(bias), allowed_images)
-        metric = competition_metric(payload, predictions, allowed_images)
-        score = (metric["per_class_ap50"]["car"] + metric["per_class_ap50"]["van"]) / 2
-        if score > best_score:
-            best_bias, best_score = float(bias), float(score)
-    return best_bias, best_score
+    global _BIAS_CONTEXT
+    biases = [float(value) for value in np.round(np.arange(-1.5, 1.5001, 0.05), 2)]
+    _BIAS_CONTEXT = (raw, selected, nms_iou, decisions, payload, allowed_images)
+    workers = min(int(os.environ.get("SLURM_CPUS_PER_TASK", "1")), len(biases))
+    if workers == 1:
+        results = list(map(score_bias, biases))
+    else:
+        context = mp.get_context("fork")
+        with context.Pool(workers, initializer=initialize_bias_worker) as pool:
+            results = pool.map(score_bias, biases, chunksize=1)
+    _BIAS_CONTEXT = None
+    return max(results, key=lambda item: item[1])
 
 
 def calibrate(args: argparse.Namespace) -> None:
