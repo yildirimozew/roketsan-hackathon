@@ -109,8 +109,8 @@ touch "$ELI_ROOT/venvs/mmdet/.standalone"
     --index-url https://download.pytorch.org/whl/cu121
 "$ELI_ROOT/venvs/mmdet/bin/pip" install setuptools==70.3.0 'numpy<2'
 "$ELI_ROOT/venvs/mmdet/bin/pip" install mmengine==0.10.7
-MAX_JOBS=16 MMCV_WITH_OPS=1 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
-    'mmcv==2.1.0' --no-build-isolation
+"$ELI_ROOT/venvs/mmdet/bin/pip" install \
+    "$ELI_ROOT/weights/mmcv-2.1.0-cp311-cp311-manylinux1_x86_64.whl"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install \
     mmpretrain==1.2.0 matplotlib einops model-index
 "$ELI_ROOT/venvs/mmdet/bin/pip" install -v -e "$ELI_ROOT/repos/mmdetection"
