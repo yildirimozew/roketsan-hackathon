@@ -11,7 +11,7 @@
 
 set -euo pipefail
 module purge
-module load PyTorch/2.6.0-foss-2024a-CUDA-12.6.0
+module load Python/3.12.3-GCCcore-13.3.0
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 DFINE="$ELI_ROOT/repos/D-FINE"
 CONFIG="$DFINE/configs/dfine/dfine_eli_l.yml"

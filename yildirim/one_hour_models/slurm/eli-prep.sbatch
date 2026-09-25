@@ -17,9 +17,17 @@ SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
 mkdir -p "$ELI_ROOT"/{logs,repos,runs,venvs,weights}
 
 module purge
-module load PyTorch/2.6.0-foss-2024a-CUDA-12.6.0
+module load Python/3.12.3-GCCcore-13.3.0
 
 create_venv() {
+    local path=$1
+    if [[ ! -x "$path/bin/python" ]]; then
+        python -m venv "$path"
+    fi
+    "$path/bin/python" -m pip install --upgrade pip setuptools wheel
+}
+
+create_system_venv() {
     local path=$1
     if [[ ! -x "$path/bin/python" ]]; then
         python -m venv --system-site-packages "$path"
@@ -27,25 +35,33 @@ create_venv() {
     "$path/bin/python" -m pip install --upgrade pip setuptools wheel
 }
 
-create_venv "$ELI_ROOT/venvs/yolo"
-"$ELI_ROOT/venvs/yolo/bin/pip" install --upgrade ultralytics wandb
+create_venv "$ELI_ROOT/venvs/common"
+"$ELI_ROOT/venvs/common/bin/pip" install \
+    torch==2.6.0 torchvision==0.21.0 \
+    --index-url https://download.pytorch.org/whl/cu124
+"$ELI_ROOT/venvs/common/bin/pip" install ultralytics==8.4.163 wandb
 
 if [[ ! -d "$ELI_ROOT/repos/rf-detr/.git" ]]; then
     git clone https://github.com/roboflow/rf-detr.git "$ELI_ROOT/repos/rf-detr"
 fi
 git -C "$ELI_ROOT/repos/rf-detr" fetch --depth=1 origin
 git -C "$ELI_ROOT/repos/rf-detr" checkout --detach FETCH_HEAD
-create_venv "$ELI_ROOT/venvs/rfdetr"
-"$ELI_ROOT/venvs/rfdetr/bin/pip" install -e "$ELI_ROOT/repos/rf-detr[train,loggers]" wandb
+"$ELI_ROOT/venvs/common/bin/pip" install -e "$ELI_ROOT/repos/rf-detr[train,loggers]" wandb
 
 if [[ ! -d "$ELI_ROOT/repos/D-FINE/.git" ]]; then
     git clone https://github.com/Peterande/D-FINE.git "$ELI_ROOT/repos/D-FINE"
 fi
 git -C "$ELI_ROOT/repos/D-FINE" fetch --depth=1 origin
 git -C "$ELI_ROOT/repos/D-FINE" checkout --detach FETCH_HEAD
-create_venv "$ELI_ROOT/venvs/dfine"
-"$ELI_ROOT/venvs/dfine/bin/pip" install -r "$ELI_ROOT/repos/D-FINE/requirements.txt"
-"$ELI_ROOT/venvs/dfine/bin/pip" install wandb
+"$ELI_ROOT/venvs/common/bin/pip" install -r "$ELI_ROOT/repos/D-FINE/requirements.txt" wandb
+
+for alias in yolo rfdetr dfine; do
+    alias_path="$ELI_ROOT/venvs/$alias"
+    if [[ -d "$alias_path" && ! -L "$alias_path" ]]; then
+        mv "$alias_path" "$alias_path.pre-common-$(date +%s)"
+    fi
+    ln -sfn common "$alias_path"
+done
 
 python "$SOURCE_DIR/prepare_data.py" \
     --repo "$REMOTE_REPO" \
@@ -74,7 +90,7 @@ if [[ ! -d "$ELI_ROOT/repos/mmdetection/.git" ]]; then
     git clone --branch v3.3.0 --depth 1 https://github.com/open-mmlab/mmdetection.git "$ELI_ROOT/repos/mmdetection"
 fi
 git -C "$ELI_ROOT/repos/mmdetection" checkout --detach v3.3.0
-create_venv "$ELI_ROOT/venvs/mmdet"
+create_system_venv "$ELI_ROOT/venvs/mmdet"
 "$ELI_ROOT/venvs/mmdet/bin/pip" install openmim mmpretrain
 "$ELI_ROOT/venvs/mmdet/bin/mim" install 'mmcv==2.1.0'
 "$ELI_ROOT/venvs/mmdet/bin/pip" install -v -e "$ELI_ROOT/repos/mmdetection"
