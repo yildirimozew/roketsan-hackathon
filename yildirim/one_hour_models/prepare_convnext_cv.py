@@ -25,6 +25,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--size", type=int, default=224)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--workers", type=int, default=24)
+    parser.add_argument("--dataset-name", default="convnext-tiny-car-van-scene-holdout-v1")
     return parser.parse_args()
 
 
@@ -155,7 +156,7 @@ def main() -> None:
         raise ValueError("classifier subsets have scene leakage")
 
     ready = {
-        "name": "convnext-tiny-car-van-scene-holdout-v1",
+        "name": args.dataset_name,
         "parameters": {
             "context": args.context,
             "size": args.size,
