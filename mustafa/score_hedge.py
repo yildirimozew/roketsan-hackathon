@@ -33,17 +33,30 @@ def weighted_map(preds, gt, w):
         aps[c] = float(np.sum((rec[ch + 1] - rec[ch]) * prec[ch + 1]))
     return float(np.mean(list(aps.values()))), aps
 
-ap = argparse.ArgumentParser()
-ap.add_argument("preds", nargs="+")
-ap.add_argument("--images", default=str(ROOT / "splits/scene_holdout_v2/val.txt"))
-ap.add_argument("--weights", default=str(ROOT / "splits/scene_holdout_v2/val_strata.csv"))
-ap.add_argument("--annotations", default=str(ROOT / "data/train/annotations.csv"))
-a = ap.parse_args()
-ids = Path(a.images).read_text().split()
-gt = pd.read_csv(a.annotations); gt = gt[gt.image_id.isin(set(ids))]
-w = pd.read_csv(a.weights).set_index("image_id")["weight"].reindex(ids).fillna(0.0)
-print("| file | mAP@0.5 | car | van | truck | bus | test-weighted |\n|---|---|---|---|---|---|---|")
-for p in a.preds:
-    pr = read_preds(p); pr = pr[pr.image_id.isin(set(ids))]
+def load_context(images=None, weights=None, annotations=None):
+    """GT, image ids and test weights for a validation split."""
+    ids = Path(images or ROOT / "splits/scene_holdout_v2/val.txt").read_text().split()
+    gt = pd.read_csv(annotations or ROOT / "data/train/annotations.csv"); gt = gt[gt.image_id.isin(set(ids))]
+    w = pd.read_csv(weights or ROOT / "splits/scene_holdout_v2/val_strata.csv").set_index("image_id")["weight"].reindex(ids).fillna(0.0)
+    return gt, ids, w
+
+def score(pr, ctx):
+    """-> dict(map, wmap, car, van, truck, bus) for a preds DataFrame."""
+    gt, ids, w = ctx
+    pr = pr[pr.image_id.isin(set(ids))]
     r = evaluate(gt, pr, ids); wm, _ = weighted_map(pr, gt, w)
-    print(f"| {Path(p).name} | {r['mAP50']:.4f} | " + " | ".join(f"{r['AP'][c]:.4f}" for c in CLASSES) + f" | {wm:.4f} |")
+    return {"map": r["mAP50"], "wmap": wm, **{c: r["AP"][c] for c in CLASSES}}
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("preds", nargs="+")
+    ap.add_argument("--images"); ap.add_argument("--weights"); ap.add_argument("--annotations")
+    a = ap.parse_args()
+    ctx = load_context(a.images, a.weights, a.annotations)
+    print("| file | mAP@0.5 | car | van | truck | bus | test-weighted |\n|---|---|---|---|---|---|---|")
+    for p in a.preds:
+        r = score(read_preds(p), ctx)
+        print(f"| {Path(p).name} | {r['map']:.4f} | " + " | ".join(f"{r[c]:.4f}" for c in CLASSES) + f" | {r['wmap']:.4f} |")
+
+if __name__ == "__main__":
+    main()

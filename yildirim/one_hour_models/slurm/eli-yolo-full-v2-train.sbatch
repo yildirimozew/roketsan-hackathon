@@ -31,6 +31,11 @@ export WANDB_DIR="$ELI_ROOT/runs/wandb/$RUN_NAME"
 export ELI_GIT_COMMIT="${ELI_GIT_COMMIT:-unknown}"
 mkdir -p "$WANDB_DIR" "$RUN_DIR"
 
+if [[ -e "$RUN_DIR/train/results.csv" || -e "$RUN_DIR/training_summary.json" ]]; then
+    echo "Refusing to overwrite existing full-run output in $RUN_DIR" >&2
+    exit 3
+fi
+
 "$ELI_ROOT/venvs/yolo/bin/python" "$SOURCE_DIR/check_yolo_sliced.py" \
     --prepared "$PREPARED" --repo "$REMOTE_REPO"
 
