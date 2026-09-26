@@ -25,6 +25,8 @@ yildirim models training:
 ardahan models training:
 * YOLO11n (done, fold 1, 0.656)
 * YOLO11m (done, fold 1, 0.751)
+* yolo11l-sh2 (done, holdout_v2 0.785)
+* yolo11m-sh2-rfs-e30 ( done, holdout_v2 0.809)
 - ardahan tools: ardahan/evaluate.py scores any CSV or submission the competition's way (mAP@0.5, pycocotools, unmatched <200 px^2 ignored, maxDets 1000, self-tested); ardahan/check_submission.py validates submissions (caught boxes clipped at the image edge to zero height: drop them). Ultralytics val reads ~3 points high (nano 0.685 vs 0.656).
 - ardahan Kaggle 2xT4 runs (fold 1 random split, imgsz 1280, COCO init, 35 epochs): yolo11n 0.656 mAP@0.5 (car 0.857, van 0.535, truck 0.558, bus 0.676), not a contender; yolo11m (batch 8, 3.2 h) 0.751 mAP@0.5 (car 0.900, van 0.631, truck 0.684, bus 0.790; 95% CI 0.738-0.768; +9.5 over nano, paired CI +8.6..+10.5); Ultralytics val said 0.784. Both trained on 1,054 of the scene_holdout_v1 val images, so score them on fold_1_val only.
 - furkan: EDA addendum (furkan/notebooks/01b_eda_addendum.ipynb). Class mix depends on resolution x lighting (1400x788: bus 10.6%, test 44% of images, 45% dark); expected test bus share ~1.5x train. Wrote furkan/val_test_weights.csv (stratified importance weights, ESS=602) + tested weighted_map reference; flipud=0 (perspective), resize loss test~train, no leakage.
