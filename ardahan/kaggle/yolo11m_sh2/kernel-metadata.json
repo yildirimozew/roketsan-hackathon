@@ -1,0 +1,20 @@
+{
+  "id": "ardahandoru/roketsan-yolo11m-sh2",
+  "title": "roketsan-yolo11m-sh2",
+  "code_file": "train.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "dataset_sources": [
+    "ardahandoru/roketsan-yolo-ds",
+    "ardahandoru/roketsan-yolo-deps",
+    "ardahandoru/roketsan-splits"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "machine_shape": "NvidiaTeslaT4",
+  "docker_image": "gcr.io/kaggle-gpu-images/python",
+  "docker_image_pinning_type": "latest"
+}

@@ -149,6 +149,8 @@ def main():
     ap.add_argument("preds", nargs="?")
     ap.add_argument("--images", help="manifest of image IDs to score (e.g. splits/folds/fold_1_val.txt)")
     ap.add_argument("--annotations", default=str(ROOT / "data/train/annotations.csv"))
+    ap.add_argument("--weights", help="CSV with image_id,weight (e.g. splits/scene_holdout_v2/val_strata.csv): "
+                                      "also report the importance-weighted mAP and per-stratum mAP")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
@@ -158,9 +160,24 @@ def main():
     ids = Path(a.images).read_text().split()
     preds = read_preds(a.preds)
     missing = set(ids) - set(preds.image_id)
-    r = evaluate(pd.read_csv(a.annotations), preds, ids)
+    gt = pd.read_csv(a.annotations)
+    r = evaluate(gt, preds, ids)
     print(f"mAP@0.5 {r['mAP50']:.4f}  ({len(ids)} images, {len(missing)} with no predictions)")
     print("  " + "  ".join(f"{c} {v:.4f}" for c, v in r["AP"].items()))
+    if a.weights:
+        from leakage_map import PerImage  # per-image matches from the same pycocotools run, reweighted
+        w = pd.read_csv(a.weights).set_index("image_id")
+        assert set(ids) <= set(w.index), "every scored image needs a weight"
+        pi = PerImage(gt, preds, ids)
+        assert abs(pi.ap(ids)["mAP"] - r["mAP50"]) < 1e-6
+        rw = pi.ap(ids, weights=w.weight.to_dict())
+        print(f"weighted mAP@0.5 {rw['mAP']:.4f}  (weights from {Path(a.weights).name}, mean {w.weight[ids].mean():.3f})")
+        print("  " + "  ".join(f"{c} {rw[c]:.4f}" for c in CLASSES))
+        if "stratum" in w.columns:
+            print("per stratum (unweighted):   images   mAP     car    van    truck  bus")
+            for s, g in w.loc[ids].groupby("stratum"):
+                rs = pi.ap(list(g.index))
+                print(f"  {s:22s} {len(g):6d}   {rs['mAP']:.4f}  " + "  ".join(f"{rs[c]:.3f}" for c in CLASSES))
 
 
 if __name__ == "__main__":

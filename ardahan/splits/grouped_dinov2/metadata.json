@@ -1,0 +1,74 @@
+{
+  "method": "StratifiedGroupKFold(5, shuffle, seed 42) on DINOv2-small scene clusters",
+  "embedding": "timm vit_small_patch14_dinov2.lvd142m, 224x224, CLS token, L2-normalised",
+  "cluster_rule": "connected components of train pairs with cosine >= 0.88 and identical native size",
+  "stratify_by": "presence pattern of bus/truck/van in the image",
+  "n_clusters": 3862,
+  "folds": [
+    {
+      "fold": 1,
+      "validation_images": 1295,
+      "train_images": 5176,
+      "validation_image_class_presence": {
+        "bus": 392,
+        "truck": 698,
+        "van": 970,
+        "car": 1232,
+        "background": 49
+      },
+      "max_cross_split_same_size_cosine": 0.88
+    },
+    {
+      "fold": 2,
+      "validation_images": 1294,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "bus": 391,
+        "truck": 700,
+        "van": 970,
+        "car": 1211,
+        "background": 65
+      },
+      "max_cross_split_same_size_cosine": 0.88
+    },
+    {
+      "fold": 3,
+      "validation_images": 1294,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "bus": 390,
+        "truck": 699,
+        "van": 970,
+        "car": 1216,
+        "background": 60
+      },
+      "max_cross_split_same_size_cosine": 0.88
+    },
+    {
+      "fold": 4,
+      "validation_images": 1294,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "bus": 391,
+        "truck": 698,
+        "van": 970,
+        "car": 1220,
+        "background": 63
+      },
+      "max_cross_split_same_size_cosine": 0.8799
+    },
+    {
+      "fold": 5,
+      "validation_images": 1294,
+      "train_images": 5177,
+      "validation_image_class_presence": {
+        "bus": 390,
+        "truck": 699,
+        "van": 970,
+        "car": 1224,
+        "background": 53
+      },
+      "max_cross_split_same_size_cosine": 0.88
+    }
+  ]
+}
