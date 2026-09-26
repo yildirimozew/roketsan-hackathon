@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare the matched RF-DETR scene-holdout A/B dataset."""
+"""Prepare the matched RF-DETR scene-holdout A/B dataset for one split."""
 
 from __future__ import annotations
 
@@ -33,6 +33,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--anchor-min-visible", type=float, default=0.80)
     parser.add_argument("--max-centered-per-image", type=int, default=4)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--train-on-all",
+        action="store_true",
+        help="Train on the union of train.txt and val.txt; retain val.txt only as an overlapping sanity set.",
+    )
     return parser.parse_args()
 
 
@@ -302,6 +307,7 @@ def select_training_grid(records: list[dict[str, object]], negative_ratio: float
 
 def write_original_coco(
     output: Path,
+    split_name: str,
     split: str,
     ids: list[str],
     paths: dict[str, Path],
@@ -333,7 +339,7 @@ def write_original_coco(
             )
             annotation_id += 1
     payload = {
-        "info": {"description": f"Roketsan scene_holdout_v1 original {split}"},
+        "info": {"description": f"Roketsan {split_name} original {split}"},
         "licenses": [],
         "images": images,
         "annotations": coco_annotations,
@@ -342,7 +348,9 @@ def write_original_coco(
     (split_dir / "_annotations.coco.json").write_text(json.dumps(payload))
 
 
-def write_tiles(output: Path, split: str, records: list[dict[str, object]], tile_size: int) -> dict[str, object]:
+def write_tiles(
+    output: Path, split_name: str, split: str, records: list[dict[str, object]], tile_size: int
+) -> dict[str, object]:
     split_dir = output / split
     split_dir.mkdir(parents=True, exist_ok=False)
     records.sort(
@@ -414,7 +422,7 @@ def write_tiles(output: Path, split: str, records: list[dict[str, object]], tile
         if opened_image is not None:
             opened_image.close()
     payload = {
-        "info": {"description": f"Roketsan scene_holdout_v1 RF-DETR {split} tiles"},
+        "info": {"description": f"Roketsan {split_name} RF-DETR {split} tiles"},
         "licenses": [],
         "images": images,
         "annotations": coco_annotations,
@@ -438,6 +446,7 @@ def main() -> None:
     repo = args.repo.resolve()
     output = args.output.resolve()
     split_dir = args.split_dir.resolve()
+    split_name = split_dir.name
     if output.exists():
         raise FileExistsError(f"Refusing to overwrite existing output: {output}")
     output.mkdir(parents=True)
@@ -449,7 +458,11 @@ def main() -> None:
     if set(split_ids["train"]) & set(split_ids["valid"]):
         raise ValueError("Train and validation manifests overlap")
     if len(split_ids["train"]) != 5176 or len(split_ids["valid"]) != 1295:
-        raise ValueError("Unexpected scene_holdout_v1 split sizes")
+        raise ValueError(f"Unexpected {split_name} split sizes")
+    if args.train_on_all:
+        split_ids["train"] = list(dict.fromkeys(split_ids["train"] + split_ids["valid"]))
+        if len(split_ids["train"]) != 6471:
+            raise ValueError("Full-data training must contain exactly 6,471 images")
 
     annotations = read_annotations(annotation_path)
     all_ids = split_ids["train"] + split_ids["valid"]
@@ -459,8 +472,8 @@ def main() -> None:
     valid_paths = {image_id: paths[image_id] for image_id in split_ids["valid"]}
     valid_sizes = {image_id: sizes[image_id] for image_id in split_ids["valid"]}
 
-    write_original_coco(output / "coco", "train", split_ids["train"], train_paths, train_sizes, annotations)
-    write_original_coco(output / "coco", "valid", split_ids["valid"], valid_paths, valid_sizes, annotations)
+    write_original_coco(output / "coco", split_name, "train", split_ids["train"], train_paths, train_sizes, annotations)
+    write_original_coco(output / "coco", split_name, "valid", split_ids["valid"], valid_paths, valid_sizes, annotations)
 
     train_grid = grid_records(
         split_ids["train"], train_paths, train_sizes, annotations,
@@ -476,14 +489,22 @@ def main() -> None:
         split_ids["valid"], valid_paths, valid_sizes, annotations,
         args.tile_size, args.tile_overlap, args.min_visible,
     )
-    train_stats = write_tiles(output / "rfdetr_tiles", "train", selected_grid + centered, args.tile_size)
-    valid_stats = write_tiles(output / "rfdetr_tiles", "valid", valid_grid, args.tile_size)
+    train_stats = write_tiles(output / "rfdetr_tiles", split_name, "train", selected_grid + centered, args.tile_size)
+    valid_stats = write_tiles(output / "rfdetr_tiles", split_name, "valid", valid_grid, args.tile_size)
 
+    marker_name = (
+        f"rfdetr-full-train-{split_name.replace('scene_holdout_', '')}-ab"
+        if args.train_on_all
+        else f"rfdetr-{split_name.replace('_', '-')}-ab"
+    )
     marker = {
-        "name": "rfdetr-scene-holdout-v1-ab",
+        "name": marker_name,
         "classes": list(CLASS_NAMES),
         "train_images": len(split_ids["train"]),
         "validation_images": len(split_ids["valid"]),
+        "validation_overlap_images": (
+            len(set(split_ids["train"]) & set(split_ids["valid"]))
+        ),
         "source_hashes": {
             "annotations.csv": sha256_file(annotation_path),
             "train.txt": sha256_file(manifests["train"]),
@@ -500,6 +521,7 @@ def main() -> None:
             "max_centered_per_image": args.max_centered_per_image,
             "seed": args.seed,
             "focus_shares": FOCUS_SHARES,
+            "train_on_all": args.train_on_all,
         },
         "base_train_grid": {
             "images": len(train_grid),

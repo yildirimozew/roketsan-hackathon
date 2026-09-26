@@ -14,6 +14,7 @@
 - Epoch-9 car/van probe: RF-DETR reached 0.8041 fixed-split mAP@0.5, but scene-grouped ConvNeXt fusion fell to 0.7780 (-0.0261), so the classifier was rejected and detector-only NMS 0.70 remains selected.
 - Fusion diagnosis: Hard relabeling changed 80,094 hypotheses but only 1,458 matched positives; confidence/margin gates could not beat RF-DETR. Label-preserving ConvNeXt re-ranking reached 0.80834 (+0.00427), promising but below the +0.005 acceptance threshold.
 - YOLO26 full v2: The 25%-centered, 5e-4-LR run on `scene_holdout_v2` stopped at epoch 38 (patience 6); its best checkpoint scored 0.75264 exact and 0.75106 test-stratum-weighted mAP@0.5 after tiled merging.
+- RF-DETR full-data continuation: Initialize from the epoch-12 best EMA model, restart the optimizer at 3e-5/3e-6, fine-tune for three epochs on all 6,471 labeled images, then create a tiled test submission from the final EMA weights.
 
 yildirim models training:
 * YOLO26-S-P2

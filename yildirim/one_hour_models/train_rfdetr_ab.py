@@ -34,6 +34,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=19)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--resume", type=Path)
+    parser.add_argument("--init-weights", type=Path)
+    parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--lr-encoder", type=float, default=1e-5)
     return parser.parse_args()
 
 
@@ -50,6 +53,8 @@ def normalized_weights(annotation_path: Path, raw: list[float]) -> tuple[list[fl
 
 def main() -> None:
     args = parse_args()
+    if args.resume is not None and args.init_weights is not None:
+        raise ValueError("--resume and --init-weights are mutually exclusive")
     if args.resume is None:
         args.output.mkdir(parents=True, exist_ok=False)
     else:
@@ -57,9 +62,15 @@ def main() -> None:
             raise FileNotFoundError(f"Resume output directory does not exist: {args.output}")
         if not args.resume.is_file():
             raise FileNotFoundError(f"Resume checkpoint does not exist: {args.resume}")
+    if args.init_weights is not None and not args.init_weights.is_file():
+        raise FileNotFoundError(f"Initialization checkpoint does not exist: {args.init_weights}")
     ready_path = args.data.parent / "READY.json"
     ready = json.loads(ready_path.read_text())
-    if ready.get("name") != "rfdetr-scene-holdout-v1-ab":
+    if ready.get("name") not in {
+        "rfdetr-scene-holdout-v1-ab",
+        "rfdetr-scene-holdout-v2-ab",
+        "rfdetr-full-train-v1-ab",
+    }:
         raise ValueError(f"Unexpected prepared dataset marker: {ready.get('name')}")
 
     weights, counts = normalized_weights(
@@ -67,6 +78,7 @@ def main() -> None:
     )
     config = {
         "run": args.run,
+        "dataset": ready["name"],
         "dataset_ready_sha256": hashlib.sha256(ready_path.read_bytes()).hexdigest(),
         "split_hashes": ready["source_hashes"],
         "epochs": args.epochs,
@@ -80,6 +92,9 @@ def main() -> None:
         "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
         "git_commit": os.environ.get("ELI_GIT_COMMIT"),
         "resume": str(args.resume.resolve()) if args.resume else None,
+        "init_weights": str(args.init_weights.resolve()) if args.init_weights else None,
+        "lr": args.lr,
+        "lr_encoder": args.lr_encoder,
     }
     config_name = (
         f"experiment_config_job-{os.environ.get('SLURM_JOB_ID', 'local')}.json"
@@ -91,15 +106,19 @@ def main() -> None:
     )
     print(json.dumps(config, indent=2, sort_keys=True), flush=True)
 
-    model = RFDETRLarge(resolution=704)
+    model_kwargs = {"resolution": 704}
+    if args.init_weights is not None:
+        model_kwargs["pretrain_weights"] = str(args.init_weights.resolve())
+        model_kwargs["num_classes"] = len(CLASS_NAMES)
+    model = RFDETRLarge(**model_kwargs)
     model.train(
         dataset_dir=str(args.data.resolve()),
         output_dir=str(args.output.resolve()),
         epochs=args.epochs,
         batch_size=args.batch_size,
         grad_accum_steps=1,
-        lr=1e-4,
-        lr_encoder=1e-5,
+        lr=args.lr,
+        lr_encoder=args.lr_encoder,
         weight_decay=1e-4,
         resolution=704,
         amp_dtype="bf16",
