@@ -5,7 +5,13 @@ REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 SLURM_DIR="$REMOTE_REPO/yildirim/one_hour_models/slurm"
 LOG_DIR="$ELI_ROOT/logs"
+RUN_DIR="$ELI_ROOT/runs/yolo_scene_full_v2"
 mkdir -p "$LOG_DIR"
+
+if [[ -e "$RUN_DIR/train/results.csv" || -e "$RUN_DIR/training_summary.json" ]]; then
+    echo "Refusing to overwrite existing full-run output in $RUN_DIR" >&2
+    exit 3
+fi
 
 train_job=$(sbatch --parsable \
     --job-name=eli-yolo-full \
