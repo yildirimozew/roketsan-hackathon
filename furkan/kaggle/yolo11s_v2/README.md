@@ -125,14 +125,12 @@ Gözlemler:
 
 ## 8. Sonuçlar (yarışma metriği)
 
-> Koşu bitince `scores.json` ve notebook'un Bölüm 7 tablosundan doldurulacak.
+- 49 epoch (5 saatlik bütçe), Ultralytics val best mAP50 **0.772**.
+- Yarışma metriği, best.pt, test ağırlıklı val mAP@0.5: **0.7313** (last.pt daha düşük).
+- Zayıf noktalar: dark alt kümesi, van→car karışıklığı. Val cls loss ~30. epoch'tan sonra yükseliyor (sınıflandırma overfit'i).
+- **Kaggle public LB: 0.64**, val'den ≈9 puan düşük. Nedeni henüz bilinmiyor (bkz. `furkan/PROJECT_MEMORY.md` → "Val–LB farkı").
 
-| Ağırlık | Test ağırlıklı val mAP@0.5 | Ağırlıksız val | car | van | truck | bus | val_1400x788 | val_1400x788_dark |
-|---|---|---|---|---|---|---|---|---|
-| last.pt | | | | | | | | |
-| best.pt | | | | | | | | |
-
-Kaggle public LB: _
+Sınıf bazlı değerler notebook çıktısındaki `scores.json` içinde.
 
 ---
 
