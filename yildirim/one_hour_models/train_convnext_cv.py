@@ -97,7 +97,7 @@ def main() -> None:
     seed_everything(args.seed)
     args.output.mkdir(parents=True, exist_ok=False)
     ready = json.loads((args.data / "READY.json").read_text())
-    if ready.get("name") != "convnext-tiny-car-van-scene-holdout-v1":
+    if not str(ready.get("name", "")).startswith("convnext-tiny-car-van-"):
         raise ValueError("unexpected classifier dataset marker")
 
     train_transform = transforms.Compose(
