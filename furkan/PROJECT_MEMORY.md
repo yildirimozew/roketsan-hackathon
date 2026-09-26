@@ -100,7 +100,32 @@ Dosyalar: `furkan/notebooks/01b_eda_addendum.ipynb` ve `furkan/val_test_weights.
 | YOLO11m B · 1536 | 0.7722 | – |
 | YOLO11m C · TTA@1536 | 0.7874 | – |
 | YOLO11m D · SAHI (800 tile@1280 + tam görüntü) | 0.7882 | – |
-| **YOLO11m C · TTA@1536 · NMS 0.6** | **0.7894** | _gönderilecek / girilecek_ |
+| YOLO11m C · TTA@1536 · NMS 0.6 | 0.7894 | – (ağırlık ve submission kayboldu) |
+
+### Ekip modelleri karşılaştırması (26 Eylül)
+
+Notebook: `furkan/kaggle/compare_11m/compare_yolo11m.ipynb`. Evaluator 11m ile birebir aynı; tüm modeller `scene_holdout_v2` train kümesiyle eğitildi.
+
+| Model / aday | 1280 | TTA@1536 |
+|---|---|---|
+| hakan 11m (varsayılan tarif, AdamW, 91 ep) | 0.7776 | 0.8034 |
+| ardahan 11m + bus/truck RFS (30 ep, `last.pt`) | 0.7718 | 0.8000 |
+| ardahan 11l (42 ep, `last.pt`) | 0.7436 | 0.7747 |
+| ens hakan + ardahan_l | | 0.8096 |
+| ens ardahan_l + ardahan_m_rfs | | 0.8048 |
+| ens üçü birden | | 0.8131 |
+| **ens hakan + ardahan_m_rfs · NMS 0.55** | | **0.8134** — _gönderilecek / LB girilecek_ |
+
+- Ensemble: kutular birleştirilip sınıf bazında NMS uygulanıyor, WBF yok. En iyi tek modele göre +0.010.
+- Kazanç dört sınıfın hepsinde ve testin %70'ini oluşturan üç katmanda da var. 1400×788 karanlık katmanında +2.1 puan.
+- Gönderilecek dosya: `furkan/outputs/compare_11m/submission.csv` (474,125 kutu, check_submission OK).
+- Yedek: `submission_hakan_c_tta1536_nms60.csv` (0.8034).
+- Ağırlıklar `~/Downloads` altında: `hakan_yolo11m.pt`, `ardahan_embedding.pt` (adı yanıltıcı, aslında 11m + RFS), `yolo11l_ardahan.pt`.
+- **Bizim 11m `best.pt` kayboldu:** interaktif Kaggle oturumu yenilenince gitti. Ders: Kaggle'da **her zaman Save & Run All (Commit)** kullan.
+- Yerel çalıştırma: RTX 3060 ve `furkan/outputs/venv` (torch 2.10 cu128, ultralytics 8.4.163).
+  - Kernel `roketsan-cu128`; `JUPYTER_PATH=furkan/outputs/venv/share/jupyter` ayarlanmalı.
+  - Notebook repo dışından çalıştırılırsa `REPO_DIR` verilmeli.
+  - 3 model yaklaşık 16 dakika sürdü; tahminler `furkan/outputs/compare_11m/preds/` altında önbellekte.
 
 YOLO11m ayrıntıları:
 - 51 epoch, 5.0 saat. Ultralytics best mAP50 0.800 (car .909, van .713, truck .740, bus .838).
@@ -133,7 +158,7 @@ Teşhis planı:
 
 ## 8. Sıradaki adımlar
 
-1. 11m `submission.csv`'yi **takım hesabından** gönder ve LB sonucunu bu dosyaya yaz.
+1. `furkan/outputs/compare_11m/submission.csv`'yi (hakan + ardahan_m_rfs ensemble'ı, val 0.8134) **takım hesabından** gönder ve LB sonucunu bu dosyaya yaz.
 2. Val–LB farkını teşhis et (Bölüm 7).
 3. Kalan submission haklarını değerlendir. Seçenekler:
    - C + D birleşimi
@@ -152,4 +177,5 @@ Teşhis planı:
 | `src/make_scene_holdout_v2.py`, `src/prepare_yolo.py`, `src/weighted_map.py` | Split üretimi, YOLO veri hazırlığı, ağırlıklı mAP |
 | `kaggle/yolo11s_v2/` | 11s notebook'u (`roketsan_yolo11s_v2.ipynb`), `train.py`, tasarım README'si |
 | `kaggle/yolo11m_v2/` | 11m notebook'u (`roketsan_yolo11m_v2.ipynb`) + README |
+| `kaggle/compare_11m/` | Ekip modelleri karşılaştırması ve ensemble (`compare_yolo11m.ipynb`) |
 | `outputs/` | Gitignored. yolo_v2 verisi, kaggle_upload zip'leri |
