@@ -95,7 +95,7 @@ Settings, all chosen on v2 val split into two scene-group halves:
 - Duplicating car boxes as van after rescoring lowered mAP at every setting tried (0.2-0.5), so it's off.
 
 `yolo11m_sh2_rfs_e30`'s plain test predictions are also one of the four inputs to the team's final 4-model
-ensemble (see `final/roketsan_ensemble.ipynb`).
+ensemble (see [`roketsan_ensemble.ipynb`](../roketsan_ensemble.ipynb)).
 
 ## Analysis
 
