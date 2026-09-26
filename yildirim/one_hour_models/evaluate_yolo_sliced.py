@@ -37,6 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--nms-iou", type=float, nargs="+", default=(0.50, 0.55, 0.60, 0.65, 0.70))
     parser.add_argument("--min-area", type=float, default=200.0)
     parser.add_argument("--wandb-run")
+    parser.add_argument("--wandb-group", default="yolo26-sliced-pilots")
     parser.add_argument("--self-test", action="store_true")
     return parser.parse_args()
 
@@ -320,7 +321,7 @@ def main() -> None:
         run = wandb.init(
             project=os.environ.get("WANDB_PROJECT", "eli-training"),
             name=args.wandb_run,
-            group="yolo26-sliced-pilots",
+            group=args.wandb_group,
             job_type="evaluation",
             config={"checkpoint": str(args.checkpoint), "nms_iou": best["nms_iou"], "max_det": args.max_det},
         )
