@@ -78,10 +78,10 @@ def main() -> None:
     if train_ids & val_ids:
         raise ValueError("fixed train and validation image IDs overlap")
 
-    groups: dict[str, tuple[str, str]] = {}
+    groups: dict[str, str] = {}
     with (args.split / "groups.csv").open(newline="") as handle:
         for row in csv.DictReader(handle):
-            groups[row["image_id"]] = (row["scene_group"], row["split"])
+            groups[row["image_id"]] = row["scene_group"]
     if set(groups) != train_ids | val_ids:
         raise ValueError("groups.csv membership differs from fixed split manifests")
 
@@ -104,7 +104,11 @@ def main() -> None:
     for image_id in sorted(rows_by_image):
         if image_id not in groups:
             continue
-        scene_group, fixed_split = groups[image_id]
+        scene_group = groups[image_id]
+        # The train/val manifests are authoritative.  In scene_holdout_v2,
+        # groups.csv intentionally retains v1's assignment in `split` and
+        # stores the newer assignment separately in `split_v2`.
+        fixed_split = "val" if image_id in val_ids else "train"
         subset = "fixed_val" if fixed_split == "val" else (
             "dev" if dev_group(scene_group, args.seed) else "train"
         )

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=eli-yolo-cv-eval
 #SBATCH --account=open-37-16
-#SBATCH --partition=qcpu
+#SBATCH --partition=qcpu_exp
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16

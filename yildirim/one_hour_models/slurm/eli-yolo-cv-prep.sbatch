@@ -1,12 +1,12 @@
 #!/bin/bash
 #SBATCH --job-name=eli-yolo-cv-prep
 #SBATCH --account=open-37-16
-#SBATCH --partition=qcpu
+#SBATCH --partition=qcpu_exp
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=24
 #SBATCH --mem=64G
-#SBATCH --time=00:40:00
+#SBATCH --time=00:20:00
 
 set -euo pipefail
 module purge

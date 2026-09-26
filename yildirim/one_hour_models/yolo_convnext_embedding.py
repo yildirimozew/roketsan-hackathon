@@ -293,8 +293,7 @@ def evaluate(args: argparse.Namespace) -> None:
     groups_by_image = {}
     with args.groups.open(newline="") as handle:
         for row in csv.DictReader(handle):
-            if row["split"] == "val":
-                groups_by_image[row["image_id"]] = row["scene_group"]
+            groups_by_image[row["image_id"]] = row["scene_group"]
     fold_reports = []
     val_array = np.asarray(val_ids)
     scene_groups = np.asarray([groups_by_image[image_id] for image_id in val_ids])
