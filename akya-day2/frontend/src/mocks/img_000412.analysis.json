@@ -1,0 +1,1226 @@
+{
+  "id": "mock-img_000412",
+  "image_id": "img_000412",
+  "status": "done",
+  "image": {
+    "image_id": "img_000412",
+    "width_px": 960,
+    "height_px": 540,
+    "capture_time": "11:40",
+    "capture_min": 700,
+    "corners": {
+      "tl": {
+        "lat": 39.923813,
+        "lon": 32.800643
+      },
+      "tr": {
+        "lat": 39.923813,
+        "lon": 32.802285
+      },
+      "bl": {
+        "lat": 39.923105,
+        "lon": 32.800643
+      },
+      "br": {
+        "lat": 39.923105,
+        "lon": 32.802285
+      }
+    },
+    "zone": "Bati Yolu"
+  },
+  "scene": {
+    "base": {
+      "name": "Merkez Us",
+      "position": {
+        "lat": 39.92184,
+        "lon": 32.85306
+      }
+    },
+    "zones": [
+      {
+        "name": "Kuzey Yolu",
+        "center": {
+          "lat": 39.950586,
+          "lon": 32.85306
+        }
+      },
+      {
+        "name": "Kuzeydogu Tepesi",
+        "center": {
+          "lat": 39.942164,
+          "lon": 32.879561
+        }
+      },
+      {
+        "name": "Dogu Yolu",
+        "center": {
+          "lat": 39.92184,
+          "lon": 32.890542
+        }
+      },
+      {
+        "name": "Guneydogu Sanayi",
+        "center": {
+          "lat": 39.901516,
+          "lon": 32.879561
+        }
+      },
+      {
+        "name": "Guney Koprusu",
+        "center": {
+          "lat": 39.893098,
+          "lon": 32.85306
+        }
+      },
+      {
+        "name": "Guneybati Ciftlik",
+        "center": {
+          "lat": 39.901516,
+          "lon": 32.826559
+        }
+      },
+      {
+        "name": "Bati Yolu",
+        "center": {
+          "lat": 39.92184,
+          "lon": 32.815582
+        }
+      },
+      {
+        "name": "Kuzeybati Orman",
+        "center": {
+          "lat": 39.942164,
+          "lon": 32.826559
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step": "load_frame",
+      "index": 1,
+      "status": "done",
+      "summary": "960x540 frame at 11:40, zone Bati Yolu",
+      "data": {
+        "capture_time": "11:40",
+        "zone": "Bati Yolu"
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "detect",
+      "index": 2,
+      "status": "done",
+      "summary": "3 vehicle(s): car 0.73, car 0.87, van 0.93",
+      "data": {
+        "detector": "precomputed",
+        "count": 3
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "georeference",
+      "index": 3,
+      "status": "done",
+      "summary": "3 position(s); nearest 4.36 km from base",
+      "data": {
+        "frame_w_m": 140.0,
+        "frame_h_m": 78.7
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "match_tracks",
+      "index": 4,
+      "status": "done",
+      "summary": "3/3 matched; 3 track(s) inside frame",
+      "data": {
+        "candidates": 26
+      },
+      "warnings": [],
+      "duration_ms": 1
+    },
+    {
+      "step": "analyze_motion",
+      "index": 5,
+      "status": "done",
+      "summary": "T0006 -37 m/min, 1 stop(s); T0007 -27 m/min, 1 stop(s); T0008 +0 m/min, 1 stop(s)",
+      "data": {},
+      "warnings": [],
+      "duration_ms": 1
+    },
+    {
+      "step": "assess_reports",
+      "index": 6,
+      "status": "done",
+      "summary": "1 relevant of 9 in window: REP-19 CORROBORATED",
+      "data": {},
+      "warnings": [],
+      "duration_ms": 1
+    },
+    {
+      "step": "score_risk",
+      "index": 7,
+      "status": "done",
+      "summary": "frame level LOW; DET-1=10, DET-2=10, DET-3=15",
+      "data": {
+        "level": "LOW"
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "write_brief",
+      "index": 8,
+      "status": "done",
+      "summary": "LOW brief (fallback), action MONITOR",
+      "data": {
+        "generated_by": "fallback"
+      },
+      "warnings": [],
+      "duration_ms": 0
+    }
+  ],
+  "detections": [
+    {
+      "id": "DET-1",
+      "label": "car",
+      "confidence": 0.73,
+      "bbox": [
+        315,
+        243,
+        30,
+        14
+      ],
+      "center_px": [
+        330.0,
+        250.0
+      ],
+      "position": {
+        "lat": 39.923485,
+        "lon": 32.801207
+      },
+      "distance_to_base_m": 4426.0,
+      "bearing_from_base_deg": 272.4
+    },
+    {
+      "id": "DET-2",
+      "label": "car",
+      "confidence": 0.87,
+      "bbox": [
+        595,
+        293,
+        29,
+        14
+      ],
+      "center_px": [
+        609.5,
+        300.0
+      ],
+      "position": {
+        "lat": 39.92342,
+        "lon": 32.801685
+      },
+      "distance_to_base_m": 4385.0,
+      "bearing_from_base_deg": 272.3
+    },
+    {
+      "id": "DET-3",
+      "label": "van",
+      "confidence": 0.93,
+      "bbox": [
+        773,
+        412,
+        14,
+        36
+      ],
+      "center_px": [
+        780.0,
+        430.0
+      ],
+      "position": {
+        "lat": 39.923249,
+        "lon": 32.801977
+      },
+      "distance_to_base_m": 4359.0,
+      "bearing_from_base_deg": 272.1
+    }
+  ],
+  "track_snapshots": [
+    {
+      "track_id": "T0006",
+      "position": {
+        "lat": 39.923487,
+        "lon": 32.801204
+      },
+      "center_px": [
+        328.0,
+        248.6
+      ],
+      "matched_detection_id": "DET-1"
+    },
+    {
+      "track_id": "T0007",
+      "position": {
+        "lat": 39.923423,
+        "lon": 32.801689
+      },
+      "center_px": [
+        611.5,
+        297.5
+      ],
+      "matched_detection_id": "DET-2"
+    },
+    {
+      "track_id": "T0008",
+      "position": {
+        "lat": 39.923249,
+        "lon": 32.801978
+      },
+      "center_px": [
+        780.5,
+        430.2
+      ],
+      "matched_detection_id": "DET-3"
+    }
+  ],
+  "matches": [
+    {
+      "detection_id": "DET-1",
+      "track_id": "T0006",
+      "distance_m": 0.3,
+      "second_best_m": 41.7,
+      "second_best_track_id": "T0007",
+      "confidence": "high"
+    },
+    {
+      "detection_id": "DET-2",
+      "track_id": "T0007",
+      "distance_m": 0.5,
+      "second_best_m": 31.4,
+      "second_best_track_id": "T0008",
+      "confidence": "high"
+    },
+    {
+      "detection_id": "DET-3",
+      "track_id": "T0008",
+      "distance_m": 0.1,
+      "second_best_m": 31.3,
+      "second_best_track_id": "T0007",
+      "confidence": "high"
+    }
+  ],
+  "motions": [
+    {
+      "track_id": "T0006",
+      "points": [
+        {
+          "time": "09:40",
+          "time_min": 580,
+          "position": {
+            "lat": 39.931471,
+            "lon": 32.830239
+          }
+        },
+        {
+          "time": "09:45",
+          "time_min": 585,
+          "position": {
+            "lat": 39.931475,
+            "lon": 32.830267
+          }
+        },
+        {
+          "time": "09:50",
+          "time_min": 590,
+          "position": {
+            "lat": 39.931492,
+            "lon": 32.830267
+          }
+        },
+        {
+          "time": "09:55",
+          "time_min": 595,
+          "position": {
+            "lat": 39.931474,
+            "lon": 32.830247
+          }
+        },
+        {
+          "time": "10:00",
+          "time_min": 600,
+          "position": {
+            "lat": 39.931454,
+            "lon": 32.830263
+          }
+        },
+        {
+          "time": "10:05",
+          "time_min": 605,
+          "position": {
+            "lat": 39.931483,
+            "lon": 32.83022
+          }
+        },
+        {
+          "time": "10:10",
+          "time_min": 610,
+          "position": {
+            "lat": 39.931483,
+            "lon": 32.83024
+          }
+        },
+        {
+          "time": "10:15",
+          "time_min": 615,
+          "position": {
+            "lat": 39.93148,
+            "lon": 32.830267
+          }
+        },
+        {
+          "time": "10:20",
+          "time_min": 620,
+          "position": {
+            "lat": 39.931437,
+            "lon": 32.830287
+          }
+        },
+        {
+          "time": "10:25",
+          "time_min": 625,
+          "position": {
+            "lat": 39.931473,
+            "lon": 32.830232
+          }
+        },
+        {
+          "time": "10:30",
+          "time_min": 630,
+          "position": {
+            "lat": 39.931455,
+            "lon": 32.830274
+          }
+        },
+        {
+          "time": "10:35",
+          "time_min": 635,
+          "position": {
+            "lat": 39.931455,
+            "lon": 32.830251
+          }
+        },
+        {
+          "time": "10:40",
+          "time_min": 640,
+          "position": {
+            "lat": 39.931476,
+            "lon": 32.830257
+          }
+        },
+        {
+          "time": "10:45",
+          "time_min": 645,
+          "position": {
+            "lat": 39.931486,
+            "lon": 32.830252
+          }
+        },
+        {
+          "time": "10:50",
+          "time_min": 650,
+          "position": {
+            "lat": 39.931476,
+            "lon": 32.83028
+          }
+        },
+        {
+          "time": "10:55",
+          "time_min": 655,
+          "position": {
+            "lat": 39.931476,
+            "lon": 32.830245
+          }
+        },
+        {
+          "time": "11:00",
+          "time_min": 660,
+          "position": {
+            "lat": 39.931483,
+            "lon": 32.830267
+          }
+        },
+        {
+          "time": "11:05",
+          "time_min": 665,
+          "position": {
+            "lat": 39.931468,
+            "lon": 32.83023
+          }
+        },
+        {
+          "time": "11:10",
+          "time_min": 670,
+          "position": {
+            "lat": 39.931488,
+            "lon": 32.830248
+          }
+        },
+        {
+          "time": "11:15",
+          "time_min": 675,
+          "position": {
+            "lat": 39.931504,
+            "lon": 32.830269
+          }
+        },
+        {
+          "time": "11:20",
+          "time_min": 680,
+          "position": {
+            "lat": 39.931471,
+            "lon": 32.83023
+          }
+        },
+        {
+          "time": "11:25",
+          "time_min": 685,
+          "position": {
+            "lat": 39.931478,
+            "lon": 32.830254
+          }
+        },
+        {
+          "time": "11:30",
+          "time_min": 690,
+          "position": {
+            "lat": 39.931486,
+            "lon": 32.83026
+          }
+        },
+        {
+          "time": "11:35",
+          "time_min": 695,
+          "position": {
+            "lat": 39.929867,
+            "lon": 32.824411
+          }
+        },
+        {
+          "time": "11:40",
+          "time_min": 700,
+          "position": {
+            "lat": 39.923487,
+            "lon": 32.801204
+          }
+        }
+      ],
+      "path_km": 2.7,
+      "mean_speed_ms": 0.37,
+      "last10_speed_ms": 4.39,
+      "heading_deg": 250.3,
+      "bearing_to_base_deg": 92.4,
+      "dist_now_m": 4426.0,
+      "dist_30m_ago_m": 2221.0,
+      "dist_60m_ago_m": 2220.0,
+      "min_dist_m": 2216.0,
+      "approach_rate_m_per_min": -36.8,
+      "stops": [
+        {
+          "start": "09:40",
+          "duration_min": 115,
+          "position": {
+            "lat": 39.93147495652174,
+            "lon": 32.83025417391305
+          },
+          "zone": "Kuzeybati Orman",
+          "distance_to_base_m": 2220.0
+        }
+      ],
+      "zones_visited": [
+        "Kuzeybati Orman",
+        "Bati Yolu"
+      ],
+      "eta_to_base_min": null
+    },
+    {
+      "track_id": "T0007",
+      "points": [
+        {
+          "time": "09:40",
+          "time_min": 580,
+          "position": {
+            "lat": 39.930002,
+            "lon": 32.822299
+          }
+        },
+        {
+          "time": "09:45",
+          "time_min": 585,
+          "position": {
+            "lat": 39.93002,
+            "lon": 32.822315
+          }
+        },
+        {
+          "time": "09:50",
+          "time_min": 590,
+          "position": {
+            "lat": 39.930007,
+            "lon": 32.822307
+          }
+        },
+        {
+          "time": "09:55",
+          "time_min": 595,
+          "position": {
+            "lat": 39.930017,
+            "lon": 32.822302
+          }
+        },
+        {
+          "time": "10:00",
+          "time_min": 600,
+          "position": {
+            "lat": 39.930021,
+            "lon": 32.822311
+          }
+        },
+        {
+          "time": "10:05",
+          "time_min": 605,
+          "position": {
+            "lat": 39.930025,
+            "lon": 32.822316
+          }
+        },
+        {
+          "time": "10:10",
+          "time_min": 610,
+          "position": {
+            "lat": 39.930009,
+            "lon": 32.822301
+          }
+        },
+        {
+          "time": "10:15",
+          "time_min": 615,
+          "position": {
+            "lat": 39.930019,
+            "lon": 32.822328
+          }
+        },
+        {
+          "time": "10:20",
+          "time_min": 620,
+          "position": {
+            "lat": 39.930051,
+            "lon": 32.822308
+          }
+        },
+        {
+          "time": "10:25",
+          "time_min": 625,
+          "position": {
+            "lat": 39.930029,
+            "lon": 32.822329
+          }
+        },
+        {
+          "time": "10:30",
+          "time_min": 630,
+          "position": {
+            "lat": 39.930029,
+            "lon": 32.822283
+          }
+        },
+        {
+          "time": "10:35",
+          "time_min": 635,
+          "position": {
+            "lat": 39.930007,
+            "lon": 32.822302
+          }
+        },
+        {
+          "time": "10:40",
+          "time_min": 640,
+          "position": {
+            "lat": 39.93001,
+            "lon": 32.822301
+          }
+        },
+        {
+          "time": "10:45",
+          "time_min": 645,
+          "position": {
+            "lat": 39.930021,
+            "lon": 32.82233
+          }
+        },
+        {
+          "time": "10:50",
+          "time_min": 650,
+          "position": {
+            "lat": 39.930023,
+            "lon": 32.822315
+          }
+        },
+        {
+          "time": "10:55",
+          "time_min": 655,
+          "position": {
+            "lat": 39.930011,
+            "lon": 32.822322
+          }
+        },
+        {
+          "time": "11:00",
+          "time_min": 660,
+          "position": {
+            "lat": 39.930015,
+            "lon": 32.822353
+          }
+        },
+        {
+          "time": "11:05",
+          "time_min": 665,
+          "position": {
+            "lat": 39.930028,
+            "lon": 32.822295
+          }
+        },
+        {
+          "time": "11:10",
+          "time_min": 670,
+          "position": {
+            "lat": 39.930003,
+            "lon": 32.822319
+          }
+        },
+        {
+          "time": "11:15",
+          "time_min": 675,
+          "position": {
+            "lat": 39.930035,
+            "lon": 32.822321
+          }
+        },
+        {
+          "time": "11:20",
+          "time_min": 680,
+          "position": {
+            "lat": 39.930013,
+            "lon": 32.822322
+          }
+        },
+        {
+          "time": "11:25",
+          "time_min": 685,
+          "position": {
+            "lat": 39.930016,
+            "lon": 32.822304
+          }
+        },
+        {
+          "time": "11:30",
+          "time_min": 690,
+          "position": {
+            "lat": 39.930013,
+            "lon": 32.822278
+          }
+        },
+        {
+          "time": "11:35",
+          "time_min": 695,
+          "position": {
+            "lat": 39.930013,
+            "lon": 32.822318
+          }
+        },
+        {
+          "time": "11:40",
+          "time_min": 700,
+          "position": {
+            "lat": 39.923423,
+            "lon": 32.801689
+          }
+        }
+      ],
+      "path_km": 1.96,
+      "mean_speed_ms": 0.27,
+      "last10_speed_ms": 3.18,
+      "heading_deg": 247.4,
+      "bearing_to_base_deg": 92.3,
+      "dist_now_m": 4384.0,
+      "dist_30m_ago_m": 2774.0,
+      "dist_60m_ago_m": 2776.0,
+      "min_dist_m": 2772.0,
+      "approach_rate_m_per_min": -26.8,
+      "stops": [
+        {
+          "start": "09:40",
+          "duration_min": 120,
+          "position": {
+            "lat": 39.93001820833333,
+            "lon": 32.822311625000005
+          },
+          "zone": "Bati Yolu",
+          "distance_to_base_m": 2775.0
+        }
+      ],
+      "zones_visited": [
+        "Bati Yolu"
+      ],
+      "eta_to_base_min": null
+    },
+    {
+      "track_id": "T0008",
+      "points": [
+        {
+          "time": "09:40",
+          "time_min": 580,
+          "position": {
+            "lat": 39.923247,
+            "lon": 32.801992
+          }
+        },
+        {
+          "time": "09:45",
+          "time_min": 585,
+          "position": {
+            "lat": 39.923232,
+            "lon": 32.80197
+          }
+        },
+        {
+          "time": "09:50",
+          "time_min": 590,
+          "position": {
+            "lat": 39.923248,
+            "lon": 32.801979
+          }
+        },
+        {
+          "time": "09:55",
+          "time_min": 595,
+          "position": {
+            "lat": 39.923254,
+            "lon": 32.801979
+          }
+        },
+        {
+          "time": "10:00",
+          "time_min": 600,
+          "position": {
+            "lat": 39.923255,
+            "lon": 32.80199
+          }
+        },
+        {
+          "time": "10:05",
+          "time_min": 605,
+          "position": {
+            "lat": 39.923256,
+            "lon": 32.801987
+          }
+        },
+        {
+          "time": "10:10",
+          "time_min": 610,
+          "position": {
+            "lat": 39.923251,
+            "lon": 32.801971
+          }
+        },
+        {
+          "time": "10:15",
+          "time_min": 615,
+          "position": {
+            "lat": 39.923258,
+            "lon": 32.801956
+          }
+        },
+        {
+          "time": "10:20",
+          "time_min": 620,
+          "position": {
+            "lat": 39.923256,
+            "lon": 32.80197
+          }
+        },
+        {
+          "time": "10:25",
+          "time_min": 625,
+          "position": {
+            "lat": 39.923247,
+            "lon": 32.801975
+          }
+        },
+        {
+          "time": "10:30",
+          "time_min": 630,
+          "position": {
+            "lat": 39.923261,
+            "lon": 32.801969
+          }
+        },
+        {
+          "time": "10:35",
+          "time_min": 635,
+          "position": {
+            "lat": 39.923262,
+            "lon": 32.801984
+          }
+        },
+        {
+          "time": "10:40",
+          "time_min": 640,
+          "position": {
+            "lat": 39.923243,
+            "lon": 32.801973
+          }
+        },
+        {
+          "time": "10:45",
+          "time_min": 645,
+          "position": {
+            "lat": 39.923266,
+            "lon": 32.801979
+          }
+        },
+        {
+          "time": "10:50",
+          "time_min": 650,
+          "position": {
+            "lat": 39.923257,
+            "lon": 32.801994
+          }
+        },
+        {
+          "time": "10:55",
+          "time_min": 655,
+          "position": {
+            "lat": 39.923264,
+            "lon": 32.80201
+          }
+        },
+        {
+          "time": "11:00",
+          "time_min": 660,
+          "position": {
+            "lat": 39.923254,
+            "lon": 32.802006
+          }
+        },
+        {
+          "time": "11:05",
+          "time_min": 665,
+          "position": {
+            "lat": 39.923256,
+            "lon": 32.801952
+          }
+        },
+        {
+          "time": "11:10",
+          "time_min": 670,
+          "position": {
+            "lat": 39.923272,
+            "lon": 32.801992
+          }
+        },
+        {
+          "time": "11:15",
+          "time_min": 675,
+          "position": {
+            "lat": 39.923274,
+            "lon": 32.802008
+          }
+        },
+        {
+          "time": "11:20",
+          "time_min": 680,
+          "position": {
+            "lat": 39.923251,
+            "lon": 32.80197
+          }
+        },
+        {
+          "time": "11:25",
+          "time_min": 685,
+          "position": {
+            "lat": 39.923243,
+            "lon": 32.801977
+          }
+        },
+        {
+          "time": "11:30",
+          "time_min": 690,
+          "position": {
+            "lat": 39.923253,
+            "lon": 32.801964
+          }
+        },
+        {
+          "time": "11:35",
+          "time_min": 695,
+          "position": {
+            "lat": 39.923253,
+            "lon": 32.802006
+          }
+        },
+        {
+          "time": "11:40",
+          "time_min": 700,
+          "position": {
+            "lat": 39.923249,
+            "lon": 32.801978
+          }
+        }
+      ],
+      "path_km": 0.05,
+      "mean_speed_ms": 0.01,
+      "last10_speed_ms": 0.01,
+      "heading_deg": null,
+      "bearing_to_base_deg": 92.0,
+      "dist_now_m": 4359.0,
+      "dist_30m_ago_m": 4358.0,
+      "dist_60m_ago_m": 4359.0,
+      "min_dist_m": 4356.0,
+      "approach_rate_m_per_min": 0.0,
+      "stops": [
+        {
+          "start": "09:40",
+          "duration_min": 120,
+          "position": {
+            "lat": 39.92325448,
+            "lon": 32.80198124
+          },
+          "zone": "Bati Yolu",
+          "distance_to_base_m": 4359.0
+        }
+      ],
+      "zones_visited": [
+        "Bati Yolu"
+      ],
+      "eta_to_base_min": null
+    }
+  ],
+  "reports": [
+    {
+      "report_id": "REP-19",
+      "time": "11:20",
+      "time_min": 680,
+      "source": "third_party",
+      "text": "Bati Yolu uzerinde trafik normal, 2 otomobil ve 1 panelvan goruldu.",
+      "location": null,
+      "zone": "Bati Yolu",
+      "vehicle_type": "van",
+      "count": 2,
+      "color": null,
+      "activity": "unknown",
+      "claim_kind": "TRAFFIC_NORMAL",
+      "extracted_by": "rules"
+    }
+  ],
+  "report_assessments": [
+    {
+      "report_id": "REP-19",
+      "verdict": "CORROBORATED",
+      "reason": "konum ve tip kendi tespitimizle uyumlu.",
+      "checks": [
+        {
+          "name": "location",
+          "status": "match",
+          "detail": "zone Bati Yolu"
+        },
+        {
+          "name": "type",
+          "status": "match",
+          "detail": "claimed van, detected van"
+        }
+      ],
+      "linked_detection_ids": [
+        "DET-3"
+      ],
+      "trust_weight": 0.5
+    }
+  ],
+  "risks": [
+    {
+      "detection_id": "DET-1",
+      "track_id": "T0006",
+      "score": 10,
+      "level": "LOW",
+      "factors": [
+        {
+          "name": "distance_to_base",
+          "points": 0,
+          "detail": "4426 m"
+        },
+        {
+          "name": "approach_rate",
+          "points": 0,
+          "detail": "-36.8 m/min over 60 min"
+        },
+        {
+          "name": "heading_to_base",
+          "points": 0,
+          "detail": "heading 250°, base at 92°"
+        },
+        {
+          "name": "stops_near_base",
+          "points": 10,
+          "detail": "1 stop(s) ≥ 20 min within 6 km"
+        },
+        {
+          "name": "vehicle_type",
+          "points": 0,
+          "detail": "car"
+        }
+      ]
+    },
+    {
+      "detection_id": "DET-2",
+      "track_id": "T0007",
+      "score": 10,
+      "level": "LOW",
+      "factors": [
+        {
+          "name": "distance_to_base",
+          "points": 0,
+          "detail": "4384 m"
+        },
+        {
+          "name": "approach_rate",
+          "points": 0,
+          "detail": "-26.8 m/min over 60 min"
+        },
+        {
+          "name": "heading_to_base",
+          "points": 0,
+          "detail": "heading 247°, base at 92°"
+        },
+        {
+          "name": "stops_near_base",
+          "points": 10,
+          "detail": "1 stop(s) ≥ 20 min within 6 km"
+        },
+        {
+          "name": "vehicle_type",
+          "points": 0,
+          "detail": "car"
+        }
+      ]
+    },
+    {
+      "detection_id": "DET-3",
+      "track_id": "T0008",
+      "score": 15,
+      "level": "LOW",
+      "factors": [
+        {
+          "name": "distance_to_base",
+          "points": 0,
+          "detail": "4359 m"
+        },
+        {
+          "name": "approach_rate",
+          "points": 0,
+          "detail": "+0.0 m/min over 60 min"
+        },
+        {
+          "name": "heading_to_base",
+          "points": 0,
+          "detail": "stationary"
+        },
+        {
+          "name": "stops_near_base",
+          "points": 10,
+          "detail": "1 stop(s) ≥ 20 min within 6 km"
+        },
+        {
+          "name": "vehicle_type",
+          "points": 5,
+          "detail": "van"
+        }
+      ]
+    }
+  ],
+  "brief": {
+    "image_id": "img_000412",
+    "level": "LOW",
+    "headline": "3 araç; en riskli panelvan üsse 4,4 km, sabit",
+    "summary": "1 uzun duraklama (09:40 · 120 dk). Panelvan (T0008) üsse 4,4 km; puan 15/100.",
+    "vehicles": [
+      {
+        "detection_id": "DET-3",
+        "track_id": "T0008",
+        "level": "LOW",
+        "text": "Panelvan (T0008) üsse 4,4 km; puan 15/100.",
+        "evidence_ids": [
+          "DET-3",
+          "TRK-T0008"
+        ]
+      },
+      {
+        "detection_id": "DET-1",
+        "track_id": "T0006",
+        "level": "LOW",
+        "text": "Otomobil (T0006) üsse 4,4 km; puan 10/100.",
+        "evidence_ids": [
+          "DET-1",
+          "TRK-T0006"
+        ]
+      },
+      {
+        "detection_id": "DET-2",
+        "track_id": "T0007",
+        "level": "LOW",
+        "text": "Otomobil (T0007) üsse 4,4 km; puan 10/100.",
+        "evidence_ids": [
+          "DET-2",
+          "TRK-T0007"
+        ]
+      }
+    ],
+    "report_notes": [
+      "REP-19 (third_party, 11:20): DOĞRULANDI — konum ve tip kendi tespitimizle uyumlu."
+    ],
+    "uncertainties": [
+      "Kare tam nadir olmayabilir; köşe koordinatlarıyla doğrusal eşleme varsayıldı.",
+      "LLM kullanılamadı; brifing kural tabanlı şablondan üretildi."
+    ],
+    "recommended_action": "MONITOR",
+    "evidence_ids": [
+      "DET-1",
+      "DET-2",
+      "DET-3",
+      "TRK-T0006",
+      "TRK-T0007",
+      "TRK-T0008",
+      "REP-19",
+      "ZONE-Bati Yolu"
+    ],
+    "generated_by": "fallback"
+  },
+  "timings_ms": {
+    "load_frame": 0,
+    "detect": 0,
+    "georeference": 0,
+    "match_tracks": 1,
+    "analyze_motion": 1,
+    "assess_reports": 1,
+    "score_risk": 0,
+    "write_brief": 0
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "calls": 0,
+    "cache_hits": 0
+  }
+}

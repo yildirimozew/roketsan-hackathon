@@ -1,0 +1,517 @@
+LLM: glm-5.3-flash · watchers: 4 · detector: yolo26s_p2_full_v2.pt · 4 classes · CPU · ticks 10:10-11:10 · tuning 743ac2c6
+
+=== 10:10 · 91 active vehicles, frames: img_008333
+  checks: W1→Kuzeydogu Kavsagi, W2→Dogu Yolu, W3→Guney Kapisi Yaklasimi, W4→Bati Yerlesimi
+  [frame img_008333 · Kuzeydogu Kavsagi] ok: 5 detections, 2 matched to tracks
+    DET-1 van 0.86 → T0064 (1.7 m)
+    DET-2 van 0.83 → no track
+    DET-3 van 0.78 → no track
+    DET-4 car 0.48 → no track
+    DET-5 truck 0.41 → T0062 (0.0 m)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kavşakta 8 araç duruyor, kalanlar üsten uzaklaşıyor; yakinlaşan tek araç normal transit.
+  > T0146 LOW -> HIGH (pending, watcher:W2)
+  > T0219 LOW -> HIGH (pending, watcher:W2)
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Doğu Yolu çoğunlukla sakin; bir sabit-orbit araç ve üs yakınında park edilmiş şüpheli araç dikkat çekiyor.
+    HIGH   T0146: Üs etrafında sabit menzilde dönüyor: sabit-orbit keşif deseni.
+    HIGH   T0219: Üsse 690 m'de 25 dakikadır park: çevre gözcülüğü.
+    group T0146, T0219: T0146 sabit menzilde dönüyor, T0219 üs yakınında duruyor; keşif şüphesi.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Güney kapısı yaklaşımı sakin; 4 araç normal geçiş, 16 araç park halinde, tehdit yok.
+  > T0120 LOW -> MEDIUM (pending, watcher:W4)
+
+  [watcher W4] llm, 0.0s · tools: get_route, submit_watch_report
+    Bati Yerlesimi sakin; T0120 sabit mesafede döngü yapıyor, digerleri duruyor.
+    MEDIUM T0120: Sabit mesafede döngü: üsse 3,5 km'de tur atıp geri döndü.
+    group T0120: T0120 üsse sabit ~3,5 km mesafede döngü yapıyor: keşif şüphesi.
+  > T0146 LOW -> HIGH (confirmed, supervisor)
+  > T0219 LOW -> HIGH (confirmed, supervisor)
+  > T0120 LOW -> MEDIUM (confirmed, supervisor)
+  ! ALR-1 [urgent] T0146, T0219, T0120: Üs çevresinde keşif: sabit yörünge ve yakın park
+    T0219 Doğu Yolu'nda üsse 690 m'de 25 dakikadır park (çevre gözcülüğü); T0146 ~1,6 km sabit menzilde ikinci turunu atıyor. T0120 da 3,5 km'de tur yapıyor. Yörünge deseni sürerse veya menzil küçülürse gerçek tehdit.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, set_level, set_level, set_level, alert_operator, submit_supervisor_decision
+    Üs çevresinde üç araçta keşif deseni: T0146 1,6 km'de sabit yörünge, T0219 690 m'de park, T0120 3,5 km'de tur. Operatöre urgent uyarı gönderildi.
+    pattern T0146, T0219, T0120 (Dogu Yolu, Bati Yerlesimi, Guneybati Yolu, Kuzeybati Yolu, Kuzey Yolu, Guney Kapisi Yaklasimi): T0146 ~1,6 km sabit menzilde döngü; T0219 üsse 690 m'de 25 dk park; T0120 3,5 km'de sabit tur. Üçlü keşif deseni şüphesi.
+    action set_level: T0146 -> HIGH: Sabit menzilde yörünge teyit edildi: ~1,6 km'de üç uzun duraklı tam tur.
+    action set_level: T0219 -> HIGH: Üsse 690 m'de 25 dakikalık park: çevre gözcülüğü teyitli.
+    action set_level: T0120 -> MEDIUM: Sabit ~3,5 km menzilde tam tur teyit edildi; uzaklık nedeniyle MEDIUM.
+    action alert_operator: ALR-1 [urgent]: Üs çevresinde keşif: sabit yörünge ve yakın park
+  --- tick done in 0.3s · levels {'LOW': 88, 'MEDIUM': 1, 'HIGH': 2}
+
+=== 10:15 · 92 active vehicles, frames: img_000267
+  checks: W1→Kuzey Yolu, W2→Dogu Yolu, W3→Guneybati Yolu, W4→Kuzeybati Yolu
+  [frame img_000267 · Dogu Yolu] ok: 3 detections, 3 matched to tracks
+    DET-1 car 0.81 → T0226 (0.2 m)
+    DET-2 truck 0.74 → T0045 (0.2 m)
+    DET-3 car 0.70 → T0066 (0.1 m)
+  > T0181 LOW -> HIGH (pending, watcher:W1)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kuzey Yolu: normal trafik; T0181 sabit mesafede dursun olarak önemli tehlike.
+    HIGH   T0181: Sabit mesafe yörüngesi: 1,9 km'de 25 dakika duruyor.
+  > T0043 LOW -> HIGH (pending, watcher:W2)
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Dogu Yolu: iki HIGH gözcülük/keşif aracı yerinde; T0043 üsse hızlı son yaklaşımda, diğer trafik sakin.
+    HIGH   T0043: Üsse 1,7 dakika içinde son yaklaşım: kapı önü kontrolü gerekli.
+    HIGH   T0146: Sabit yarıçaplı orbit, 1,6 km; keşif şüphesi sürüyor.
+    HIGH   T0219: 685 m'de 30 dakikadır park: gözcülük şüphesi.
+    group T0134, T0226: T0134 ve T0226 birlikte üsse doğru transit; normal yaklaşıma benziyor.
+  > T0079 LOW -> MEDIUM (pending, watcher:W3)
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Guneybati Yolu çoğunlukla durgun; T0079 geri dönerek yaklaşıyor, diğer araçlar duruyor veya normal geçişte.
+    MEDIUM T0079: Yaklaşıp çekilip geri dönüyor: keşif (probing) davranışı, 4,3 km'den hızlı kapanıyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Kuzeybati Yolu sakin: hareket eden araç yok, tüm araçlar duruyor.
+  > T0043 LOW -> HIGH (confirmed, supervisor)
+  > T0181 LOW -> HIGH (confirmed, supervisor)
+  > T0079 LOW -> MEDIUM (confirmed, supervisor)
+  ! ALR-2 [immediate] T0043: T0043 üsse son yaklaşım, kapı önü kontrol edin
+    Doğu Yolu'ndan T0043 631 m'de, 418 m/dk ile kapanıyor, ETA ~2 dk; geçmişte 4 sektörde uzun duruş yaptı. Kapı önü kontrolü; yavaşlayıp park ederse normal trafik olabilir.
+  ! ALR-3 [urgent] T0181: T0181 sabit 1,86 km yörüngede dolanıyor
+    Kuzey Yolu tarafında T0181 45 dakikadır 1,86 km sabit mesafede dolanıyor (Kuzeybati-Kuzeydogu-Dogu dönüşlü). T0146/T0219 benzeri ikinci orbit; durursa veya üsse yönelirse tehlike artar.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, get_notes, set_level, set_level, set_level, alert_operator, alert_operator, submit_supervisor_decision
+    T0043 631 m'den hızla üsse yaklaşıyor; T0181 1,86 km sabit yörüngede, T0079 probing. Operatör üç ayrı uyarıyla bilgilendirildi.
+    action set_level: T0043 -> HIGH: 631 m'de 418 m/dk kapanıyor; üsse çok sayıda uzun duruş geçmişi.
+    action set_level: T0181 -> HIGH: Sabit 1,86 km yörüngede 45 dakikadır dolanıyor: fixed_range_orbit.
+    action set_level: T0079 -> MEDIUM: Yaklaş-çekil-gel deseni: probing_return, 4,3 km'den tekrar kapanıyor.
+    action alert_operator: ALR-2 [immediate]: T0043 üsse son yaklaşım, kapı önü kontrol edin
+    action alert_operator: ALR-3 [urgent]: T0181 sabit 1,86 km yörüngede dolanıyor
+  --- tick done in 0.2s · levels {'LOW': 86, 'MEDIUM': 2, 'HIGH': 4}
+
+=== 10:20 · 87 active vehicles, frames: img_005978
+  checks: W1→Kuzeydogu Kavsagi, W2→Guneydogu Yerlesimi, W3→Guneybati Yolu, W4→Bati Yerlesimi
+  [frame img_005978 · Guneybati Yolu] ok: 16 detections, 8 matched to tracks
+    DET-1 car 0.84 → T0202 (0.1 m)
+    DET-2 car 0.84 → T0049 (0.2 m)
+    DET-3 car 0.82 → T0059 (0.1 m)
+    DET-4 car 0.82 → no track
+    DET-5 car 0.81 → no track
+    DET-6 car 0.80 → T0012 (0.2 m)
+    DET-7 car 0.77 → T0036 (0.3 m)
+    DET-8 car 0.77 → T0193 (0.1 m)
+    DET-9 car 0.75 → T0079 (0.5 m)
+    DET-10 car 0.75 → no track
+    DET-11 car 0.72 → no track
+    DET-12 car 0.60 → no track
+    DET-13 car 0.59 → T0153 (0.1 m)
+    DET-14 car 0.49 → no track
+    DET-15 car 0.42 → no track
+    DET-16 car 0.42 → no track
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kavsakta normal trafik; T0181 sabit yörüngede keşif şüphesi sürüyor, digerleri sakin.
+    HIGH   T0181: Sabit yorunge 1,9 km'de; keşif şüphesi sürüyor.
+  > T0035 LOW -> HIGH (pending, watcher:W2)
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Güneydoğu yerleşiminde çoğu araç duruyor; T0035 sabit yörüngede dikkat gerektiriyor.
+    HIGH   T0035: Sabit menzilde üs çevresinde yörünge davranışı; şu an 1,7 km'de.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Guneybati Yolu'nda araçlar üstten uzaklaşıyor; T0079 hızla üsse yaklaşıyor, izlenmeli.
+    MEDIUM T0079: İkinci yaklaşım: keşif dönüşü, hızla kapanıyor.
+    group T0012, T0036, T0059, T0193, T0202: Beş araç 10:20'de 39.9094,32.8281 civarında aynı noktada buluştu; izler orada birleşiyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Bati Yerlesimi büyük ölçüde sakin; tek hareketli araç T0118 üsse yaklaşıyor.
+    MEDIUM T0120: Üsse ~3,5 km sabit mesafede tur attı; izleme sürüyor.
+  ! ALR-4 [urgent] T0035: T0035 sabit 1,7 km yörüngede dolanıyor
+    T0035 üsse 1.680 m sabit mesafede yörünge davranışında, kapanma yok. Keşif şüphesi; T0181 ve T0120 benzer desen. Aracın üsse yaklaşmayı bırakıp normal rotaya dönmesi zararsız olduğunu gösterir.
+  ! ALR-5 [urgent] T0079: T0079 keşif dönüşüyle hızla üsse yaklaşıyor
+    T0079 keşif dönüşü yapıp üsse doğrudan 344 m/dk hızla kapanıyor; şu an 2.568 m, ETA 6,7 dk, başlığında üs var. Probing_return deseni, yakın duraklamalar mevcut. 1,5 km içine girmesi zararsızlık göstergesi olmaz; kapı yolu izlenmeli.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, get_route, set_level, alert_operator, alert_operator, alert_operator, submit_supervisor_decision
+    T0035 ve T0181 sabit yörüngede keşif şüphesi, T0079 keşif dönüşüyle hızla üsse yaklaşıyor. T0079 seviyesi kod gereği MEDIUM kaldı, operatör bilgilendirildi.
+    action alert_operator: ALR-4 [urgent]: T0035 sabit 1,7 km yörüngede dolanıyor
+    action alert_operator: ALR-5 [urgent]: T0079 keşif dönüşüyle hızla üsse yaklaşıyor
+  --- tick done in 0.2s · levels {'LOW': 80, 'MEDIUM': 2, 'HIGH': 5}
+
+=== 10:25 · 78 active vehicles, frames: img_005368
+  checks: W1→Kuzey Yolu, W2→Dogu Yolu, W3→Guney Kapisi Yaklasimi, W4→Kuzeybati Yolu
+  [frame img_005368 · Dogu Yolu] ok: 5 detections, 5 matched to tracks
+    DET-1 truck 0.78 → T0147 (0.3 m)
+    DET-2 car 0.75 → T0096 (0.0 m)
+    DET-3 truck 0.75 → T0019 (0.5 m)
+    DET-4 truck 0.71 → T0117 (0.0 m)
+    DET-5 car 0.68 → T0070 (0.1 m)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Sektör sakin; beş araç park halinde, hareket yok, yeni varış ve rapor yok.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    T0181 yörüngede, T0219 üsse yakın parkta; T0096 hızlı yaklaşıyor, diğerleri sakin.
+    HIGH   T0181: Sabit menzilde yörünge devam ediyor: keşif şüphesi.
+    HIGH   T0219: Üsse 683 m'de 40 dakikadır park: gözcülük.
+    group T0181, T0219: T0181 sabit menzilde yörünge, T0219 üsse 683 m'de gözcülük: keşif deseni.
+  (warning watcher:W3: invalid submit_watch_report: missing report_checks for ['REP-17'])
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report, submit_watch_report
+    Güney yaklaşımında normal trafik; dört hareketli araç, kalanlar uzun süredir duruyor, tehdit görünmüyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Kuzeybati Yolu sakin; tek hareketli araç normal geçiş, digerleri park halinde.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, get_notes, set_level, alert_operator, submit_supervisor_decision
+    Keşif deseni sürüyor: T0181 yörüngede, T0035/T0146 sabit menzilde, T0219 ve T0043 üsse yakın park. T0096 hızlı yaklaşıyor; 'bildirilen birlik' iddiası sistemde doğrulanamadı.
+  --- tick done in 0.2s · levels {'LOW': 72, 'MEDIUM': 1, 'HIGH': 5}
+
+=== 10:30 · 73 active vehicles, frames: img_006673
+  checks: W1→Kuzeydogu Kavsagi, W2→Guneydogu Yerlesimi, W3→Guneybati Yolu, W4→Bati Yerlesimi
+  [frame img_006673 · Guneydogu Yerlesimi] ok: 9 detections, 5 matched to tracks
+    DET-1 car 0.88 → T0109 (0.3 m)
+    DET-2 car 0.87 → T0091 (0.3 m)
+    DET-3 car 0.87 → no track
+    DET-4 car 0.87 → no track
+    DET-5 car 0.87 → T0102 (0.2 m)
+    DET-6 car 0.80 → T0043 (0.2 m)
+    DET-7 van 0.74 → T0095 (0.1 m)
+    DET-8 truck 0.63 → no track
+    DET-9 car 0.55 → no track
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kuzeydogu Kavsagi sakindi: park halinde araçlar ve normal transit trafiği, tehdit sinyali yok.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    T0043 ve T0181 keşif şüpheli; beş araç üsse doğru yaklaşan olağan trafik, iki araç duruyor.
+    HIGH   T0043: Üsse döngü davranışı; 1765 m'den tekrar kapanıyor.
+    HIGH   T0181: Sabit menzilde yörünge sürüyor; keşif şüphesi devam ediyor.
+    group T0091, T0095, T0102, T0109: Dört araç T0091, T0095, T0102, T0109 güney kapısından yaklaşık aynı koridorda kademeli ve birlikte yaklaşım.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    T0146 taban çevresinde sabit yarıçaplı orbit yapıyor; diğerleri park ya da normal yaklaşım.
+    HIGH   T0146: Sabit yarıçaplı orbit: keşif deseni sürüyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Sakin: üç hareketli araç normal yaklaşıyor/ayrılıyor, durgan araçlar sorun değil.
+  > T0109 LOW -> MEDIUM (confirmed, supervisor)
+  ! ALR-6 [urgent] T0091, T0095, T0102, T0109: Dört araç birlikte üsse 1,8 km'den hızla kapanıyor
+    Dört araç (T0091, T0095, T0102, T0109) aynı koridorda birlikte 1,8 km'den üsse 4,5-7,5 dakikada yaklaşacak; 60 dakikada +50-100 m/dak. Konvoy çıkışı Resmi raporu bunu açıklıyorsa zararsız olabilir.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, set_level, set_level, set_level, set_level, alert_operator, submit_supervisor_decision
+    T0043 ve T0181 keşif şüphesiyle yaklaşırken dört araç (T0091, T0095, T0102, T0109) aynı koridorda birlikte üsse kapanıyor. T0219 hâlâ 678 m'de konuşlanmış durumda.
+    action set_level: T0109 -> MEDIUM: Dört araçlı grupta birlikte üsse kademeli yaklaşım; önce duraklamalar var
+    action alert_operator: ALR-6 [urgent]: Dört araç birlikte üsse 1,8 km'den hızla kapanıyor
+  --- tick done in 0.2s · levels {'LOW': 66, 'MEDIUM': 2, 'HIGH': 5}
+
+=== 10:35 · 66 active vehicles, frames: img_006388
+  checks: W1→Kuzey Yolu, W2→Guneydogu Yerlesimi, W3→Guney Kapisi Yaklasimi, W4→Kuzeybati Yolu, W5→Dogu Yolu
+
+  [operator 10:30] Doğu Yolu'nda hareketlilik arttı. O bölgeyi sürekli izleyecek ayrı bir gözcü oluştur.
+  [supervisor → operator] llm: W5 gözcüsü oluşturuldu; bu tikten itibaren Doğu Yolu'nu her tik sürekli kontrol edecek. Diğer gözcüler bu sektörü artık atlıyor. Şüpheli hareket olursa raporlayacağım.
+    action create_watcher: W5 · Dogu Yolu: operator request: increased activity on Dogu Yolu, continuous watch
+  [frame img_006388 · Kuzeybati Yolu] ok: 8 detections, 6 matched to tracks
+    DET-1 car 0.79 → T0184 (0.2 m)
+    DET-2 car 0.75 → T0146 (0.2 m)
+    DET-3 truck 0.64 → T0035 (0.1 m)
+    DET-4 truck 0.62 → no track
+    DET-5 car 0.60 → T0026 (5.3 m)
+    DET-6 car 0.55 → T0057 (12.2 m)
+    DET-7 car 0.52 → no track
+    DET-8 car 0.50 → T0174 (6.4 m)
+  > T0120 MEDIUM -> HIGH (pending, watcher:W1)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    T0120 ikinci sabit mesafe turunda, keşif şüphesi yüksek; diğer araçlar normal.
+    HIGH   T0120: Rota ikinci tam sabit mesafe turunu doğruluyor; keşif şüphesi.
+    group T0120: T0120 ikinci kez sabit ~3,5 km mesafede üsse tam tur atıyor.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Sektör sakin: iki park halindeki araç uzak mesafede, hareket yok, yeni geliş yok.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Güney yaklaşımında normal trafik; yakındaki birkaç araç uzun süredir park halinde, tehdit yok.
+  > T0035 LOW -> HIGH (confirmed, watcher:W4)
+  > T0219 HIGH -> MEDIUM (confirmed, watcher:W4)
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    İki araç taban çevresinde sabit yörüngede dönüyor, biri gözcülükten yeni ayrıldı; keşif şüphesi yüksek.
+    HIGH   T0035: Kamyon 1,7 km'de sabit menzilli yörünge: keşif deseni.
+    HIGH   T0146: 08:35'ten beri taban etrafında sabit yarıçaplı orbit sürüyor.
+    MEDIUM T0219: Gözcülük parkından ayrılıp tabana doğru dönüyor; tekrar izlenmeli.
+    group T0035, T0146: Kamyon ve araba taban çevresinde 1,6-1,7 km sabit yarıçapta birlikte dönüyor.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Dogu Yolu sakin: 4 yeni varış dahil tüm araçlar normal transit veya duruşta, tehdit göstergesi yok.
+    group T0046, T0161: T0046 ve T0161 son 15 dakika birlikte aynı rotadan üsse yaklaşıyor; normal transit.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, submit_supervisor_decision
+    T0120 ikinci sabit mesafe turunu, T0146 ve T0035 birlikte 1,6-1,7 km yörüngeyi sürdürüyor. T0219 üsse yaklaşmıyor, stakeout noktasından ayrılıyor. Doğu Yolu trafiği normal.
+    pattern T0120 (Kuzey Yolu): T0120 ~3,5 km mesafede ikinci tam sabit mesafe turunu tamamlıyor; keşif deseni.
+    pattern T0035, T0146 (Kuzeybati Yolu, Guneybati Yolu, Dogu Yolu): Kamyon ve araba taban çevresinde 1,6-1,7 km sabit yarıçapta birlikte dönüyor; drone çerçevesi eşleşiyor.
+    pattern T0219 (Kuzeybati Yolu, Dogu Yolu): T0219 üs 685 m mesafede 45 dk park sonrası üs yerine kuzeybatıya ayrılıyor; uzaklaşıyor, MEDIUM izlemede.
+    pattern T0046, T0161 (Dogu Yolu): T0046 ve T0161 ~6,5-6,9 km'de aynı rotadan normal transit; tehdit göstergesi yok.
+  --- tick done in 0.2s · levels {'LOW': 62, 'MEDIUM': 1, 'HIGH': 3}
+
+=== 10:40 · 60 active vehicles, frames: img_008589
+  checks: W1→Kuzeydogu Kavsagi, W2→Guneydogu Yerlesimi, W3→Guneybati Yolu, W4→Bati Yerlesimi, W5→Dogu Yolu
+  [frame img_008589 · Dogu Yolu] ok: 6 detections, 6 matched to tracks
+    DET-1 car 0.86 → T0017 (0.1 m)
+    DET-2 car 0.85 → T0082 (0.2 m)
+    DET-3 car 0.85 → T0155 (0.1 m)
+    DET-4 van 0.75 → T0191 (0.1 m)
+    DET-5 car 0.55 → T0046 (24.5 m)
+    DET-6 car 0.39 → T0161 (0.2 m)
+  > T0120 MEDIUM -> HIGH (confirmed, watcher:W1)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kavşakta ağırlıklı park halindeki araçlar; T0120 ikinci sabit mesafe turunda.
+    HIGH   T0120: İkinci sabit mesafe turu: keşif/surveysman şüphesi.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Sektör sakin: iki araç park halinde, ikisi olağan geçişta; tehdit yok.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Guneybati Yolu sakin; üç hareketli araç uzaklaşarak veya yavaş ilerliyor, üçü park halinde.
+  > T0158 LOW -> HIGH (pending, watcher:W4)
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Sektör sakin; T0158 üsse son yaklaşım yapıyor, diğer araçlar park halinde.
+    HIGH   T0158: Üsse düz son yaklaşım: 697 m, varış 2,5 dk; tip bilinmiyor.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Doğu Yolu sakin: normal yaklaşımlar, biri üsten ayrılıyor, park halinde araçlar; tehdit yok.
+    group T0046, T0161: T0046 ve T0161 birlikte yaklaşan iki otomobil; sakin trafik.
+  ! ALR-7 [urgent] T0158: T0158 üsse 697 m son yaklaşım, 2,5 dk
+    T0158, Batı'dan üsse düz son yaklaşım: 697 m, ~4,7 m/s, 2,5 dakikada varış, hızlanıyor. Tipi bilinmiyor, kimlik teyidi yok. Beklenen araç listesinde değilse varışta kontrol edilmeli; planlı ikmal teyidi gelirse zararsızdır.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, alert_operator, submit_supervisor_decision
+    T0120 ikinci sabit mesafe turunda (3,5 km), T0158 üsse 697 m'den 2,5 dakikada yaklaşan bilinmeyen araç, acil uyarı verildi. Diğer sektörler sakin.
+    action alert_operator: ALR-7 [urgent]: T0158 üsse 697 m son yaklaşım, 2,5 dk
+  --- tick done in 0.3s · levels {'LOW': 57, 'MEDIUM': 1, 'HIGH': 2}
+
+=== 10:45 · 54 active vehicles, frames: img_004530
+  checks: W1→Kuzey Yolu, W2→Guneydogu Yerlesimi, W3→Guney Kapisi Yaklasimi, W4→Kuzeybati Yolu, W5→Dogu Yolu
+
+  [operator 10:40] Bilgin olsun: 10:55 civarında kuzeyden beyaz bir kamyonet üsse gelecek. Bizim lojistik aracımız, tehdit olarak işaretleme.
+  = EXP-1 Kuzey Yolu 10:45-11:05 track=None
+  [supervisor → operator] llm: EXP-1 kaydı açıldı: 10:45–11:05 arası Kuzey Yolu'ndan gelecek beyaz lojistik kamyonetinin iziyle eşleşip tehdit olarak işaretlenmeyecek, LOW tutulacak.
+    action register_expected_vehicle: EXP-1 · Kuzey Yolu 10:45-11:05: Kendi lojistik aracımız, kuzeyden gelen beyaz kamyonet, tehdit değil
+  [frame img_004530 · Guney Kapisi Yaklasimi] ok: 7 detections, 7 matched to tracks
+    DET-1 car 0.89 → T0151 (0.6 m)
+    DET-2 car 0.88 → T0209 (0.5 m)
+    DET-3 van 0.87 → T0016 (0.3 m)
+    DET-4 car 0.87 → T0089 (0.2 m)
+    DET-5 car 0.86 → T0218 (0.4 m)
+    DET-6 car 0.66 → T0165 (0.2 m)
+    DET-7 car 0.65 → T0006 (0.1 m)
+  > T0158 LOW -> MEDIUM (pending, watcher:W1)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kuzey Yolu sakin; T0158 üssün 697 m kuzeyinden hızla geçiyor, diğer araçlar duruyor.
+    MEDIUM T0158: Üsse 697 m'den hızlı geçiş ama kuzeye (üsseden uzağa) gidiyor; kare yok.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Sessiz: üç araç park halinde, T0195 bölgeden uzaklaşıyor; tehdit görünmüyor.
+  > T0006 LOW -> MEDIUM (pending, watcher:W3)
+  > T0015 LOW -> MEDIUM (pending, watcher:W3)
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Dört araç üsse doğru yaklaşiyor; T0015 döngüsel çevre yörüngesinde, T0006 geri dönüyor.
+    MEDIUM T0006: Gelip cekilip geri donuyor: probing, ulastigi mesafe 1,7 km.
+    MEDIUM T0015: Sabit mesafede tekrarlayan dongu yorungesi; ucuuncu tur tamamlandi.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Kuzeybati Yolu sakin; T0219 gözcülük noktasından tabandan uzaklaşıyor, digerleri düşük riskli.
+    MEDIUM T0219: Gözcülük sonrası tabandan uzaklaşıyor; kayıt seviyesi MEDIUM korunuyor.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Doğu Yolu sakin: iki araç üsse yaklaşıyor, üçü park halinde, tehdit yok.
+  > T0006 LOW -> MEDIUM (confirmed, supervisor)
+  > T0015 LOW -> MEDIUM (confirmed, supervisor)
+  ! ALR-8 [urgent] T0006, T0015: Güneyde iki araç keşif deseni sürdürüyor
+    Güney kapısı yaklaşımında T0015 (2,6 km, sabit yörünge) ve T0006 (1,7 km, yaklaş-çekil-dön) keşif davranışı sürdürüyor. Karşılıklı koordinasyon izlenimi. Biri üsse 1,5 km altına inerse yeniden değerlendirin.
+
+  [supervisor] llm, 0.0s · threat MEDIUM · tools: get_route, set_level, set_level, alert_operator, submit_supervisor_decision
+    Güneyde T0006 (probing, 1,7 km) ve T0015 (sabit yörünge, 2,6 km) keşif desenini sürdürüyor. Kuzeyde T0158 üsse 697 m'den geçiyor, kuzeye gidiyor; 10:55 lojistik kamyoneti bekleniyor.
+    pattern T0006, T0015 (Guney Kapisi Yaklasimi): İki araç güney kapısı yaklaşımında keşif davranışı: biri sabit yörünge, biri gelip çekilip dönüyor.
+    action set_level: T0006 -> MEDIUM: Probing_return teyit: yaklaş-çekil-dön, 1,7 km, tekrar kapanıyor.
+    action set_level: T0015 -> MEDIUM: Sabit 2,6 km yörüngede üçüncü tur teyit edildi.
+    action alert_operator: ALR-8 [urgent]: Güneyde iki araç keşif deseni sürdürüyor
+  --- tick done in 0.3s · levels {'LOW': 49, 'MEDIUM': 4, 'HIGH': 1}
+
+=== 10:50 · 47 active vehicles
+  checks: W1→Kuzeydogu Kavsagi, W2→Guneydogu Yerlesimi, W3→Guneybati Yolu, W4→Bati Yerlesimi, W5→Dogu Yolu
+  = EXP-1 Kuzey Yolu 10:45-11:05 track=T9001
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    T0120 ikinci sabit mesafe turunda risk sürüyor; diğerleri normal trafik ve park.
+    HIGH   T0120: Sabit mesafe yörüngesi: ikinci tur, 3,5 km'de şimdi durdu.
+  > T0158 LOW -> MEDIUM (confirmed, watcher:W2)
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    T0158 üsse 697 m mesafede geçiyor gibi görünüyor; diğer araçlar uzakta park veya duraklamalı, sektör sakin.
+    MEDIUM T0158: Üsse 697 m ama kapanmıyor, geçiş olası; kareyle tip doğrulanmalı.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Guneybati Yolu sakin: iki araç tabana doğru normal yaklaşımda, üçü duruyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Bati Yerlesimi sakin: hareket eden araçlar uzaklaşıyor, kalanlar park halinde, tehdit işareti yok.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Dogu Yolu sakin: beş araç park halinde, T0179 yeniden hareket etti, tehdit yok.
+
+  [supervisor] llm, 0.0s · threat MEDIUM · tools: submit_supervisor_decision
+    T0120 3,5 km'de sabit mesafe turunda, şu an durdu; T0158 üsse 697 m'de kapanmıyor, geçiş olası. Kendi lojistik kamyonetimiz T9001 kuzeyden görüldü.
+    pattern T0120 (Kuzeydogu Kavsagi): T0120 sabit yörünge ikinci tur, 3546 m'de durdu; operatör zaten uyarıldı.
+    pattern T0006, T0015 (Guney Kapisi Yaklasimi, Guneybati Yolu): Güneyde keşif deseni sürüyor (ALR-8); takip edilecek.
+    pattern T9001 (Kuzey Yolu): EXP-1: kendi lojistik kamyoneti kuzeyden görüldü, tehdit değil.
+  --- tick done in 0.0s · levels {'LOW': 43, 'MEDIUM': 3, 'HIGH': 1}
+
+=== 10:55 · 52 active vehicles
+  checks: W1→Kuzey Yolu, W2→Guneydogu Yerlesimi, W3→Guney Kapisi Yaklasimi, W4→Kuzeybati Yolu, W5→Dogu Yolu
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kuzey Yolu sakin: iki park halinde araç, ilanlı lojistik kamyonet kuzeyden yaklaşıyor.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Guneydogu Yerlesimi sakin; üç araç da duruyor, hareketli trafik yok.
+  > T0015 MEDIUM -> HIGH (pending, watcher:W3)
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Güney yaklaşımında hareket yok; yedi araç duruyor, T0015 ~2,6 km'de sabit duruyor.
+    HIGH   T0015: Sabit mesafeli yörünge geçmişi, ~2,6 km'de duruyor: izleme şüphesi sürüyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Sektör sakin: dört araç uzakta duruyor, ikisi yaklaşan normal trafik; tehdit yok.
+    MEDIUM T0219: Önceki gözcülük şüphesi; şimdi 6,4 km'de tekrar durdu.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Doğu Yolu sakin; beş araç park halinde, tek araç yavaş üsse yöneliyor.
+  > T0158 MEDIUM -> HIGH (confirmed, supervisor)
+  ! ALR-9 [urgent] T0158, T0120, T0015, T0219: Eşgüdümlü keşif: T0158 sondajı, iki yörünge sürüyor
+    T0158 batıdan üsse 697 m'ye sokulup geri çekildi (probe teyit); T0120 (3,5 km) ve T0015 (2,6 km) sabit mesafede yörüngeye devam ediyor. Eşgüdümlü keşif olasılığı. Zararsız gösterir: T0158'in üsse tekrar yaklaşmaması.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, set_level, alert_operator, submit_supervisor_decision
+    T0158 697 m'ye sokulup geri çekildi, HIGH'a yükseltildi. T0015 ve T0120 sabit mesafede yörüngeye devam ediyor; eşgüdümlü keşif olası. Operatör acil uyarıldı.
+    action set_level: T0158 -> HIGH: 697 m'ye yaklaşıp geri çekildi; üsse sokulma + çevre turu deseni teyit edildi.
+    action alert_operator: ALR-9 [urgent]: Eşgüdümlü keşif: T0158 sondajı, iki yörünge sürüyor
+  --- tick done in 0.0s · levels {'LOW': 48, 'MEDIUM': 1, 'HIGH': 3}
+
+=== 11:00 · 56 active vehicles, frames: img_005672
+  checks: W1→Kuzeydogu Kavsagi, W2→Guneydogu Yerlesimi, W3→Guneybati Yolu, W4→Bati Yerlesimi, W5→Dogu Yolu
+  [frame img_005672 · Guneybati Yolu] ok: 6 detections, 4 matched to tracks
+    DET-1 car 0.81 → T0108 (0.2 m)
+    DET-2 car 0.80 → no track
+    DET-3 car 0.74 → T0158 (0.1 m)
+    DET-4 car 0.71 → T0063 (0.2 m)
+    DET-5 car 0.67 → no track
+    DET-6 car 0.50 → T0163 (0.3 m)
+  > T0179 LOW -> HIGH (pending, watcher:W1)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Bölge sakin; T0179 sabit mesafede tur atıyor, diğerleri park halinde.
+    HIGH   T0179: Sabit mesafe turu: 1,7 km'de kuzey-güney tekrarlı park ve dönüş.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Sektör sakin; üç araç da duruyor, hareket yok, tehdit belirtisi görünmüyor.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    T0158 üs çevresinde dönüyor, yüksek risk sürüyor; diğer araçlar olağan trafik.
+    HIGH   T0158: Üs çevresinde dönüyor; kare tipi car doğruladı, şu an uzaklaşıyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    Batı Yerleşimi sakin; üç araç normal geçişte, kalanlar park halinde, tehdit görünmüyor.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Dogu Yolu sakin; altı araç park halinde, T0185 üsse yaklaşmaktan çok kuzeye uzaklaşıyor.
+  > T0179 LOW -> HIGH (confirmed, supervisor)
+  ! ALR-10 [urgent] T0179, T0158: İki araç üs çevresinde sabit mesafede yörüngede
+    T0179 üsse ~1,7 km sabit mesafede iki tam tur attı (rotayla doğrulandı); T0158 de üs etrafında dönüyor, şu an 1,7 km'de uzaklaşıyor. Üsse doğru dönerlerse tehlike; uzaklaşıp park ederlerse masum olabilir.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, set_level, alert_operator, submit_supervisor_decision
+    T0179 rotayla doğrulandı: 1,7 km'de sabit mesafe yörüngesi, iki tam tur; HIGH yapıldı. T0158 de üs etrafında dönüyor. Bölge genelinde başka tehdit yok.
+    action set_level: T0179 -> HIGH: Sabit 1,7 km yörüngesi rotayla doğrulandı: fixed_range_orbit.
+    action alert_operator: ALR-10 [urgent]: İki araç üs çevresinde sabit mesafede yörüngede
+  --- tick done in 0.2s · levels {'LOW': 51, 'MEDIUM': 1, 'HIGH': 4}
+
+=== 11:05 · 58 active vehicles
+  checks: W1→Kuzey Yolu, W2→Guneydogu Yerlesimi, W3→Guney Kapisi Yaklasimi, W4→Kuzeybati Yolu, W5→Dogu Yolu
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kuzey Yolu sakin; trafiğin çoğu duruyor, ilanlı kamyonet tabaya varıyor.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    Guneydogu Yerlesimi sessiz; üç araç da park halinde, hareket yok.
+  (warning watcher:W3: invalid submit_watch_report: missing report_checks for ['REP-21', 'REP-52'])
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report, submit_watch_report
+    Sektörde hareket az; araçlar duruyor veya üsten uzaklaşıyor, tehdit görünmüyor.
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report
+    T0120 ikinci sabit yörünge turunu sürdürüyor; diğer araçlar normal park veya geçiş.
+    HIGH   T0120: fixed_range_orbit: 3,5 km'de ikinci tam tur sürüyor; keşif.
+    MEDIUM T0219: 6,4 km'de 25 dk park; uzak durak, gözcülük geçmişi sürüyor.
+  > T0003 LOW -> HIGH (pending, watcher:W5)
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Dogu Yolu: T0003 üsse 3 dakikada son yaklaşım; diğer araçlar park halinde.
+    HIGH   T0003: 486 m'de son yaklaşım, ETA 3 dakika, hızlı kapanıyor.
+  ! ALR-11 [immediate] T0003: T0003 son yaklaşım: 486 m, 3 dakika içinde üsse varacak
+    T0003 09:15'den beri Duru yolunda üç kez 20+ dk durarak kademeli yaklaştı, şu an 486 m'de, ETA 3 dk. Yaklaşım hızlanıyor. Park eden tanıdık bir araçsa zararsızdır; kapı noktasına girişte kimlik tespiti önerilir.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, alert_operator, submit_supervisor_decision
+    T0003 486 m'de son yaklaşım, 3 dk içinde üsse varacak — acil uyarı ALR-11 gönderildi. Üç sabit yörünge sürüyor; diğer sektörler sessiz.
+    action alert_operator: ALR-11 [immediate]: T0003 son yaklaşım: 486 m, 3 dakika içinde üsse varacak
+  --- tick done in 0.0s · levels {'LOW': 53, 'MEDIUM': 1, 'HIGH': 4}
+
+=== 11:10 · 57 active vehicles, frames: img_005788
+  checks: W1→Kuzeydogu Kavsagi, W2→Guneydogu Yerlesimi, W3→Guneybati Yolu, W4→Bati Yerlesimi, W5→Dogu Yolu
+  [frame img_005788 · Bati Yerlesimi] ok: 6 detections, 6 matched to tracks
+    DET-1 car 0.87 → T0074 (0.1 m)
+    DET-2 car 0.85 → T0120 (0.1 m)
+    DET-3 car 0.70 → T0112 (0.1 m)
+    DET-4 car 0.68 → T0104 (0.1 m)
+    DET-5 car 0.50 → T0136 (0.2 m)
+    DET-6 van 0.46 → T0090 (0.1 m)
+
+  [watcher W1] llm, 0.0s · tools: submit_watch_report
+    Kavsakta normal trafik; T0154 100 dakikadir 1,65 km'de park, digerleri sakin.
+
+  [watcher W2] llm, 0.0s · tools: submit_watch_report
+    T0179 sabit mesafe turuna devam ediyor; diğer üç araç park halinde, sektörün geri kalanı sakin.
+    HIGH   T0179: Sabit mesafe turu sürüyor: 1,7 km çemberde yine hareket halinde.
+
+  [watcher W3] llm, 0.0s · tools: submit_watch_report
+    Guneybati Yolu sakin; dort arac normal transit veya park halinde, tehdit gorunumu yok.
+  > T0003 LOW -> MEDIUM (pending, watcher:W4)
+  > T0015 MEDIUM -> HIGH (confirmed, watcher:W4)
+  > T0090 LOW -> MEDIUM (pending, watcher:W4)
+  > T0172 LOW -> HIGH (pending, watcher:W4)
+  (warning watcher:W4: invalid submit_watch_report: report_checks.0.report_id: Field required)
+
+  [watcher W4] llm, 0.0s · tools: submit_watch_report, submit_watch_report
+    İki araç sabit mesafede tur atıyor; biri üsse 875 m'den hızla yaklaşıyor, trafik normal.
+    MEDIUM T0003: 11:05'te 486 m'ye geldi, şimdi uzaklaşıyor: sonda.
+    HIGH   T0015: 09:15'ten beri ~2,5 km sabit mesafede tekrarlayan döngüler: keşif.
+    MEDIUM T0090: Sonda-geri dönüş: yaklaşma ve çekilme döngüsü tekrar ediyor.
+    HIGH   T0120: Üçüncü sabit mesafe turu; karede araba olarak doğrulandı.
+    HIGH   T0172: 875 m'den son yaklaşım, 2,8 dakikada varış.
+    group T0120, T0015: T0120 ve T0015 üsse ~2,5-3,5 km sabit mesafede tur atmaya devam ediyor.
+
+  [watcher W5] llm, 0.0s · tools: submit_watch_report
+    Doğu Yolu sakin: altı araçtan beşi park halinde, biri normale yakın geçiş yapıyor; tehdit yok.
+  ! ALR-12 [urgent] T0172: T0172 son yaklaşım: 875 m, doğrudan üsse geliyor
+    T0172 Bati Yerlesimi'nden 5,2 m/s ile doğrudan üsse yaklaşıyor: 875 m, tahmini 2,8 dakika, rotada önceki 40 dakikalık duraklar var. Tanınan ikmal/trafik olduğuna dair teyit gelirse zararsızdır.
+
+  [supervisor] llm, 0.0s · threat HIGH · tools: get_route, alert_operator, submit_supervisor_decision
+    T0172 son yaklaşım modunda: 875 m, ETA 2,8 dk, doğrudan rota; ALR-12 gönderildi. Yörüngeler (T0179, T0015, T0120) ve sondalar (T0003, T0090) sürüyor; T0219 4,5 km'de stakeout.
+    pattern T0179, T0015, T0120, T0003, T0090 (Guneydogu Yerlesimi, Bati Yerlesimi, Kuzeybati Yolu): Sabit mesafe yörüngeleri sürüyor: T0179 1,7 km'de, T0015-T0120 ~2,5-3,5 km'de; T0003 ve T0090 sonda-geri dönüş döngüsünde. Tek işletici farkındalığı için eşgüdümlü keşif deseni.
+    pattern T0172 (Bati Yerlesimi): T0172 Bati Yerlesimi'nden 875 m'den doğrudan üsse son yaklaşım (ETA 2,8 dk, 5,2 m/s); rotada 40 dakikalık önceki durak. ALR-12 urgent bildirim gönderildi.
+    pattern T0219 (Kuzeybati Yolu, Dogu Yolu): T0219 685 m'de uzun süre park edip çekildi; şimdi 4,5 km'de, sınırlar boyunca ilerleyen yavaş dönüş. Perimeter_stakeout sınıfı, izlenmeye devam.
+    action alert_operator: ALR-12 [urgent]: T0172 son yaklaşım: 875 m, doğrudan üsse geliyor
+  --- tick done in 0.2s · levels {'LOW': 50, 'MEDIUM': 3, 'HIGH': 4}
+
+LLM calls: 0 (uncached) · tokens in 0, out 0
+events: /Users/yildirimozew/Desktop/akya-day2/backend/.cache/watch_runs/1010-1110.jsonl
+recording: /Users/yildirimozew/Desktop/akya-day2/backend/recordings/watch_1010-1110.jsonl (UI: /watch?recording=watch_1010-1110)
+exit 0

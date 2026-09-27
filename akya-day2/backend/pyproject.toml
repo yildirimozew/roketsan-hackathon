@@ -1,0 +1,78 @@
+[project]
+name = "sentinel-backend"
+version = "0.1.0"
+description = "SENTINEL: field-report-aware base-security risk agent"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.141.1",
+    "numpy>=2.4.6",
+    "openai>=3.19.2",
+    "pydantic>=2.13.5",
+    "pydantic-settings>=2.15.0",
+    "scipy>=1.17.1",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.optional-dependencies]
+# Heavy (torch). Install only when real weights exist: `uv sync --extra detector`.
+# torch/torchvision are listed so uv can pin them to the CUDA 12.8 wheel index (below).
+detector = [
+    "ultralytics>=8.4.163",
+    "torch>=2.7",
+    "torchvision>=0.22",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.13.1",
+    "mypy>=2.3.1",
+    "pillow>=12.3.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.9",
+]
+
+[tool.uv]
+package = false
+
+# CUDA wheels (sm_75+, e.g. GTX 1650). PyPI's Windows torch is CPU-only.
+[tool.uv.sources]
+# macOS has no CUDA wheels: it takes PyPI torch (CPU/MPS) instead.
+torch = [{ index = "pytorch-cu128", marker = "sys_platform != 'darwin'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "RUF"]
+# Turkish text (data, UI mocks, LLM output) legitimately uses non-ASCII letters and symbols.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.mypy]
+python_version = "3.12"
+plugins = ["pydantic.mypy"]
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["app.domain.*", "app.services.*", "app.agent.*"]
+strict = true
+
+# Optional heavy extra: treat as untyped whether or not it is installed.
+[[tool.mypy.overrides]]
+module = ["ultralytics", "ultralytics.*", "torch", "torch.*"]
+follow_imports = "skip"
+follow_untyped_imports = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-m 'not eval'"
+markers = ["eval: labeled-frame evaluation (not run by default)"]

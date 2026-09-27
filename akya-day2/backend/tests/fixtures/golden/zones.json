@@ -1,0 +1,65 @@
+{
+  "base": {
+    "name": "Merkez Us",
+    "lat": 39.92184,
+    "lon": 32.85306
+  },
+  "zones": [
+    {
+      "name": "Kuzey Yolu",
+      "center": [
+        39.950586,
+        32.85306
+      ]
+    },
+    {
+      "name": "Kuzeydogu Tepesi",
+      "center": [
+        39.942164,
+        32.879561
+      ]
+    },
+    {
+      "name": "Dogu Yolu",
+      "center": [
+        39.92184,
+        32.890542
+      ]
+    },
+    {
+      "name": "Guneydogu Sanayi",
+      "center": [
+        39.901516,
+        32.879561
+      ]
+    },
+    {
+      "name": "Guney Koprusu",
+      "center": [
+        39.893098,
+        32.85306
+      ]
+    },
+    {
+      "name": "Guneybati Ciftlik",
+      "center": [
+        39.901516,
+        32.826559
+      ]
+    },
+    {
+      "name": "Bati Yolu",
+      "center": [
+        39.92184,
+        32.815582
+      ]
+    },
+    {
+      "name": "Kuzeybati Orman",
+      "center": [
+        39.942164,
+        32.826559
+      ]
+    }
+  ]
+}

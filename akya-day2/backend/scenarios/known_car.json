@@ -1,0 +1,27 @@
+{
+  "name": "known_car",
+  "description": "The operator asks the supervisor for a watcher dedicated to Dogu Yolu, then announces a friendly van coming from the north; the van (T9001, synthetic) drives straight at the base and must stay LOW.",
+  "operator_messages": [
+    {
+      "time": "10:30",
+      "text": "Doğu Yolu'nda hareketlilik arttı. O bölgeyi sürekli izleyecek ayrı bir gözcü oluştur."
+    },
+    {
+      "time": "10:40",
+      "text": "Bilgin olsun: 10:55 civarında kuzeyden beyaz bir kamyonet üsse gelecek. Bizim lojistik aracımız, tehdit olarak işaretleme."
+    }
+  ],
+  "extra_tracks": [
+    {
+      "track_id": "T9001",
+      "description": "Friendly white van from the north, straight at the base at ~4.2 m/s, arrives ~11:05.",
+      "points": [
+        {"time": "10:45", "lat": 39.969, "lon": 32.854},
+        {"time": "10:50", "lat": 39.9578, "lon": 32.8537},
+        {"time": "10:55", "lat": 39.9465, "lon": 32.8535},
+        {"time": "11:00", "lat": 39.9353, "lon": 32.8533},
+        {"time": "11:05", "lat": 39.9241, "lon": 32.8531}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+# Weights, secrets (data/ is committed)
+/models/
+*.pt
+*.onnx
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+backend/.cache/
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+frontend/openapi.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Demo images copied by build_mock_fixture (img_000860 comes from the case brief)
+frontend/public/mock-images/
+
+# Furkan R&D workspace (local only, for now)
+

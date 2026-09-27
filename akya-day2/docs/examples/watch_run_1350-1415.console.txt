@@ -1,0 +1,536 @@
+LLM: glm-5.3-flash · layout: two_halves · ticks 13:50-14:15
+
+=== 13:50 · 101 active vehicles, frames: img_002900
+  > T0010 LOW -> MEDIUM (pending, watcher:A)
+  > T0018 LOW -> MEDIUM (pending, watcher:A)
+  > T0027 LOW -> HIGH (pending, watcher:A)
+  > T0040 LOW -> MEDIUM (pending, watcher:A)
+  > T0052 LOW -> MEDIUM (pending, watcher:A)
+  > T0069 LOW -> HIGH (pending, watcher:A)
+  > T0078 LOW -> MEDIUM (pending, watcher:A)
+  > T0084 LOW -> MEDIUM (pending, watcher:A)
+  > T0092 LOW -> MEDIUM (pending, watcher:A)
+  > T0097 LOW -> MEDIUM (pending, watcher:A)
+  > T0103 LOW -> MEDIUM (pending, watcher:A)
+  > T0105 LOW -> MEDIUM (pending, watcher:A)
+  > T0140 LOW -> MEDIUM (pending, watcher:A)
+  > T0145 LOW -> MEDIUM (pending, watcher:A)
+  > T0169 LOW -> MEDIUM (pending, watcher:A)
+  > T0173 LOW -> MEDIUM (pending, watcher:A)
+  > T0188 LOW -> HIGH (pending, watcher:A)
+  > T0198 LOW -> MEDIUM (pending, watcher:A)
+  > T0206 LOW -> MEDIUM (pending, watcher:A)
+  > T0208 LOW -> MEDIUM (pending, watcher:A)
+  > T0212 LOW -> MEDIUM (pending, watcher:A)
+  > T0217 LOW -> MEDIUM (pending, watcher:A)
+  (warning watcher:A: invalid submit_watch_report: patterns.0.track_ids: Field required)
+
+  [watcher A] llm, 94.8s · tools: submit_watch_report, submit_watch_report
+    Batı yerleşiminden üç araç (T0027, T0069, T0188) aynı anda üsse doğru 1,5-1,6 km mesafede 273-457 m/dk hızla kapanıyor, 3-5 dakika içinde üsse varabilirler; acil müdahale gerekir. KD kavşağında çok sayıda araç uzun süreli duraklamalarla bekliyor, kuzey yolu üzerinden de iki araç (T0010, T0145) üsse doğru kapanıyor.
+    MEDIUM T0010: Üsse tam yönlü ilerliyor ve son 5 dakikada 192 m/dk ile kapanıyor.
+    MEDIUM T0018: Üsse yaklaşırken 20 dakikadır duruyor ve 6 km içinde iki uzun duruşu var.
+    HIGH   T0027: 1,6 km mesafeden üsse tam yönlü 273 m/dk hızla kapanıyor, ETA 5 dakika.
+    MEDIUM T0040: 6 km içinde üç uzun duruşlu ve 25 dakikadır durağan, üsse yönelmiş konumda.
+    MEDIUM T0052: Üsse yaklaşırken 30 dakikadır duruyor, 60 dk yaklaşım hızı 34 m/dk.
+    HIGH   T0069: 1,5 km mesafeden üsse tam yönlü 457 m/dk ile hızla kapanıyor, ETA 3,5 dakika.
+    MEDIUM T0078: 5,7 km'de 25 dakikadır duruyor ancak 60 dakikalık yaklaşım hızı 62 m/dk ile yüksek.
+    MEDIUM T0084: Üsse 662 m mesafede 45 dakikadır park etmiş, amaçlanmamış yakın park izlenmeli.
+    MEDIUM T0092: 6 km içinde üç uzun duruşu olan araç 40 dakikadır duruyor.
+    MEDIUM T0097: Üsse 875 m mesafede 90 dakikadır park etmiş, uzun süreli şüpheli park.
+    MEDIUM T0103: Üsse 1,1 km mesafede 80 dakikadır park etmiş.
+    MEDIUM T0105: 5,6 km'de duruyor ama 60 dakikalık yaklaşım hızı 37 m/dk ile üsse yönelmiş.
+    MEDIUM T0140: 60 dakikalık yaklaşım hızı 134 m/dk olup üsse doğru açıyla hızla yaklaşıyor.
+    MEDIUM T0145: Üsse tam yönlü ilerliyor ve son 5 dakikada 183 m/dk ile kapanıyor.
+    MEDIUM T0169: 6,2 km'de 45 dakikadır duruyor, yaklaşım geçmişi var.
+    MEDIUM T0173: Üsse yalnızca 510 m mesafede 55 dakikadır park etmiş, çok yakın şüpheli park.
+    HIGH   T0188: 1,6 km mesafeden üsse tam yönlü 320 m/dk ile kapanıyor, ETA 4 dakika.
+    MEDIUM T0198: Üs etrafında döngü davranışı sergiliyor ancak şu anda 158 m/dk ile üsden uzaklaşıyor.
+    MEDIUM T0206: 5,5 km'de 25 dakikadır duruyor, üsse yönelmiş geçmiş hareket var.
+    MEDIUM T0208: Üsse 1,1 km mesafede 50 dakikadır park etmiş.
+    MEDIUM T0212: 6 km içinde dört uzun duruşu olan araç 25 dakikadır duruyor.
+    MEDIUM T0217: 5,0 km'de duruyor ancak 60 dakikalık yaklaşım hızı 43 m/dk ile üsse yöneliyor.
+    group T0027, T0069, T0188: Batıdan üs yönünde birlikte hareket eden üç araç (T0027, T0069, T0188) aynı anda ~1,6 km mesafede, 4 dakika içinde varış ETA'sıyla üsse kilitlenmiş durumdalar; koordineli bir yaklaşım olasılığı yüksek, birim görevlendirilmelidir.
+  > T0004 LOW -> MEDIUM (pending, watcher:B)
+  > T0020 LOW -> MEDIUM (pending, watcher:B)
+  > T0081 LOW -> HIGH (pending, watcher:B)
+  > T0107 LOW -> MEDIUM (pending, watcher:B)
+  > T0127 LOW -> MEDIUM (pending, watcher:B)
+  > T0138 LOW -> MEDIUM (pending, watcher:B)
+  > T0152 LOW -> HIGH (pending, watcher:B)
+  > T0166 LOW -> MEDIUM (pending, watcher:B)
+  > T0194 LOW -> MEDIUM (pending, watcher:B)
+  > T0196 LOW -> MEDIUM (pending, watcher:B)
+  > T0204 LOW -> MEDIUM (pending, watcher:B)
+  > T0211 LOW -> MEDIUM (pending, watcher:B)
+  > T0215 LOW -> MEDIUM (pending, watcher:B)
+
+  [watcher B] llm, 32.7s · tools: submit_watch_report
+    Genel olarak sakin; T0081 ve T0152 üsse yüksek hızla yaklaşıyor (sırasıyla 340 ve 240 m/dk), diğer hareketli araçlar yavaş veya uzaklaşıyor, 38 durağan araç çoğunlukla uzun süreli park ediyor.
+    MEDIUM T0004: Üsse 643 m mesafede 30 dakikadır park halinde, yaklaşım hızı 0,2 m/dk ile düşük.
+    MEDIUM T0020: 60 dakikalık yaklaşım hızı 96,2 m/dk olmasına rağmen 35 dakikadır park halinde, şu an tehdit oluşturmuyor.
+    HIGH   T0081: Üsse neredeyse tam yönünde (31° sapma) 340 m/dk hızla yaklaşıyor, varış süresi ~14 dakika.
+    MEDIUM T0107: Üsse 3,3 km mesafede 20 dakikadır duruyor ve 6 km içinde uzun duruş geçmişi var.
+    MEDIUM T0127: 60 dakikalık yaklaşım hızı 78,8 m/dk ve 6 km içinde 2 uzun duruş olmasına rağmen şu an 10 dakikadır duruyor.
+    MEDIUM T0138: 3 km'de 30 dakikadır duruyor, 6 km içinde 2 uzun duruş geçmişi var.
+    HIGH   T0152: Üsse doğru 240 m/dk hızla yaklaşıyor, 41° sapmayla ama son 5 dakikada kapanma sürüyor, ETA ~14 dakika.
+    MEDIUM T0166: 5 km'de 40 dakikadır park halinde; yakın mesafeli uzun duruş kayda değer.
+    MEDIUM T0194: 6,4 km uzaklıktan 184 m/dk ile yaklaşmaya başladı; yönü tam üsse değil (77° sapma) ama izlenmeli.
+    MEDIUM T0196: 4,5 km'de 20 dakikadır duruyor ve 6 km içinde 3 uzun duruş kaydı var.
+    MEDIUM T0204: Üsse 989 m mesafede 60 dakikadır park halinde, hareket yok.
+    MEDIUM T0211: Üsse 1 km mesafede 80 dakikadır park halinde, hareket yok.
+    MEDIUM T0215: 60 dakikalık yaklaşım hızı 33,7 m/dk ve 6 km içinde 3 uzun duruş geçmişi var ama şu an 20 dakikadır duruyor.
+    group T0081, T0152: T0081 (340 m/dk) ve T0152 (240 m/dk) üsten farklı yönlerden benzer hız ve mesafelerde (5,2 km / 4,1 km) üsse paralel yaklaşıyor; koordineli yaklaşım ihtimali izlenmeli.
+  > T0069 LOW -> HIGH (confirmed, supervisor)
+  > T0027 LOW -> HIGH (confirmed, supervisor)
+  > T0188 LOW -> HIGH (confirmed, supervisor)
+  ~ TRK-1 FOLLOWING T0069 (REAL): 1553 m from base, 7.61 m/s, ETA 3.4 min
+  ~ TRK-2 FOLLOWING T0027 (REAL): 1613 m from base, 4.55 m/s, ETA 5.9 min
+  ~ TRK-3 FOLLOWING T0188 (REAL): 1631 m from base, 5.33 m/s, ETA 5.1 min
+  ! ALR-1 [immediate, pending_operator_approval] T0027, T0069, T0188: ACİL: Batıdan 3 araç koordineli üsse kilitli — T0027/T0069/T0188, 1,5 km mesafede, 3-5 dk içinde varış, izleyici atandı
+
+  [supervisor] llm, 99.6s · threat HIGH · tools: get_route, get_route, get_route, set_level, set_level, set_level, dispatch_tracker, dispatch_tracker, dispatch_tracker, notify_authorities, submit_supervisor_decision
+    Batıdan üç araç (T0027, T0069, T0188) 13:35'te senkronize harekete geçip 15 dakikada 1,6 km'ye yaklaşmış durumda; yönelimleri üsse tam kilitli (85-86°) ve 3,5-5,3 dakika içinde üsse varabilirler. Bekleyen HIGH'ları rota verileriyle doğruladım, üçüne de HIGH seviyesi atadım, 3 izleyici görevlendirdim ve yetkililere ACİL bildirim gönderdim (operatör onayı bekliyor). İkincil tehdit olarak T0010, T0145 (kuzey, 67 dk ETA), T0140 ve T0081/T0152 farklı yönlerden izlenmeye devam ediyor.
+    pattern T0027, T0069, T0188 (Bati Yerlesimi, Guneybati Yolu, Kuzeybati Yolu): T0027, T0069 ve T0188 13:35'e kadar 5-6,5 km mesafede ayrı ayrı uzun duraklamalar yaptı; 13:35-13:50 arasında senkronize harekete geçip 15 dakikada ~1,6 km'ye yaklaştı. Üçünün de heading'i üsse tam kilitli (85-86°), ETA 3,5-5,3 dakika. Koordineli sızma/keşif yaklaşımı olarak değerlendirildi.
+    pattern T0010, T0145, T0140, T0194, T0081, T0152 (Kuzey Yolu, Dogu Yolu, Guneybati Yolu): T0010 ve T0145 kuzey yolundan üsse tam yönlü ilerliyor (192 ve 183 m/dk), T0140 ve T0194 güneydoğu-güneyden hızla yaklaşıyor; ayrıca T0081/T0152 ~14 dk ETA ile paralel yaklaşıyor. Ayrı yönlerden gelen bu çoklu yaklaşım, senkronize bir harekâtın genişleme aşaması olabilir.
+    pattern T0173, T0084, T0097, T0208, T0103, T0004, T0204, T0211, T0198 (Bati Yerlesimi, Guneydogu Yerlesimi): Üsse 0,5-1,1 km mesafede en az 7 araç (T0173, T0084, T0097, T0208, T0103, T0004, T0204, T0211) 30-90 dakikadır park halinde; yerleşik gözlem/keşif ağı olabilir, ayrıca T0198 üs çevresinde döngü davranışı sergiliyor.
+    action set_level: T0069 -> HIGH: Üsse tam yönlü (84,5°) hızlı kapanma, 1.553 m mesafede, 13:35'ten itibaren senkronize harekete geçiş; T0027 ve T0188 ile koordineli. Rubric skoru 65 HIGH.
+    action set_level: T0027 -> HIGH: Üsse tam yönlü (85,7°) hızlı kapanma, 1.613 m mesafede, 6 km içinde 2 uzun duraklama; T0069 ve T0188 ile aynı anda senkronize yaklaşım. Rubric skoru 70 HIGH.
+    action set_level: T0188 -> HIGH: Üsse tam yönlü (85,1°) hızlı kapanma, 1.631 m mesafede, 6 km içinde 2 uzun duraklama; T0027 ve T0069 ile aynı anda senkronize yaklaşım. Rubric skoru 70 HIGH.
+    action dispatch_tracker: TRK-1 on T0069
+    action dispatch_tracker: TRK-2 on T0027
+    action dispatch_tracker: TRK-3 on T0188
+    action notify_authorities: ALR-1 (pending_operator_approval): ACİL: Batıdan 3 araç koordineli üsse kilitli — T0027/T0069/T0188, 1,5 km mesafede, 3-5 dk içinde varış, izleyici atandı
+  --- tick done in 194.4s · levels {'LOW': 66, 'MEDIUM': 30, 'HIGH': 5}
+
+=== 13:55 · 97 active vehicles
+  > T0004 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0010 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0018 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0040 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0052 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0084 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0092 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0097 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0103 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0105 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0121 LOW -> MEDIUM (pending, watcher:A)
+  > T0140 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0145 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0173 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0206 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0208 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0212 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0217 LOW -> MEDIUM (confirmed, watcher:A)
+
+  [watcher A] llm, 71.9s · tools: submit_watch_report
+    Kuzey ve kuzeydoğu eksenlerinde üsse doğru kapanan iki araç (T0010, T0145) dikkat çekiyor; üsse 0,5-1,1 km mesafede beş araç uzun süreli park halinde ve kuzey hattında duruşlarıyla yaklaşım hızı biriktiren araçlar var, genel tablo yüksek tehdit değil ama yakın park yoğunluğu sürüyor.
+    MEDIUM T0004: Üsse 638 m'de 35 dakikadır park halinde ve bekleyen MEDIUM yükseltmesi sürüyor.
+    MEDIUM T0010: Üsse tam doğrultuda (3° sapma) son 5 dakikada 228 m/dk ile kapanıyor, 60 dk yaklaşım hızı 19 m/dk.
+    MEDIUM T0018: Üsse 4,5 km'de 25 dakikadır duruyor, 6 km içinde iki uzun duruşu ve 40 m/dk yaklaşım hızı var.
+    MEDIUM T0040: Altı uzun duruş geçmişi olan araç şu an tabandan uzaklaşıyor, rubriğin saydığı eski duruşlar nedeniyle MEDIUM korunuyor.
+    MEDIUM T0052: Üsse 4,8 km'de 35 dakikadır duruyor, yaklaşım hızı 31 m/dk.
+    MEDIUM T0084: Üsse 661 m'de 50 dakikadır park halinde, sahada kimliği doğrulanmalı.
+    MEDIUM T0092: Üsse 3,8 km'de 45 dakikadır duruyor, 6 km içinde üç uzun duruşu var.
+    MEDIUM T0097: Üsse 877 m'de 95 dakikadır park halinde.
+    MEDIUM T0103: Üsse 1,1 km'de 85 dakikadır park halinde.
+    MEDIUM T0105: 60 dk yaklaşım hızı 37 m/dk olan araç şu an 15 dakikadır 5,6 km mesafede duruyor.
+    MEDIUM T0121: Üsse 5,9 km'de 20 dakikadır duruyor, 60 dk yaklaşım hızı 34 m/dk.
+    MEDIUM T0140: Yüksek yaklaşım hızı geçmişi (66,7 m/dk) olan araç şu an 10 dakikadır duruyor.
+    MEDIUM T0145: Üsse tam doğrultuda (0° sapma) son 5 dakikada 275 m/dk ile kapanıyor.
+    MEDIUM T0173: Üsse 508 m'de 60 dakikadır park halinde, kimlik tespiti önerilir.
+    MEDIUM T0206: Üsse 5,4 km'de 30 dakikadır duruyor.
+    MEDIUM T0208: Üsse 1,1 km'de 55 dakikadır park halinde.
+    MEDIUM T0212: 6 km içinde dört uzun duruşu olan araç şu an tabandan uzaklaşıyor.
+    MEDIUM T0217: Üsse 5 km'de 25 dakikadır duruyor, 60 dk yaklaşım hızı 43 m/dk.
+    group T0084, T0097, T0103, T0173, T0208: Üsse 0,5-1,1 km mesafede beş araç uzun süreli park halinde (T0084 661 m/50 dk, T0097 877 m/95 dk, T0103 1.135 m/85 dk, T0173 508 m/60 dk, T0208 1.083 m/55 dk); kimlik tespiti için birlikte değerlendirilmeli.
+    group T0010, T0145, T0018, T0052, T0105, T0121, T0217: T0010 ve T0145 kuzeyden üsse doğrudan 228-275 m/dk hızla kapanıyor; T0018, T0052, T0105, T0121, T0217 ise 4,8-6,6 km hattında durarak yaklaşım hızı biriktiriyor.
+  > T0020 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0031 LOW -> MEDIUM (pending, watcher:B)
+  > T0054 LOW -> MEDIUM (pending, watcher:B)
+  > T0058 LOW -> MEDIUM (pending, watcher:B)
+  > T0075 LOW -> MEDIUM (pending, watcher:B)
+  > T0081 LOW -> MEDIUM (pending, watcher:B)
+  > T0107 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0127 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0138 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0152 LOW -> MEDIUM (pending, watcher:B)
+  > T0192 LOW -> MEDIUM (pending, watcher:B)
+  > T0194 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0204 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0211 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0215 LOW -> HIGH (pending, watcher:B)
+
+  [watcher B] llm, 84.5s · tools: submit_watch_report
+    Sektörlerde 13 hareketli, 36 duran araç var; üsse 1-2,2 km mesafedeki park eden araçlar (T0204, T0211, T0020, T0127) izlemde, T0215 güneybatıdan tekrar hareketlendi ve üsse doğru kapanıyor (120 m/dk), diğer hareketli trafik çoğunlukla yandan veya uzaklaşan yönde.
+    MEDIUM T0020: Rubrik HIGH gösterse de 1,6 km'de 40 dakikadır park halinde ve kapanma 0; bekleyen MEDIUM seviyesi korunuyor.
+    MEDIUM T0031: 5,9 km'de 20 dakikadır duruyor, hafif yaklaşım geçmişi var; rubrik MEDIUM ile uyumlu.
+    MEDIUM T0054: 5,6 km'de 25 dakikadır duruyor, yaklaşım geçmişi olan mixed_transit; rubrik MEDIUM ile uyumlu.
+    MEDIUM T0058: 2 km'de 15 dakikadır duruyor, hafif kapanma geçmişi var; rubrik MEDIUM ile uyumlu.
+    MEDIUM T0075: Üsse 45 derece yönle 337 m/dk hızla kapanıyor (5,8 km, ETA ~27 dk), sürekli yaklaşım sınıfında.
+    MEDIUM T0081: Önceki tikte 340 m/dk ile üsse yaklaştığı için beklemede HIGH vardı ama şu an 10 dakikadır duruyor ve kapanma 0; MEDIUM'da tutuyorum.
+    MEDIUM T0107: Güney Kapısı yaklaşımında yandan geçiş halinde, içinde 1 uzun duruş geçmişi var; beklemedeki MEDIUM uygun.
+    MEDIUM T0127: Rubrik HIGH gösterse de 2,1 km'de 15 dakikadır duruyor ve kapanma ~0; beklemedeki MEDIUM korunuyor.
+    MEDIUM T0138: 3 km'de 35 dakikadır duruyor ve 2 uzun duruş geçmişi var; beklemedeki MEDIUM uygun.
+    MEDIUM T0152: Önceki tikte 240 m/dk yaklaşımı nedeniyle beklemede HIGH vardı ama şu an 10 dakikadır duruyor ve kapanma 0; MEDIUM'da tutuyorum.
+    MEDIUM T0192: Üsse doğru 142 m/dk ile kapanıyor (5,5 km, ETA ~16 dk) ve içinde 1 uzun duruş var; rubrik LOW'dan bir üst seviyeye çıkarıyorum.
+    MEDIUM T0194: Yaklaşım geçmişi var (önceki tik 184 m/dk) ama şu an 10 dakikadır duruyor; beklemedeki MEDIUM uygun.
+    MEDIUM T0204: 988 m'de 65 dakikadır park halinde; beklemedeki MEDIUM korunuyor.
+    MEDIUM T0211: Üsse 1 km mesafede 85 dakikadır park halinde; hatırlanmaya değer.
+    HIGH   T0215: 3 uzun duruş geçmişi olan araç 1,1 km mesafede yeniden hareketlendi ve üsse doğru 120 m/dk ile kapanıyor (ETA ~6 dk); rubrik HIGH ile uyumlu.
+    group T0020, T0204, T0211, T0215: Üsse 1-1,6 km mesafede üç araç uzun süreli park halinde (T0020 40 dk, T0204 65 dk, T0211 85 dk); Kapi yaklasimindan gelen T0215 yeniden hareketlendi. Boylece Guney Kapisi koridorunda yaklasan + park eden karisik trafik gorunumu var.
+  > T0215 LOW -> HIGH (confirmed, supervisor)
+  ~ TRK-3 RECALLED T0188 (REAL): 1631 m from base, 5.33 m/s, ETA 5.1 min
+  ~ TRK-4 FOLLOWING T0215 (REAL): 1102 m from base, 5.88 m/s
+  ! ALR-2 [urgent, pending_operator_approval] T0069, T0027, T0188, T0215: ACİL: Batıdan 3 araçlı konvoy 3-6 dk içinde üsse varacak, güneyden T0215 de ETA ~6 dk ile kapanıyor; kesişen yaklaşım deseni, kimlik tespiti önerilir.
+
+  [supervisor] llm, 128.5s · threat HIGH · tools: get_route, get_route, set_level, recall_tracker, dispatch_tracker, notify_authorities, submit_supervisor_decision
+    Batıdan takip altındaki konvoy (T0069, T0027, T0188) 3-6 dk içinde üsse varacak; güneyden T0215'in bekleyen HIGH'u rota verisiyle doğrulandı (6 km içinde üç uzun duruş, 1.102 m'de ETA ~6 dk) ve TRK-4 takipçi atanıp operator onayına urgent alarm gönderildi. Kuzeyden T0010/T0145 228-275 m/dk ile kapanıyor (ETA ~25 dk), 0,5-1,6 km hattında dokuz araç park halinde. T0010 rotası 6 km içinde duruş saymadığından MEDIUM'da tutuldu.
+    pattern T0215, T0069, T0027, T0188 (Guneybati Yolu, Guney Kapisi Yaklasimi): T0215 6 km içinde üç uzun duruş (5.128 m/35 dk, 3.728 m/45 dk, 1.709 m/20 dk, Güney Kapısı koridoru) yaptıktan sonra 1.102 m'de yeniden hareketlendi ve üsse 120 m/dk ile kapanıyor; batıdan gelen konvoyla (T0069, T0027, T0188, ETA 3-6 dk) aynı 5 dakikalık pencerede üsse varıyor.
+    pattern T0173, T0084, T0004, T0097, T0204, T0208, T0211, T0103, T0020 (Kuzey Yolu, Bati Yerlesimi, Dogu Yolu, Guneydogu Yerlesimi): Üsse 0,5-1,6 km mesafede sekiz araç uzun süreli park halinde (T0173 508 m/60 dk, T0084 661 m/50 dk, T0004 638 m/35 dk, T0097 877 m/95 dk, T0204 988 m/65 dk, T0208 1.083 m/55 dk, T0211 1.056 m/85 dk, T0103 1.135 m/85 dk, T0020 1.600 m/40 dk); kapanma ~0, kimlik tespiti gerektirir.
+    pattern T0010, T0145 (Kuzey Yolu, Kuzeydogu Kavsagi): Kuzeyden üsse tam doğrultuda (3° ve 0° sapma) 228-275 m/dk hızla kapanan iki araç; ETA ~24-25 dk. Şu an MEDIUM, hız artışı sürerse HIGH değerlendirilecek.
+    action set_level: T0215 -> HIGH: Bekleyen HIGH doğrulandı: rota verisi 6 km içinde üç uzun duruş (5.128 m/35 dk, 3.728 m/45 dk, 1.709 m/20 dk, hepsi Güney Kapısı koridoru) ve şu an 1.102 m'de ETA ~6 dk gösteriyor; batıdan gelen takip altındaki konvoyla (ETA 3-6 dk) aynı anda üsse kapanan kesişen desenin parçası.
+    action recall_tracker: TRK-3 recalled: T0069-T0027-T0188 birlikte hareket eden tek konvoy; iki takipçi yeterli kapsama sağlıyor. Slot, güney aksından yaklaşan ve bekleyen HIGH'u doğrulanan T0215'e ayrılıyor.
+    action dispatch_tracker: TRK-4 on T0215
+    action notify_authorities: ALR-2 (pending_operator_approval): ACİL: Batıdan 3 araçlı konvoy 3-6 dk içinde üsse varacak, güneyden T0215 de ETA ~6 dk ile kapanıyor; kesişen yaklaşım deseni, kimlik tespiti önerilir.
+  ~ TRK-1 LOST T0069 (REAL): 1553 m from base, 7.61 m/s, ETA 3.4 min
+  ~ TRK-2 LOST T0027 (REAL): 1613 m from base, 4.55 m/s, ETA 5.9 min
+  --- tick done in 213.0s · levels {'LOW': 64, 'MEDIUM': 32, 'HIGH': 1}
+
+=== 14:00 · 97 active vehicles, frames: img_002661
+  > T0023 LOW -> MEDIUM (pending, watcher:A)
+  > T0032 LOW -> HIGH (pending, watcher:A)
+  > T0088 LOW -> HIGH (pending, watcher:A)
+  > T0121 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0145 MEDIUM -> HIGH (pending, watcher:A)
+  > T0169 LOW -> HIGH (pending, watcher:A)
+  > T0199 LOW -> HIGH (pending, watcher:A)
+  > T0200 LOW -> MEDIUM (pending, watcher:A)
+  > T0203 LOW -> MEDIUM (pending, watcher:A)
+  > T0206 MEDIUM -> HIGH (pending, watcher:A)
+
+  [watcher A] llm, 69.4s · tools: submit_watch_report
+    Kuzeybati Yolu'nda T0088/T0169/T0199 (hepsi 304° kerterizinden üsse 0° sapmayla) ile Kuzey Yolu'nda T0032, T0145, T0206 yüksek kapanış hızlarıyla üsse doğrudan yaklaşıyor; T0215 üsse 154° açıyla uzaklaşıyor ancak geçmişi nedeniyle izlemesi sürsün; üsse yakın park halindeki T0004/T0084/T0103/T0173/T0208/T0203 kimlik tespiti bekliyor.
+    MEDIUM T0004: Üsse 638 m'de 40 dakikadır park halinde; hareket yok.
+    MEDIUM T0010: Üsse 6° sapmayla 191 m/dk kapanıyor, ETA ~21 dk; önceki notlarla uyumlu, MEDIUM korunmalı.
+    MEDIUM T0018: 30 dakikadır park halinde; 60 dk yaklaşım hızı 40 m/dk, kalkarsa izlenmeli.
+    MEDIUM T0023: Üsse 11° sapmayla son 5 dakikada 236 m/dk kapanıyor; rubrik LOW ancak yüksek anlık kapanış nedeniyle MEDIUM'a yükseltildi.
+    HIGH   T0032: Üsse 2° sapmayla 259 m/dk kapanıyor, ETA ~38 dk; yaklaşım hızı 24 m/dk ile artıyor.
+    MEDIUM T0040: Şu an uzağa hareket ediyor (-117 m/dk) ama 3 uzun duruş geçmişi nedeniyle seviye korunmalı.
+    MEDIUM T0052: Üssten uzaklaşıyor (-356 m/dk) ama 1 uzun duruş geçmişi var; seviye korunuyor.
+    MEDIUM T0084: Üsse 658 m'de 55 dakikadır park; kimlik tespiti bekliyor.
+    HIGH   T0088: Üsse doğrudan (0° sapma) 137 m/dk kapanıyor, ETA ~19 dk, 2 uzun duruş geçmişi var.
+    MEDIUM T0097: Üsse 1,7 km'den uzaklaşıyor (-164 m/dk); park geçmişi nedeniyle MEDIUM korunuyor.
+    MEDIUM T0103: Üsse 1,1 km'de 90 dakikadır park halinde.
+    MEDIUM T0105: Üsse 76° açıyla hareket ediyor ama yaklaşım hızı 48 m/dk; kapanış 140 m/dk ile izlenmeli.
+    MEDIUM T0121: 25 dakikadır duruyor; 60 dk yaklaşım hızı 31 m/dk, kalkarsa izlenmeli.
+    MEDIUM T0140: Şu an duruyor; yaklaşım hızı geçmişte 134 m/dk'ya çıkmıştı, kalkarsa izlenmeli.
+    HIGH   T0145: Üsse 0° sapmayla 230 m/dk kapanıyor, ETA ~17 dk; hız son tickte 275'e yakın seyrediyor.
+    HIGH   T0169: Üsse doğrudan (0° sapma) 283 m/dk kapanıyor, ETA ~19 dk; Kuzeybati koridorundaki grupla hareket ediyor.
+    MEDIUM T0173: Üsse 509 m'de 65 dakikadır park; kimlik tespiti bekliyor.
+    HIGH   T0199: Üsse doğrudan (0° sapma) 191 m/dk kapanıyor, ETA ~43 dk; koridor grubunun parçası.
+    MEDIUM T0200: Üsse doğrultusunda ama anlık kapanış düşük (48 m/dk); 2 uzun duruş geçmişiyle izlenmeli.
+    MEDIUM T0203: Üsse 1,1 km'de 20 dakikadır park halinde; yakınlık nedeniyle izlenmeli.
+    HIGH   T0206: Kalktı ve üsse 21° sapmayla 254 m/dk kapanıyor, ETA ~31 dk.
+    MEDIUM T0208: Üsse 1,1 km'de 60 dakikadır park halinde.
+    MEDIUM T0212: Şu an uzağa hareket ediyor (-138 m/dk) ama 4 uzun duruş geçmişi nedeniyle seviye korunmalı.
+    HIGH   T0215: Şu an üssten uzaklaşıyor (154° açıyla, -255 m/dk) ancak kayıt seviyesi HIGH ve az önce üsse 6,8 km'den ETA ~7 dk ile gelmişti; düşürme yetkim yok.
+    MEDIUM T0217: Üsse 74° açıyla 108 m/dk kapanıyor, 60 dk yaklaşım 52 m/dk; sektöre yeni girdi, izlenmeli.
+    group T0088, T0169, T0199, T0200: Kuzeybati Yolu koridorunda dört araç (T0088, T0169, T0199, T0200) aynı 304° kerterizinden üsse doğru grup halinde kapanıyor; T0088/T0169/T0199 yüksek kapanış hızlarıyla HIGH.
+    group T0010, T0145: Kuzey Yolu boyunca T0010 ve T0145 (FRAME-img_002661'de aynı karede) üsse 0-6° sapmayla 191-230 m/dk kapanıyor; T0145 daha kritik.
+  > T0029 LOW -> MEDIUM (pending, watcher:B)
+  > T0031 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0039 LOW -> MEDIUM (pending, watcher:B)
+  > T0054 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0058 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0073 LOW -> MEDIUM (pending, watcher:B)
+  > T0075 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0081 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0125 LOW -> MEDIUM (pending, watcher:B)
+  > T0152 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0170 LOW -> MEDIUM (pending, watcher:B)
+  > T0192 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0213 LOW -> MEDIUM (pending, watcher:B)
+
+  [watcher B] llm, 75.1s · tools: submit_watch_report
+    Sektörler büyük ölçüde sakin; 38 duran araç ağırlikta, ancak Güney Kapısı yaklaşımında T0075, T0081 ve T0152 daha önce hızlı yaklaşıp şimdi duruyor (kalkarlarda yükseltilecek), T0125 ve T0029 son 5 dakikada üsse doğru hızlı kapanma gösteriyor.
+    MEDIUM T0020: 45 dakikadır park halinde; rubrik HIGH gösterse de duruş sürdüğü için MEDIUM'da tutuldu, kalkarsa yeniden değerlendirilmeli.
+    MEDIUM T0029: Üsse tam karşı (0 derece) gidiyor ve son 5 dakikada 235 m/dk kapanıyor, ancak 60 dakikalık yaklaşım negatif olduğu için MEDIUM.
+    MEDIUM T0031: 25 dakikadır duruyor ve 6 km içinde bir uzun duruşu var, bekleyen MEDIUM seviyesi korunuyor.
+    MEDIUM T0039: 20 dakikalık duruş ve 6 km içinde bir uzun duruş geçmişi var.
+    MEDIUM T0054: Üsse doğru hareket ediyor (son 5 dk 99 m/dk, ETA ~34 dk) ve bir uzun duruş geçmişi var.
+    MEDIUM T0058: 2 km'de 20 dakikadır duruyor ve 6 km içinde iki uzun duruşu var.
+    MEDIUM T0073: Üsse sadece 673 m mesafede park halinde, yakınlığı nedeniyle MEDIUM.
+    MEDIUM T0075: Daha önce üsse 337 m/dk ile kapanıyordu, şimdi 10 dakikadır duruyor; hareketi sürerse HIGH önerilecek.
+    MEDIUM T0081: Daha önce 113 m/dk yaklaşım hızı vardı, şimdi 15 dakikadır duruyor; kalkarsa HIGH'a yükseltilecek.
+    MEDIUM T0092: Şu an üsse doğru değil (son 5 dk -117 m/dk) ama 6 km içinde 3 uzun duruş geçmişi nedeniyle seviye düşürülemiyor.
+    MEDIUM T0107: 3 km'de 10 dakikalık duruş ve bir uzun duruş geçmişi; kalkarsa izlenmeli.
+    MEDIUM T0125: Son 5 dakikada 328 m/dk ile üsse kapanıyor, ancak 60 dakikalık yaklaşım negatif ve üsse hizası 41 derece; MEDIUM verildi.
+    MEDIUM T0127: 2,1 km'de 20 dakikadır duruyor ve 3 uzun duruş geçmişi var; rubrik HIGH gösterse de duruş nedeniyle MEDIUM.
+    MEDIUM T0138: 3 km'de 40 dakikalık duruş ve 2 uzun duruş geçmişi var.
+    MEDIUM T0152: Daha önce hızlı yaklaşıyordu, şimdi 15 dakikadır duruyor; kalkarsa HIGH'a yükseltilecek.
+    MEDIUM T0170: Üsse doğru kapanıyor (son 5 dk 141 m/dk, ETA ~21 dk) ancak üsse hizası 56 derece olduğu için MEDIUM.
+    MEDIUM T0192: Son 5 dakikada 120 m/dk kapanma ve ETA ~15 dk var, ancak üsse hizası 78 derece; bekleyen MEDIUM korunuyor.
+    MEDIUM T0194: 6,4 km'de duruyor; daha önce 184 m/dk yaklaşım başlamıştı, devam ederse yükseltilebilir.
+    MEDIUM T0204: Üsse 990 m mesafede 70 dakikadır park halinde, yakınlığı nedeniyle MEDIUM.
+    MEDIUM T0211: Üsse 1 km mesafede 90 dakikadır park halinde, yakınlığı nedeniyle MEDIUM.
+    MEDIUM T0213: 5,4 km'de 30 dakikalık duruş ve bir uzun duruş geçmişi var.
+    group T0075, T0081, T0152, T0213, T0031: Güney Kapısı yaklaşımı üzerinde birden çok araç (T0031, T0075, T0081, T0138, T0171, T0213) benzer mesafelerde (3,8-5,9 km) uzun duruşlarda; daha önce hızlı yaklaşım yapan T0075, T0081 ve T0152'nin hareketi birbirine benziyor, kalkarlarda birlikte yükseltilebilir.
+  > T0145 MEDIUM -> HIGH (confirmed, supervisor)
+  > T0169 LOW -> HIGH (confirmed, supervisor)
+  > T0088 LOW -> HIGH (confirmed, supervisor)
+  ~ TRK-5 FOLLOWING T0145 (REAL): 4370 m from base, 3.83 m/s, ETA 19.0 min
+  ~ TRK-6 FOLLOWING T0169 (REAL): 6408 m from base, 4.71 m/s, ETA 22.7 min
+  ! ALR-3 [urgent, pending_operator_approval] T0032, T0145, T0206, T0088, T0169, T0199: ACİL: Kuzey ve Kuzeybatı koridorlarında 7 araçlı eşgüdümlü yaklaşım — T0145 (ETA ~17 dk, 0° sapma) ve T0169 (ETA ~19 dk) takip altında, üsse yönelik çoklu eksenli hareket teyit edildi, kimlik tespiti önerilir.
+
+  [supervisor] llm, 132.8s · threat HIGH · tools: get_route, get_route, get_route, get_route, set_level, set_level, set_level, dispatch_tracker, dispatch_tracker, notify_authorities, submit_supervisor_decision
+    Kuzey Yolu (T0032, T0145, T0206) ve Kuzeybati Yolu (T0088, T0169, T0199) koridorlarından en az 6 aracın üsse 0-2° sapmayla eşzamanlı, yüksek hızlı kapanışı çapraz-sektör eşgüdümlü yaklaşım deseni olarak teyit edildi; T0145 (ETA ~17 dk) ve T0169 (ETA ~19 dk) için TRK-5/TRK-6 takipçileri atıldı, ALR-3 ile operatör onayına acil uyarı gönderildi. T0215 uzağa döndüğü için takibi sürse de seviyesi HIGH kalıyor; T0145/T0169/T0088 seviyeleri rota kanıtıyla HIGH'a yükseltildi. Üsse yakın park eden çok sayıdaki araç (509-1135 m) kimlik tespiti bekliyor.
+    pattern T0032, T0145, T0206, T0088, T0169, T0199 (Kuzey Yolu, Kuzeybati Yolu, Bati Yerlesimi, Kuzeydogu Kavsagi): Kuzey Yolu (T0032, T0145, T0206) ve Kuzeybati Yolu (T0088, T0169, T0199) koridorlarından en az 6 aracın üsse 0-2° sapmayla eşzamanlı kapanışı; rotalar teyit edildi (T0145 kerteriz 173.8°=üs, T0169/T0088 kerteriz ~124°=üs), en az 3 araç uzun duruş sonrası son 10 dakikada yüksek hıza geçti.
+    pattern T0004, T0084, T0103, T0173, T0203, T0208, T0073, T0204, T0211, T0020 (Kuzey Yolu, Bati Yerlesimi, Guneydogu Yerlesimi, Dogu Yolu): Üsse yakın mesafelerde (0.5-1.2 km) uzun süredir park eden 7+ aracın eşzamanlı varlığı (Kuzey: T0004/T0084/T0103/T0173/T0203/T0208, Güney: T0073/T0204/T0211/T0020); kimlik tespiti bekleniyor, hareket başlatırlarında HIGH'a yükseltilecek.
+    pattern T0075, T0081, T0152 (Guney Kapisi Yaklasimi, Guneybati Yolu): Güney Kapısı yaklaşımında (T0075, T0081, T0152) daha önce yüksek hızla yaklaşan araçların şimdi durması; her biri 10-15 dk duruyor, kalkarlarsa koordineli bir ikinci dalga olabilir.
+    action set_level: T0145 -> HIGH: Rota doğrulandı: 173.8° kerteriz tam üsse hizalı, 4370 m, son 5 dk ~254 m/dk kapanış, ETA ~17 dk; Kuzey Yolu'ndaki konvoy deseninin parçası.
+    action set_level: T0169 -> HIGH: Rota doğrulandı: 123.3° kerteriz üsse tam hizalı, 6408 m'den yüksek hızla (5.7 m/s) kapanıyor, son 5 dk ~283 m/dk; T0088/T0199 ile aynı Kuzeybati koridor konvoyunda.
+    action set_level: T0088 -> HIGH: Rota doğrulandı: 123.9° kerteriz üsse tam hizalı, 6529 m, 6 km içinde 2 uzun duruş sonrası yüksek hızla (5.8 m/s) kapanıyor; T0169/T0199 ile aynı koridor konvoyunun parçası.
+    action dispatch_tracker: TRK-5 on T0145
+    action dispatch_tracker: TRK-6 on T0169
+    action notify_authorities: ALR-3 (pending_operator_approval): ACİL: Kuzey ve Kuzeybatı koridorlarında 7 araçlı eşgüdümlü yaklaşım — T0145 (ETA ~17 dk, 0° sapma) ve T0169 (ETA ~19 dk) takip altında, üsse yönelik çoklu eksenli hareket teyit edildi, kimlik tespiti önerilir.
+  ~ TRK-4 FOLLOWING T0215 (REAL): 2378 m from base, 5.8 m/s
+  --- tick done in 207.9s · levels {'LOW': 51, 'MEDIUM': 39, 'HIGH': 7}
+
+=== 14:05 · 90 active vehicles, frames: img_002256
+  > T0023 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0032 LOW -> HIGH (confirmed, watcher:A)
+  > T0199 LOW -> HIGH (confirmed, watcher:A)
+  > T0200 LOW -> MEDIUM (confirmed, watcher:A)
+  > T0222 LOW -> MEDIUM (pending, watcher:A)
+  (warning watcher:A: T0097: level LOW clamped to MEDIUM)
+
+  [watcher A] llm, 47.4s · tools: submit_watch_report
+    Kuzeybati Yolu'da 304° koridorunda T0088/T0169/T0199/T0200/T0217 grubu ~4,5 km'den üsse doğru sıkı bir şekilde ilerliyor (FRAME-img_002256), Kuzeydogu Kavsagi'nden T0032 4° sapmayla 337 m/dk kapanıyor; üsse yakın park halindeki araçlar (T0004, T0084, T0103, T0173, T0208) uzun süreli duruşlarıyla izlemde.
+    MEDIUM T0004: Üsse 637 m'de 45 dakikadır park halinde, kapanma yok.
+    MEDIUM T0018: 35 dakikadır duruyor ancak 60 dk yaklaşım hızı 13,2 m/dk ile geçmişte yaklaştı; kalkarsa izlenmeli.
+    MEDIUM T0023: Bekleyen MEDIUM yükseltmesi doğrulanıyor; 6,1 km'de duruyor ama hız verisi hareket başlangıcına işaret edebilir.
+    HIGH   T0032: Üsse 4° sapmayla 337 m/dk kapanıyor, ETA ~11 dk; takipçi gerektiren aktif tehdit.
+    MEDIUM T0052: 6,6 km'de duruyor, kapanma yok; geçmiş yaklaşım geçmişi nedeniyle MEDIUM kalıyor.
+    MEDIUM T0084: Üsse 660 m'de 60 dakikadır park; saha kimliği hâlâ doğrulanmadı.
+    HIGH   T0088: Üsse 0° sapmayla 417 m/dk kapanıyor, ETA ~16 dk, T0169/T0199/T0200 ile aynı koridorda grup hareketi.
+    MEDIUM T0097: Üssten 456 m/dk hızla uzaklaşıyor; bırakılabilir.
+    MEDIUM T0103: Üsse 1,1 km'de 95 dakikadır park; kimliği doğrulanmalı.
+    MEDIUM T0105: Üsse 92° açıyla çapraz hareket ediyor, kapanma son 5 dk'da düşük (54 m/dk); izlenmeye devam.
+    MEDIUM T0121: 5,9 km'de 30 dakikadır duruyor; kalkarsa izlenmeli.
+    MEDIUM T0140: Şu an duruyor (son 5 dk kapanma 1 m/dk) ancak 60 dk yaklaşım hızı 33,5 m/dk yüksek; kalkarsa izlenmeli.
+    HIGH   T0169: Üsse 0° sapmayla 378 m/dk kapanıyor, T0088/T0199/T0200 ile aynı 304° koridorunda; kayıt seviyesi HIGH altına inilemez.
+    MEDIUM T0173: Üsse 513 m'de 70 dakikadır park; kimlik tespiti bekliyor.
+    HIGH   T0199: Üsse 0° sapmayla 246 m/dk kapanıyor, bekleyen HIGH yükseltmesi doğrulanıyor ve T0088/T0169 ile grup halinde.
+    MEDIUM T0200: Son 5 dakikada 357 m/dk kapanıyor ve koridor grubunda ancak 60 dk ortalaması negatif (-9,3 m/dk); bekleyen MEDIUM yükseltmesini doğruluyor.
+    MEDIUM T0206: Üsse yönelim geçmişi yüksek olsa da şu an duruyor (son 5 dk kapanma 0) ve MEDIUM altına inilemez.
+    MEDIUM T0208: Üsse 1,1 km'de 65 dakikadır park; kimliği doğrulanmalı.
+    HIGH   T0215: Şu an üssten uzaklaşıyor (son 5 dk -438 m/dk) ancak kayıt seviyesi HIGH altına inilemez; 3 uzun duruş geçmişi var.
+    MEDIUM T0217: 60 dk yaklaşım hızı 52 m/dk ancak son 5 dk kapanma sadece 1 m/dk; koridor grubuna yakın ama kapanmıyor.
+    MEDIUM T0222: Son 5 dakikada 337 m/dk kapanıyor ve üsse 21° açıda ancak yönü değişken; izlenmeli.
+    group T0088, T0169, T0199, T0200, T0217: Kuzeybati 304° koridorunda T0088, T0169, T0199, T0200 ve T0217 aynı anda üsse doğru sıkışık grup halinde ilerliyor (FRAME-img_002256 ile ~4,5 km'de görülüyor); koordineli yaklaşım olasılığı yüksek.
+    group T0032, T0206: Kuzeydogu Kavsagi'nden T0032 ve T0206 yüksek kapanış hızlarıyla üsse yaklaşıyor; T0032 aktif tehdit, T0206 şu an duraklamış.
+  > T0029 LOW -> HIGH (pending, watcher:B)
+  > T0039 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0073 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0101 LOW -> MEDIUM (pending, watcher:B)
+  > T0122 LOW -> HIGH (pending, watcher:B)
+  > T0125 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0127 MEDIUM -> HIGH (pending, watcher:B)
+  > T0142 LOW -> MEDIUM (pending, watcher:B)
+  > T0162 LOW -> MEDIUM (pending, watcher:B)
+  > T0170 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0171 LOW -> MEDIUM (pending, watcher:B)
+  > T0192 MEDIUM -> HIGH (pending, watcher:B)
+  > T0213 LOW -> MEDIUM (confirmed, watcher:B)
+
+  [watcher B] llm, 60.1s · tools: submit_watch_report
+    Dört araç (T0029, T0122, T0192, T0127) üsse tam hizalı ve 200-280 m/dk ile hızla yaklaşıyor, ETA 7-19 dk; çok sayıda araç (T0020, T0075, T0081, T0152, T0125 dahil) uzun süreli park halinde ve kalkarsa yeniden değerlendirilmeli.
+    MEDIUM T0020: 50 dakikadır park halinde olduğu için rubriğin HIGH önerisi yerine MEDIUM'da tutuluyor; kalkarsa yeniden değerlendirilmeli.
+    HIGH   T0029: Üsse tam hizalı (heading_vs_base 0) ve son 5 dakikada 282 m/dk ile kapanıyor, ETA ~19 dk.
+    MEDIUM T0031: 5,9 km'de 30 dakikadır duruyor, uzun duruş geçmişi var.
+    MEDIUM T0039: 4,5 km'de 25 dakikadır park halinde, kapanma yok.
+    MEDIUM T0054: Üsse dik yönde (97 derece sapma) geçiş yapıyor, kapanma 8 m/dk ile düşük.
+    MEDIUM T0058: 2 km'de 25 dakikadır duruyor, 2 uzun duruş geçmişi var.
+    MEDIUM T0073: Üsse sadece 673 m mesafede park halinde; pozisyonu nedeniyle izlenmeye değer.
+    MEDIUM T0075: Daha önce 337 m/dk ile üsse yaklaşıyordu, şu an 15 dakikadır duruyor.
+    MEDIUM T0081: Daha önce 340 m/dk ile yaklaşıyordu, 20 dakikadır duruyor.
+    MEDIUM T0092: 6 km içinde 3 uzun duruş geçmişi olan araç hareket ediyor ancak 60 dakikalık yaklaşım negatif, kapanma zayıf.
+    MEDIUM T0101: Son 5 dakikada 150 m/dk kapanma ve 2 uzun duruş geçmişi var, ancak üsse tam hizalı değil (70 derece sapma).
+    MEDIUM T0107: 3 km'de 15 dakikadır duruyor.
+    HIGH   T0122: 6 km içinde 3 uzun duruştan sonra üsse tam hizalı 247 m/dk ile kapanıyor, ETA ~12 dk.
+    MEDIUM T0125: Önceki tikte 328 m/dk ile üsse kapanıyordu, şu an duruyor.
+    HIGH   T0127: 1 km'den üsse tam hizalı 220 m/dk ile kapanıyor, 6 km içinde 3 uzun duruş geçmişi var.
+    MEDIUM T0138: 3 km'de 45 dakikadır duruyor, 2 uzun duruş geçmişi var.
+    MEDIUM T0142: Son 5 dakikada 173 m/dk kapanma var ancak üsse 68 derece sapmalı ve 6 km uzakta.
+    MEDIUM T0152: Daha önce 240 m/dk ile üsse yaklaşıyordu, 20 dakikadır duruyor.
+    MEDIUM T0162: Üsse tam hizalı 193 m/dk ile kapanıyor ancak 6,5 km uzakta ve ETA ~36 dk.
+    MEDIUM T0170: Önceki tikte üsse 141 m/dk kapanma gösterdi, şu an 10 dakikadır duruyor.
+    MEDIUM T0171: 3,8 km'de 25 dakikadır duruyor, 2 uzun duruş geçmişi var.
+    HIGH   T0192: Üsse tam hizalı son 5 dakikada 257 m/dk ile kapanıyor, ETA ~12 dk.
+    MEDIUM T0194: Daha önce 184 m/dk yaklaşımda bulunmuştu, şu an 20 dakikadır duruyor.
+    MEDIUM T0204: Üsse 985 m mesafede 75 dakikadır park halinde; pozisyonu nedeniyle izlenmeye değer.
+    MEDIUM T0211: Üsten uzaklaşan araç, kapanma negatif (-174 m/dk).
+    MEDIUM T0213: 5,4 km'de 35 dakikadır duruyor.
+    group T0029, T0122, T0192, T0127: Dört araç eşzamanlı olarak üsse tam hizalı yüksek hızla yaklaşıyor (T0029 GB 282 m/dk, T0122 D 247 m/dk, T0192 D 257 m/dk, T0127 GKY 220 m/dk); koordineli yaklaşım olasılığına karşı takip önerilir.
+  ~ TRK-4 RECALLED T0215 (REAL): 2378 m from base, 5.8 m/s
+  ~ TRK-7 FOLLOWING T0127 (REAL): 1080 m from base, 5.0 m/s, ETA 3.6 min
+  ! ALR-4 [urgent, pending_operator_approval] T0127, T0192, T0122, T0029: ACİL: Güneyden 4 araçlı eşgüdümlü yaklaşım — T0127 üsse 1080 m, ETA ~7 dk; T0029/T0122/T0192 de tam hizalı kapanıyor (ETA 12-19 dk)
+
+  [supervisor] llm, 91.3s · threat HIGH · tools: recall_tracker, get_route, dispatch_tracker, notify_authorities, submit_supervisor_decision
+    Üsse çok eksenli eşgüdümlü yaklaşım sürüyor: Güneyden T0029/T0122/T0192/T0127 dörtlüsü tam hizalı 200-280 m/dk kapanıyor, en kritik T0127 1080 m'de ETA ~7 dk (bekleyen HIGH doğrulandı, TRK-7 atandı, ALR-4 acil uyarısı gönderildi). Kuzeybatı 304° koridorunda grup (T0088/T0169/T0199/T0200) ve kuzeydoğudan T0032 önceki uyarı (ALR-3) altında takip ediliyor. Takipçi slotu dolu olduğu için güney grubunun diğer üyeleri şu an sadece level ile izleniyor.
+    pattern T0127, T0192, T0122, T0029 (Guney Kapisi Yaklasimi, Dogu Yolu, Guneybati Yolu): Dört araç aynı tick içinde üsse tam hizalı 200-280 m/dk kapanıyor: T0127 (1080 m, ETA ~7 dk, 6 km içinde 4 uzun duruş), T0192 (3,6 km, ETA ~12 dk), T0122 (4,1 km, ETA ~12 dk), T0029 (4,9 km, ETA ~19 dk). T0127'ye TRK-7 atandı, ALR-4 acil uyarısı gönderildi.
+    pattern T0088, T0169, T0199, T0200 (Kuzeybati Yolu): Kuzeybatı 304° koridorunda sıkışık grup ilerliyor (T0088 417 m/dk, T0169 378 m/dk, T0199 246 m/dk, T0200 357 m/dk, ETA 14-20 dk). T0169 TRK-6 altında, grup önceki ALR-3 uyarısında.
+    pattern T0032 (Kuzeydogu Kavsagi): T0032 kuzeydoğu kavşağından 337 m/dk ile kapanıyor (3,3 km, ETA ~11 dk); T0088 grubundan bağımsız ikinci eksen. Önceki tikteki ALR-3 uyarısına dahil.
+    pattern T0173, T0073, T0004, T0204, T0084 (Bati Yerlesimi, Guney Kapisi Yaklasimi, Kuzey Yolu): Üsse 513-1137 m mesafede beş araç 45-95 dakikadır park halinde ve kimlikleri doğrulanmadı; yeni gelen gruplar bunlara eşlik ederse iç halka tehdidi oluşabilir.
+    action recall_tracker: TRK-4 recalled: T0215 son 5 dakikada üssten -438 m/dk ile uzaklaşıyor (TRK-4 konumu 2,4 km, heading 315°); aktif tehdit değil. Slot, ETA ~7 dk olan T0127 için boşaltılıyor.
+    action dispatch_tracker: TRK-7 on T0127
+    action notify_authorities: ALR-4 (pending_operator_approval): ACİL: Güneyden 4 araçlı eşgüdümlü yaklaşım — T0127 üsse 1080 m, ETA ~7 dk; T0029/T0122/T0192 de tam hizalı kapanıyor (ETA 12-19 dk)
+  ~ TRK-5 LOST T0145 (REAL): 4370 m from base, 3.83 m/s, ETA 19.0 min
+  ~ TRK-6 FOLLOWING T0169 (REAL): 4521 m from base, 6.29 m/s, ETA 12.0 min
+  --- tick done in 151.5s · levels {'LOW': 43, 'MEDIUM': 38, 'HIGH': 9}
+
+=== 14:10 · 80 active vehicles, frames: img_000860
+  > T0160 LOW -> MEDIUM (pending, watcher:A)
+  > T0222 LOW -> MEDIUM (confirmed, watcher:A)
+
+  [watcher A] llm, 33.0s · tools: submit_watch_report
+    Sektörlerdeki tüm araçlar istasyonda; yalnızca T0160 (4,7 km, 216 m/dk kapanma) üsse doğru hareket ediyor, diğer hareketli araçlar (T0018, T0097) üsten uzaklaşıyor.
+    MEDIUM T0004: Üsse 637 m'de 50 dakikadır park halinde; hareket etmezse düşük risk.
+    MEDIUM T0018: Üsten uzaklaşıyor (kapanış -478 m/dk) ancak iki uzun duruş geçmişi ve notlarda kalkışta izleme uyarısı var.
+    MEDIUM T0023: 6,1 km'de 15 dakikadır duruyor, şu an kapanmıyor; kayıt seviyesi korunuyor.
+    MEDIUM T0052: 6,6 km'de duruyor, üsse yönelmiyor.
+    MEDIUM T0084: Üsse 658 m'de 65 dakikadır park halinde; sahada kimlik tespiti gerekli.
+    MEDIUM T0097: Üsten 401 m/dk hızla uzaklaşıyor; seviye ancak süpervizör düşürebilir.
+    MEDIUM T0103: Üsse 1,1 km'de 100 dakikadır park halinde.
+    MEDIUM T0121: 5,9 km'de 35 dakikadır duruyor; 60 dk yaklaşım ortalaması 28 m/dk, kalkarsa izlenmeli.
+    MEDIUM T0140: 5,9 km'de duruyor; geçmişte 60 dk yaklaşım hızı 134 m/dk'ya çıkmış, kalkarsa izlenmeli.
+    MEDIUM T0160: Üsse 50° açıyla 216 m/dk hızla yaklaşıyor, 4,7 km mesafede.
+    MEDIUM T0173: Üsse 511 m'de 75 dakikadır park halinde; kimlik tespiti önerilir.
+    MEDIUM T0206: 4,2 km'de 15 dakikadır duruyor; kalkışırsa yakın geçmişteki 254 m/dk kapanma hızı nedeniyle tekrar değerlendirilmeli.
+    MEDIUM T0208: Üsse 1,1 km'de 70 dakikadır park halinde.
+    MEDIUM T0222: 3 uzun duruş geçmişi var; şu an duruyor ve üsse yaklaşmıyor, beklenen MEDIUM seviyesi uygun.
+    group T0004, T0084, T0103, T0173, T0208: Üsse 1,1 km içeriğinde üç araç (T0004, T0084, T0173, T0103, T0208) 50-100 dakikadır park halinde; hareket etmezlerse düşük risk.
+  > T0020 MEDIUM -> HIGH (pending, watcher:B)
+  > T0029 LOW -> MEDIUM (pending, watcher:B)
+  > T0092 MEDIUM -> HIGH (pending, watcher:B)
+  > T0101 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0122 LOW -> HIGH (confirmed, watcher:B)
+  > T0127 MEDIUM -> HIGH (confirmed, watcher:B)
+  > T0162 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0192 MEDIUM -> HIGH (confirmed, watcher:B)
+  (warning watcher:B: invalid submit_watch_report: patterns.0.track_ids: Field required; patterns.1.track_ids: Field required)
+  (warning watcher:B: invalid submit_watch_report: patterns.1.track_ids: List should have at least 2 items after validation, not 1)
+  (warning watcher:B: rubric fallback used)
+
+  [watcher B] fallback, 107.3s · tools: submit_watch_report, submit_watch_report
+    50 vehicles, 13 moving.
+    HIGH   T0020: Rubric 55: 1603 m; +54.4 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0029: Rubric 45: 3532 m; +52.2 m/min over 60 min; heading 36°, base at 36°
+    MEDIUM T0031: Rubric 25: +26.9 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    HIGH   T0032: Rubric 55: 1609 m; +80.1 m/min over 60 min; heading 238°, base at 256°
+    MEDIUM T0039: Rubric 25: +35.4 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0054: Rubric 25: +25.4 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0058: Rubric 30: 2025 m; +19.9 m/min over 60 min; 2 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0073: Rubric 40: 669 m; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0075: Rubric 25: +48.0 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0081: Rubric 35: +68.2 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    HIGH   T0092: Rubric 60: 1601 m; +42.0 m/min over 60 min; heading 257°, base at 257°
+    MEDIUM T0101: Rubric 40: 3685 m; +24.6 m/min over 60 min; 2 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0107: Rubric 40: 3085 m; +29.2 m/min over 60 min; 2 stop(s) ≥ 20 min within 6 km
+    HIGH   T0122: Rubric 70: 1647 m; +63.8 m/min over 60 min; heading 256°, base at 256°
+    MEDIUM T0125: Rubric 15: 2 stop(s) ≥ 20 min within 6 km
+    HIGH   T0127: Rubric 60: 1605 m; +63.9 m/min over 60 min; 3 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0138: Rubric 40: 3871 m; +20.7 m/min over 60 min; 2 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0152: Rubric 25: +48.0 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0162: Rubric 25: +21.1 m/min over 60 min; heading 328°, base at 328°
+    MEDIUM T0170: Rubric 25: 2126 m; +34.7 m/min over 60 min
+    HIGH   T0192: Rubric 65: 1604 m; +72.5 m/min over 60 min; heading 256°, base at 256°
+    MEDIUM T0194: Rubric 15: +25.1 m/min over 60 min
+    MEDIUM T0204: Rubric 40: 981 m; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0211: Rubric 20: 3714 m; 1 stop(s) ≥ 20 min within 6 km
+    MEDIUM T0213: Rubric 25: +31.4 m/min over 60 min; 1 stop(s) ≥ 20 min within 6 km
+  ~ TRK-8 FOLLOWING T0122 (REAL): 1647 m from base, 8.19 m/s, ETA 3.4 min
+  ! ALR-5 [immediate, pending_operator_approval] T0092, T0020, T0032: ACİL: 3 araç (T0092, T0020, T0032) üssen 1,6 km doğudaki ortak toplanma noktasında, ETA ~5 dk — toplam 6 araçlık yığılma
+
+  [supervisor] llm, 116.6s · threat HIGH · tools: get_route, get_route, get_route, get_route, dispatch_tracker, notify_authorities, submit_supervisor_decision
+    Güney/doğu yaklaşımında 6 araçlık (T0127, T0192, T0122, T0092, T0032, T0020) eşgüdümlü yığılma teyit edildi: hepsi üssen ~1,6 km doğusundaki ortak toplanma noktasında (39.9252, 32.8713); T0020 orada 50 dakikadır bekliyor, T0092/T0122/T0032 son 10 dakikada tam bu noktaya kapanıyor (ETA 4,5-5,7 dk). Tümü farklı sektörlerden (Kuzey Yolu, Kuzeydoğu Kavşağı, Doğu Yolu) aynı koridora akıyor. REP-112'deki tatbikat bildirimi tehdidi düşürmek için kullanılmadı çünkü kendi iz verilerimiz aktif kapanışı doğruluyor. Bekleyen HIGH'lar (T0092, T0020, T0122) çapraz-sektör desenin parçası olduğu için ikinci tick beklemeden onaylandı; T0122'ye TRK-8 atandı ve kapsamı dışındaki 3 araç için ALR-5 (immediate) gönderildi.
+    pattern T0092, T0020, T0192, T0127, T0032, T0122 (Dogu Yolu, Kuzeydogu Kavsagi, Kuzey Yolu): Üsse ~1,6 km doğudaki ortak noktaya (39.9252, 32.8713) 6 araçlık çok sektör'lü eşgüdümlü yığılma; T0020 50 dk önce gelip beklemeye başladı, diğerleri 13:55-14:10 arası aynı noktaya kapanıyor. Tümü steady_approach sınıfında, T0092/T0122 heading'i tam üsse hizalı (256°).
+    pattern T0004, T0084, T0103, T0173, T0208 (Kuzey Yolu, Kuzeydogu Kavsagi, Bati Yerlesimi, Kuzeybati Yolu): Üsse 1,1 km içinde 5 araç 50-100 dakikadır park halinde (T0004, T0084, T0103, T0173, T0208) — hareketsizler düşük risk ancak yığılma grubuyla bağlantı kurup kalkarlara dikkat.
+    action dispatch_tracker: TRK-8 on T0122
+    action notify_authorities: ALR-5 (pending_operator_approval): ACİL: 3 araç (T0092, T0020, T0032) üssen 1,6 km doğudaki ortak toplanma noktasında, ETA ~5 dk — toplam 6 araçlık yığılma
+  ~ TRK-6 LOST T0169 (REAL): 4521 m from base, 6.29 m/s, ETA 12.0 min
+  ~ TRK-7 FOLLOWING T0127 (REAL): 1605 m from base, 6.16 m/s
+  --- tick done in 223.9s · levels {'LOW': 41, 'MEDIUM': 33, 'HIGH': 6}
+
+=== 14:15 · 74 active vehicles, frames: img_004416
+  > T0160 LOW -> MEDIUM (confirmed, watcher:A)
+
+  [watcher A] llm, 44.5s · tools: get_reports, submit_watch_report
+    Bölgede 28 araçtan 24'ü duruyor; en dikkat çekici hareket T0121'in üsse 3° açıyla 255 m/dk kapanışıyla ilerlemesi (4,6 km, ETA ~36 dk). T0103 üsten uzaklaşıyor. Üs yakınındaki park halindeki T0084 (660 m, 70 dk), T0173 (513 m, 80 dk) ve T0208 (1,08 km, 75 dk) kimlik tespiti bekliyor. REP-15 iddiası T0005 ile örtüşüyor (7 m, 70 dk park) — üsse 5,4 km mesafede, LOW.
+    MEDIUM T0023: Kayıt seviyesi MEDIUM korunuyor; 20 dakikadır 6,1 km'de duruyor ve kapanma yok, ancak kalkışta tekrar değerlendirilmeli (NOT-T0023-1/2).
+    MEDIUM T0052: 20 dakikadır duruyor, kapanma yok; kayıt seviyesi MEDIUM ile uyumlu.
+    MEDIUM T0084: Üsse 660 m'de 70 dakikadır park halinde; kimlik doğrulaması hâlâ yapılmalı (NOTE-T0084-1).
+    MEDIUM T0097: Üsten uzaklaşıyor (60 dk yaklaşım -85,1 m/dk) ancak 10 dk önce durdu; kayıt seviyesi MEDIUM ile uyumlu.
+    MEDIUM T0103: Üsten uzaklaşıyor (180° karşı yön, -288 m/dk son 5 dk), tehdit yok; kayıt seviyesi MEDIUM'un altına inemem.
+    MEDIUM T0121: Üsse 3° açıyla 255 m/dk kapanış hızıyla yaklaşan tek hareketli araç; ETA 36 dk, yüksek tehdit sinyali ancak istikrarlı tek seferlik yaklaşım olduğu için MEDIUM.
+    MEDIUM T0140: 30 dakikadır duruyor, 60 dk yaklaşım ortalaması 22,3 m/dk'ya gerilemiş; önceki yüksek yaklaşım hızı geçmişte kalmış.
+    MEDIUM T0160: Bekleyen MEDIUM yükseltmesi onaylanıyor: az önce 27,7 m/dk ortalama ve 216 m/dk kapanışla yaklaşmıştı, şimdi 10 dk duruyor.
+    MEDIUM T0173: Üsse 513 m'de 80 dakikadır park halinde; kimlik tespiti hâlâ önerilir (NOTE-T0173-1).
+    MEDIUM T0206: 14:05'teki değerlendirme gibi şu an 20 dakikadır duruyor, HIGH gerekçesi ortadan kalktı; kalkarsa NOTE-T0206-2'deki takipçi önerisi geçerli.
+    MEDIUM T0208: Üsse 1,08 km'de 75 dakikadır park halinde (NOTE-T0208-1).
+    MEDIUM T0222: 15 dakikadır duruyor, üsten uzaklaşıyor; 3 uzun duruş geçmişi nedeniyle MEDIUM korunuyor (NOTE-T0222-1).
+    group T0084, T0173, T0208: Kuzeydoğu Kavşağı'nda üsse yakın park halindeki üç araç (T0084 660 m/70 dk, T0173 513 m/80 dk, T0208 1,08 km/75 dk) uzun süreli park deseni; kimlik tespiti önerilir.
+  > T0029 LOW -> MEDIUM (confirmed, watcher:B)
+  > T0039 MEDIUM -> HIGH (pending, watcher:B)
+  > T0142 LOW -> HIGH (pending, watcher:B)
+  > T0162 MEDIUM -> HIGH (pending, watcher:B)
+  > T0166 LOW -> MEDIUM (pending, watcher:B)
+
+  [watcher B] llm, 54.9s · tools: submit_watch_report
+    Güneydoğudan üsse tam hizalı iki araç (T0142, T0162) ve güneybatıdan T0039 hızla kapanıyor; Güney Kapısı yaklaşımında durmuş araçlar hâlâ yerinde, üssün 650-1000 m çevresinde T0004 ve T0073 park halinde.
+    MEDIUM T0004: Üsse 635 m'de 55 dakikadır park halinde, hareket yok.
+    MEDIUM T0018: Üsse dik yönde uzaklaşıyor (heading_vs_base 94), 60 dk yaklaşım -22,7 m/dk; önceki izleme notları nedeniyle MEDIUM'da tutuyorum.
+    MEDIUM T0029: Önceki tikteki hızlı yaklaşımın ardından 10 dakikadır duruyor, son 5 dk kapanma -1 m/dk.
+    MEDIUM T0031: Güney Kapısı yaklaşımında 40 dakikadır duruyor, kapanma yok.
+    HIGH   T0039: Üsse tam hizaya yakın (32°) 377 m/dk kapanma ile geliyor, ETA 12,8 dk.
+    MEDIUM T0054: 15 dakikadır duruyor, kapanma yok.
+    MEDIUM T0058: 35 dakikadır duruyor, hareket yok.
+    MEDIUM T0073: Üsse 670 m'de park halinde, hareket yok.
+    MEDIUM T0075: Önceki hızlı yaklaşımın ardından 25 dakikadır duruyor, kapanma yok.
+    MEDIUM T0081: Daha önce 340 m/dk ile yaklaşıyordu, 30 dakikadır duruyor.
+    MEDIUM T0101: Üsse 70 derece sapmalı, 15 dakikadır duruyor.
+    MEDIUM T0107: 25 dakikadır duruyor, kapanma yok.
+    MEDIUM T0125: Önceki kapanmanın ardından 20 dakikadır duruyor.
+    MEDIUM T0138: Üsse 149 derece sapmalı ve 417 m/dk uzaklaşıyor; registry seviyesini düşüremem.
+    HIGH   T0142: Üsse tam hizalı (0°) 316 m/dk kapanma ile geliyor, ETA ~28 dk.
+    MEDIUM T0152: Önceki hızlı yaklaşımın ardından 30 dakikadır duruyor.
+    HIGH   T0162: Üsse tam hizalı (0°) 220 m/dk kapanma ile geliyor, ETA ~21 dk.
+    MEDIUM T0166: Üsse 27 derece sapmalı 446 m/dk kapanma ile geliyor (ETA ~20 dk); rubrik LOW ama kapanma hızı izlenmeli.
+    MEDIUM T0170: 20 dakikadır duruyor, kapanma yok.
+    MEDIUM T0194: 249 m/dk kapanma ve ETA ~24 dk var ama rubrik LOW/registry MEDIUM; izlenmeli.
+    MEDIUM T0204: Üsse 982 m'de 85 dakikadır park halinde.
+    MEDIUM T0211: Üsten 180 derece sapmalı uzaklaşıyor; registry seviyesini düşüremem.
+    MEDIUM T0213: Üsten 175 derece sapmalı uzaklaşıyor (485 m/dk); registry seviyesini düşüremem.
+    group T0142, T0162: T0142 ve T0162 aynı istikametten (bearing ~148°) üsse tam hizalı ve eşzamanlı kapanıyor (ETA 21-28 dk), grup halinde yaklaşım.
+  > T0039 MEDIUM -> HIGH (confirmed, supervisor)
+  > T0142 LOW -> HIGH (confirmed, supervisor)
+  > T0162 MEDIUM -> HIGH (confirmed, supervisor)
+  ~ TRK-9 FOLLOWING T0039 (REAL): 2638 m from base, 6.87 m/s, ETA 6.4 min
+  ! ALR-6 [urgent, pending_operator_approval] T0039, T0142, T0162: ACİL: Üçe bölünmüş koordineli yakınsama — T0039 (ETA ~13 dk, güneybatı) ve T0142+T0162 (üs'e tam hizalı çift, ETA ~21-28 dk, güneydoğu) aynı anda üsse kapanıyor
+
+  [supervisor] llm, 129.0s · threat HIGH · tools: get_notes, get_notes, get_route, set_level, set_level, set_level, dispatch_tracker, notify_authorities, submit_supervisor_decision
+    Üçe bölünmüş bir yakınsama deseni tespit edildi: T0039 güneybatıdan son 5 dakikada 1.890 m hızlı kapanışla (377 m/dk, ETA ~13 dk) yaklaşırken, T0142 ve T0162 aynı bearing'den (~148°) üsse tam hizalı ve eşzamanlı kapanıyor (ETA 21-28 dk). Bekleyen HIGH'lar bu çapraz deseniyle teyit edildi, üçüne de HIGH atandı ve tek boş takipçi slotu zaman açısından en kritik araç olan T0039'a (TRK-9) verildi. Zaten takip edilen T0122 (ETA 3,4 dk) ve T0127 kritik mesafede kritik hareket halinde; ayrıca üsse 0,5-1,1 km mesafede 55-85 dakikadır park halinde kimliği belirsiz altı araç (T0084, T0173, T0208, T0004, T0073, T0204) bulunuyor. Üç araç için tek bir acil bildirim (ALR-6) operatör onayına sunuldu.
+    pattern T0039, T0142, T0162 (Guneybati Yolu, Dogu Yolu, Guneydogu Yerlesimi): Üçe bölünmüş yakınsama: T0039 güneybatıdan 30 dk duraklama sonrası 377 m/dk kapanışla hızlanarak (ETA ~13 dk), T0142 ve T0162 ise aynı bearing'den (~148°) üsse tam hizalı, eşzamanlı kapanıyor (ETA 21-28 dk). Üç farklı vektörün aynı anda üsse yönelmesi koordineli bir yaklaşımı işaret ediyor; T0039'a takipçi (TRK-9) atandı ve üçü için acil bildirim (ALR-6) onaya sunuldu.
+    pattern T0084, T0173, T0208, T0004, T0073, T0204 (Kuzeydogu Kavsagi, Guney Kapisi Yaklasimi): Üsse 0,5-1,1 km mesafede, Kuzeydoğu Kavşağı ve Güney Kapısı çevresinde toplam yedi araç uzun süreli (55-85 dk) park halinde: T0084, T0173, T0208, T0004, T0073, T0204. Kimlikleri belirsiz; henüz yüksek tehdit göstergesi yok ama yakın çevredeki bu yoğun park deseni izlenmeli.
+    action set_level: T0039 -> HIGH: Bekleyen HIGH teyit ediliyor: kendi iz verimiz son 5 dakikada 1.890 m'lik hızlı kapanışı (377 m/dk) doğruluyor; 30 dk duraklama sonrası üsse 36,8° bearing ile yaklaşan araç, ETA 12,8 dk ile bugüne kadarki en yakın zamanda ulaşan tehdit adayı.
+    action set_level: T0142 -> HIGH: Bekleyen HIGH'lar çapraz deseniyle teyit ediliyor: T0142 ve T0162 aynı bearing (~148°) üzerinden üsse tam hizalı (0° sapma), eşzamanlı ve koordineli kapanıyor (ETA 21-28 dk). Grup halinde yaklaşım deseni T0039'un güneybatıdan yaklaşımıyla birleşince üsse yönelik yakınsama oluşuyor.
+    action set_level: T0162 -> HIGH: T0142 ile aynı desen: aynı bearing'den (~148°) üsse tam hizalı, eşzamanlı kapanış (ETA 21-28 dk), koordineli grup yaklaşımı; T0039 ile birlikte üsse yönelik çok yönlü yakınsamanın parçası.
+    action dispatch_tracker: TRK-9 on T0039
+    action notify_authorities: ALR-6 (pending_operator_approval): ACİL: Üçe bölünmüş koordineli yakınsama — T0039 (ETA ~13 dk, güneybatı) ve T0142+T0162 (üs'e tam hizalı çift, ETA ~21-28 dk, güneydoğu) aynı anda üsse kapanıyor
+  ~ TRK-7 LOST T0127 (REAL): 1605 m from base, 6.16 m/s
+  ~ TRK-8 LOST T0122 (REAL): 1647 m from base, 8.19 m/s, ETA 3.4 min
+  --- tick done in 183.9s · levels {'LOW': 39, 'MEDIUM': 32, 'HIGH': 3}
+
+LLM calls: 39 (uncached) · tokens in 396053, out 64818
+events: /Users/yildirimozew/Desktop/akya-day2/backend/.cache/watch_runs/1350-1415.jsonl
+exit 0

@@ -1,0 +1,679 @@
+{
+  "id": "mock-img_000860",
+  "image_id": "img_000860",
+  "status": "done",
+  "image": {
+    "image_id": "img_000860",
+    "width_px": 960,
+    "height_px": 540,
+    "capture_time": "14:10",
+    "capture_min": 850,
+    "corners": {
+      "tl": {
+        "lat": 39.925651,
+        "lon": 32.870729
+      },
+      "tr": {
+        "lat": 39.925651,
+        "lon": 32.872131
+      },
+      "bl": {
+        "lat": 39.925045,
+        "lon": 32.870729
+      },
+      "br": {
+        "lat": 39.925045,
+        "lon": 32.872131
+      }
+    },
+    "zone": "Dogu Yolu"
+  },
+  "scene": {
+    "base": {
+      "name": "Merkez Us",
+      "position": {
+        "lat": 39.92184,
+        "lon": 32.85306
+      }
+    },
+    "zones": [
+      {
+        "name": "Kuzey Yolu",
+        "center": {
+          "lat": 39.950586,
+          "lon": 32.85306
+        }
+      },
+      {
+        "name": "Kuzeydogu Tepesi",
+        "center": {
+          "lat": 39.942164,
+          "lon": 32.879561
+        }
+      },
+      {
+        "name": "Dogu Yolu",
+        "center": {
+          "lat": 39.92184,
+          "lon": 32.890542
+        }
+      },
+      {
+        "name": "Guneydogu Sanayi",
+        "center": {
+          "lat": 39.901516,
+          "lon": 32.879561
+        }
+      },
+      {
+        "name": "Guney Koprusu",
+        "center": {
+          "lat": 39.893098,
+          "lon": 32.85306
+        }
+      },
+      {
+        "name": "Guneybati Ciftlik",
+        "center": {
+          "lat": 39.901516,
+          "lon": 32.826559
+        }
+      },
+      {
+        "name": "Bati Yolu",
+        "center": {
+          "lat": 39.92184,
+          "lon": 32.815582
+        }
+      },
+      {
+        "name": "Kuzeybati Orman",
+        "center": {
+          "lat": 39.942164,
+          "lon": 32.826559
+        }
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step": "load_frame",
+      "index": 1,
+      "status": "done",
+      "summary": "960x540 frame at 14:10, zone Dogu Yolu",
+      "data": {
+        "capture_time": "14:10",
+        "zone": "Dogu Yolu"
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "detect",
+      "index": 2,
+      "status": "done",
+      "summary": "1 vehicle(s): truck 0.87",
+      "data": {
+        "detector": "precomputed",
+        "count": 1
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "georeference",
+      "index": 3,
+      "status": "done",
+      "summary": "1 position(s); nearest 1.65 km from base",
+      "data": {
+        "frame_w_m": 119.6,
+        "frame_h_m": 67.4
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "match_tracks",
+      "index": 4,
+      "status": "done",
+      "summary": "1/1 matched; 6 track(s) inside frame",
+      "data": {
+        "candidates": 36
+      },
+      "warnings": [],
+      "duration_ms": 1
+    },
+    {
+      "step": "analyze_motion",
+      "index": 5,
+      "status": "done",
+      "summary": "T0122 +64 m/min, 3 stop(s)",
+      "data": {},
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "assess_reports",
+      "index": 6,
+      "status": "done",
+      "summary": "1 relevant of 4 in window: REP-05 CORROBORATED",
+      "data": {},
+      "warnings": [],
+      "duration_ms": 1
+    },
+    {
+      "step": "score_risk",
+      "index": 7,
+      "status": "done",
+      "summary": "frame level CRITICAL; DET-1=80",
+      "data": {
+        "level": "CRITICAL"
+      },
+      "warnings": [],
+      "duration_ms": 0
+    },
+    {
+      "step": "write_brief",
+      "index": 8,
+      "status": "done",
+      "summary": "CRITICAL brief (fallback), action ESCALATE",
+      "data": {
+        "generated_by": "fallback"
+      },
+      "warnings": [],
+      "duration_ms": 0
+    }
+  ],
+  "detections": [
+    {
+      "id": "DET-1",
+      "label": "truck",
+      "confidence": 0.87,
+      "bbox": [
+        727,
+        284,
+        58,
+        34
+      ],
+      "center_px": [
+        756.0,
+        301.0
+      ],
+      "position": {
+        "lat": 39.925313,
+        "lon": 32.871833
+      },
+      "distance_to_base_m": 1647.0,
+      "bearing_from_base_deg": 76.4
+    }
+  ],
+  "track_snapshots": [
+    {
+      "track_id": "T0002",
+      "position": {
+        "lat": 39.925464,
+        "lon": 32.871277
+      },
+      "center_px": [
+        375.2,
+        166.6
+      ],
+      "matched_detection_id": null
+    },
+    {
+      "track_id": "T0003",
+      "position": {
+        "lat": 39.925379,
+        "lon": 32.871293
+      },
+      "center_px": [
+        386.2,
+        242.4
+      ],
+      "matched_detection_id": null
+    },
+    {
+      "track_id": "T0004",
+      "position": {
+        "lat": 39.925286,
+        "lon": 32.871309
+      },
+      "center_px": [
+        397.1,
+        325.2
+      ],
+      "matched_detection_id": null
+    },
+    {
+      "track_id": "T0005",
+      "position": {
+        "lat": 39.925175,
+        "lon": 32.871319
+      },
+      "center_px": [
+        404.0,
+        424.2
+      ],
+      "matched_detection_id": null
+    },
+    {
+      "track_id": "T0032",
+      "position": {
+        "lat": 39.925366,
+        "lon": 32.871355
+      },
+      "center_px": [
+        428.6,
+        254.0
+      ],
+      "matched_detection_id": null
+    },
+    {
+      "track_id": "T0122",
+      "position": {
+        "lat": 39.925311,
+        "lon": 32.87183
+      },
+      "center_px": [
+        753.9,
+        303.0
+      ],
+      "matched_detection_id": "DET-1"
+    }
+  ],
+  "matches": [
+    {
+      "detection_id": "DET-1",
+      "track_id": "T0122",
+      "distance_m": 0.3,
+      "second_best_m": 41.2,
+      "second_best_track_id": "T0032",
+      "confidence": "high"
+    }
+  ],
+  "motions": [
+    {
+      "track_id": "T0122",
+      "points": [
+        {
+          "time": "12:10",
+          "time_min": 730,
+          "position": {
+            "lat": 39.975102,
+            "lon": 32.860666
+          }
+        },
+        {
+          "time": "12:15",
+          "time_min": 735,
+          "position": {
+            "lat": 39.975114,
+            "lon": 32.860654
+          }
+        },
+        {
+          "time": "12:20",
+          "time_min": 740,
+          "position": {
+            "lat": 39.975117,
+            "lon": 32.860676
+          }
+        },
+        {
+          "time": "12:25",
+          "time_min": 745,
+          "position": {
+            "lat": 39.975101,
+            "lon": 32.860666
+          }
+        },
+        {
+          "time": "12:30",
+          "time_min": 750,
+          "position": {
+            "lat": 39.975085,
+            "lon": 32.86063
+          }
+        },
+        {
+          "time": "12:35",
+          "time_min": 755,
+          "position": {
+            "lat": 39.97511,
+            "lon": 32.860669
+          }
+        },
+        {
+          "time": "12:40",
+          "time_min": 760,
+          "position": {
+            "lat": 39.975096,
+            "lon": 32.860668
+          }
+        },
+        {
+          "time": "12:45",
+          "time_min": 765,
+          "position": {
+            "lat": 39.975097,
+            "lon": 32.860662
+          }
+        },
+        {
+          "time": "12:50",
+          "time_min": 770,
+          "position": {
+            "lat": 39.970936,
+            "lon": 32.870032
+          }
+        },
+        {
+          "time": "12:55",
+          "time_min": 775,
+          "position": {
+            "lat": 39.966786,
+            "lon": 32.8794
+          }
+        },
+        {
+          "time": "13:00",
+          "time_min": 780,
+          "position": {
+            "lat": 39.966754,
+            "lon": 32.879401
+          }
+        },
+        {
+          "time": "13:05",
+          "time_min": 785,
+          "position": {
+            "lat": 39.966779,
+            "lon": 32.879369
+          }
+        },
+        {
+          "time": "13:10",
+          "time_min": 790,
+          "position": {
+            "lat": 39.966775,
+            "lon": 32.879375
+          }
+        },
+        {
+          "time": "13:15",
+          "time_min": 795,
+          "position": {
+            "lat": 39.95222,
+            "lon": 32.903397
+          }
+        },
+        {
+          "time": "13:20",
+          "time_min": 800,
+          "position": {
+            "lat": 39.952226,
+            "lon": 32.903423
+          }
+        },
+        {
+          "time": "13:25",
+          "time_min": 805,
+          "position": {
+            "lat": 39.952217,
+            "lon": 32.903438
+          }
+        },
+        {
+          "time": "13:30",
+          "time_min": 810,
+          "position": {
+            "lat": 39.952213,
+            "lon": 32.903432
+          }
+        },
+        {
+          "time": "13:35",
+          "time_min": 815,
+          "position": {
+            "lat": 39.952213,
+            "lon": 32.903438
+          }
+        },
+        {
+          "time": "13:40",
+          "time_min": 820,
+          "position": {
+            "lat": 39.952204,
+            "lon": 32.903414
+          }
+        },
+        {
+          "time": "13:45",
+          "time_min": 825,
+          "position": {
+            "lat": 39.952228,
+            "lon": 32.903424
+          }
+        },
+        {
+          "time": "13:50",
+          "time_min": 830,
+          "position": {
+            "lat": 39.952232,
+            "lon": 32.903411
+          }
+        },
+        {
+          "time": "13:55",
+          "time_min": 835,
+          "position": {
+            "lat": 39.952215,
+            "lon": 32.903432
+          }
+        },
+        {
+          "time": "14:00",
+          "time_min": 840,
+          "position": {
+            "lat": 39.933144,
+            "lon": 32.914053
+          }
+        },
+        {
+          "time": "14:05",
+          "time_min": 845,
+          "position": {
+            "lat": 39.92926,
+            "lon": 32.892936
+          }
+        },
+        {
+          "time": "14:10",
+          "time_min": 850,
+          "position": {
+            "lat": 39.925311,
+            "lon": 32.87183
+          }
+        }
+      ],
+      "path_km": 10.5,
+      "mean_speed_ms": 1.46,
+      "last10_speed_ms": 6.17,
+      "heading_deg": 256.3,
+      "bearing_to_base_deg": 256.4,
+      "dist_now_m": 1646.0,
+      "dist_30m_ago_m": 5462.0,
+      "dist_60m_ago_m": 5477.0,
+      "min_dist_m": 1646.0,
+      "approach_rate_m_per_min": 63.8,
+      "stops": [
+        {
+          "start": "12:10",
+          "duration_min": 40,
+          "position": {
+            "lat": 39.97510275,
+            "lon": 32.860661375
+          },
+          "zone": null,
+          "distance_to_base_m": 5958.0
+        },
+        {
+          "start": "12:55",
+          "duration_min": 20,
+          "position": {
+            "lat": 39.9667735,
+            "lon": 32.879386249999996
+          },
+          "zone": null,
+          "distance_to_base_m": 5477.0
+        },
+        {
+          "start": "13:15",
+          "duration_min": 45,
+          "position": {
+            "lat": 39.95221866666667,
+            "lon": 32.90342322222222
+          },
+          "zone": null,
+          "distance_to_base_m": 5463.0
+        }
+      ],
+      "zones_visited": [
+        "Dogu Yolu"
+      ],
+      "eta_to_base_min": 4.4
+    }
+  ],
+  "reports": [
+    {
+      "report_id": "REP-05",
+      "time": "12:35",
+      "time_min": 755,
+      "source": "official",
+      "text": "39.9253N 32.8718E cevresinde 1 agir arac bulunuyor, hareketleri olagan.",
+      "location": {
+        "lat": 39.9253,
+        "lon": 32.8718
+      },
+      "zone": null,
+      "vehicle_type": "truck",
+      "count": 1,
+      "color": null,
+      "activity": "unknown",
+      "claim_kind": "TRAFFIC_NORMAL",
+      "extracted_by": "rules"
+    }
+  ],
+  "report_assessments": [
+    {
+      "report_id": "REP-05",
+      "verdict": "CORROBORATED",
+      "reason": "konum ve tip kendi tespitimizle uyumlu.",
+      "checks": [
+        {
+          "name": "location",
+          "status": "match",
+          "detail": "DET-1 at 3 m"
+        },
+        {
+          "name": "presence",
+          "status": "match",
+          "detail": "tracks near at 12:35: T0003, T0020"
+        },
+        {
+          "name": "type",
+          "status": "match",
+          "detail": "claimed truck, detected truck"
+        }
+      ],
+      "linked_detection_ids": [
+        "DET-1"
+      ],
+      "trust_weight": 0.8
+    }
+  ],
+  "risks": [
+    {
+      "detection_id": "DET-1",
+      "track_id": "T0122",
+      "score": 80,
+      "level": "CRITICAL",
+      "factors": [
+        {
+          "name": "distance_to_base",
+          "points": 20,
+          "detail": "1646 m"
+        },
+        {
+          "name": "approach_rate",
+          "points": 25,
+          "detail": "+63.8 m/min over 60 min"
+        },
+        {
+          "name": "heading_to_base",
+          "points": 10,
+          "detail": "heading 256°, base at 256°"
+        },
+        {
+          "name": "stops_near_base",
+          "points": 15,
+          "detail": "3 stop(s) ≥ 20 min within 6 km"
+        },
+        {
+          "name": "vehicle_type",
+          "points": 10,
+          "detail": "truck"
+        }
+      ]
+    }
+  ],
+  "brief": {
+    "image_id": "img_000860",
+    "level": "CRITICAL",
+    "headline": "1 araç; en riskli kamyon üsse 1,6 km, yaklaşıyor",
+    "summary": "T0122 son 60 dakikada 5,5 km'den 1,6 km'ye yaklaştı. 3 uzun duraklama (12:10 · 40 dk, 12:55 · 20 dk, 13:15 · 45 dk). Kamyon (T0122) üsse 1,6 km, tahmini varış ≈ 4 dk; puan 80/100.",
+    "vehicles": [
+      {
+        "detection_id": "DET-1",
+        "track_id": "T0122",
+        "level": "CRITICAL",
+        "text": "Kamyon (T0122) üsse 1,6 km, tahmini varış ≈ 4 dk; puan 80/100.",
+        "evidence_ids": [
+          "DET-1",
+          "TRK-T0122"
+        ]
+      }
+    ],
+    "report_notes": [
+      "REP-05 (official, 12:35): DOĞRULANDI — konum ve tip kendi tespitimizle uyumlu."
+    ],
+    "uncertainties": [
+      "Kare tam nadir olmayabilir; köşe koordinatlarıyla doğrusal eşleme varsayıldı.",
+      "LLM kullanılamadı; brifing kural tabanlı şablondan üretildi."
+    ],
+    "recommended_action": "ESCALATE",
+    "evidence_ids": [
+      "DET-1",
+      "TRK-T0122",
+      "REP-05",
+      "ZONE-Dogu Yolu"
+    ],
+    "generated_by": "fallback"
+  },
+  "timings_ms": {
+    "load_frame": 0,
+    "detect": 0,
+    "georeference": 0,
+    "match_tracks": 1,
+    "analyze_motion": 0,
+    "assess_reports": 1,
+    "score_risk": 0,
+    "write_brief": 0
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "calls": 0,
+    "cache_hits": 0
+  }
+}
