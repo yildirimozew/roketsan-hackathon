@@ -1,7 +1,7 @@
 """Shared fixtures: the live backend on sys.path and the organizer data in data/.
 
-Run from the repo root with the backend environment:
-    uv --directory backend run pytest ../arge/core_fixes/tests -q
+Run from akya-day2/ with the backend environment:
+    uv --directory backend run pytest ../arge/core_upgrades/tests -q
 """
 
 import sys

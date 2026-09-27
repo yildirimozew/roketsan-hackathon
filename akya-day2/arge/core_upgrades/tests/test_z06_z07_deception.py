@@ -4,10 +4,10 @@ from app.domain.image import ImageMeta
 from app.domain.risk import RiskFactor, VehicleRisk
 from app.services.reports import extract_claim
 
-from core_fixes.contracts import ReportAssessmentV2
-from core_fixes.z04_capture_time import frame_for, verify_at_capture
-from core_fixes.z06_deception import annotate, assess
-from core_fixes.z07_deception_level import apply_deception, raise_watch_level
+from core_upgrades.contracts import ReportAssessmentV2
+from core_upgrades.z04_capture_time import frame_for, verify_at_capture
+from core_upgrades.z06_deception import annotate, assess
+from core_upgrades.z07_deception_level import apply_deception, raise_watch_level
 
 
 def _assess_friendly(

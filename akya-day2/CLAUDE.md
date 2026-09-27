@@ -25,9 +25,10 @@ Hackathon project: an LLM agent that assesses base-security risk from a drone fr
 3. Breadth (all 40 frames, extra pages, chat) comes after 1 and 2.
 
 ## Repo conventions
+- This project is the `akya-day2/` folder of the `roketsan-hackathon` repo (Stage 1 lives in `../akya-day1/`). "Root" and every relative path in these docs mean `akya-day2/`.
 - Monorepo: `backend/` (FastAPI, uv), `frontend/` (Vite React TS, pnpm).
 - `data/` (organizer data, ~10 MB) is committed so every checkout can run the demo; add new data there. `models/` is gitignored; never commit weights, `.env` or API keys.
-- Makefile targets at root: `install`, `dev`, `test`, `lint`, `format`, `gen-types`, `mock`, `precompute`. Recipes must work from Git Bash and PowerShell on Windows (use `uv --directory` / `pnpm --dir`, no `cd`).
+- Makefile targets in `akya-day2/`: `install`, `dev`, `test`, `lint`, `format`, `gen-types`, `mock`, `precompute`. Recipes must work from Git Bash and PowerShell on Windows (use `uv --directory` / `pnpm --dir`, no `cd`).
 - API contract flows one way: Pydantic models → OpenAPI → `pnpm gen-types` → `frontend/src/api/schema.d.ts`. Never hand-write API types in the frontend.
 - Commits: Conventional Commits (`feat(agent): ...`, `fix(ui): ...`), one logical change each.
 

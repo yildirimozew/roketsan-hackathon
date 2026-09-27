@@ -2,8 +2,8 @@ from app.data.repository import Repository
 from app.domain.geo import LatLon
 from app.domain.image import ImageMeta
 
-from core_fixes.tests.conftest import located_detection, report
-from core_fixes.z05_absence import check_absence, extract_claim_v2, frames_for_absence
+from core_upgrades.tests.conftest import located_detection, report
+from core_upgrades.z05_absence import check_absence, extract_claim_v2, frames_for_absence
 
 
 def test_negated_heavy_vehicle_is_an_absence_claim_not_a_sighting(repo: Repository) -> None:

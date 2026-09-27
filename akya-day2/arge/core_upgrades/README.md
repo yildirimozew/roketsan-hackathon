@@ -1,4 +1,4 @@
-# core_fixes — staged code for items Z1–Z11
+# core_upgrades — staged code for items Z1–Z11
 
 Code for the items in `arge/YUKSEK_ONCELIKLI_GELISTIRME_FIKIRLERI.md`, one module per item. It
 imports the live backend (`app.*`) and uses its types and services, so each module can be moved into
@@ -6,10 +6,10 @@ imports the live backend (`app.*`) and uses its types and services, so each modu
 
 ## Run the tests
 
-From the repo root, with the backend environment:
+From `akya-day2/`, with the backend environment:
 
 ```
-uv --directory backend run pytest ../arge/core_fixes/tests -q -p no:cacheprovider
+uv --directory backend run pytest ../arge/core_upgrades/tests -q -p no:cacheprovider
 ```
 
 Status (2026-09-27): 36 tests pass on the real `data/`. The backend suite (103 tests, golden test

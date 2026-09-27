@@ -2,7 +2,7 @@ from app.data.repository import Repository
 from app.domain.geo import LatLon
 from app.domain.track import Track, TrackPoint
 
-from core_fixes.z03_stationary import (
+from core_upgrades.z03_stationary import (
     STATIONARY_MAX_M,
     closing_m,
     drift_gap,

@@ -18,17 +18,17 @@ from app.services import risk as risk_svc
 from app.services.behavior import behavior_class, moving_groups
 from app.services.tracks import match_detections, tracks_at
 
-from core_fixes.contracts import EvidenceStatus, ReportAssessmentV2
-from core_fixes.tests.conftest import located_detection, report
-from core_fixes.tests.test_z09_z10 import _golden_analysis
-from core_fixes.z02_track_only import find_track_only, score_track_only
-from core_fixes.z04_capture_time import is_relevant_at_capture, verify_at_capture
-from core_fixes.z05_absence import check_absence, extract_claim_v2, frames_for_absence
-from core_fixes.z06_deception import annotate, assess
-from core_fixes.z07_deception_level import apply_deception
-from core_fixes.z08_insufficient import assess_evidence
-from core_fixes.z09_guard import guard_brief
-from core_fixes.z10_budget_mode import BudgetMonitor, fetch_budget, resolve_mode
+from core_upgrades.contracts import EvidenceStatus, ReportAssessmentV2
+from core_upgrades.tests.conftest import located_detection, report
+from core_upgrades.tests.test_z09_z10 import _golden_analysis
+from core_upgrades.z02_track_only import find_track_only, score_track_only
+from core_upgrades.z04_capture_time import is_relevant_at_capture, verify_at_capture
+from core_upgrades.z05_absence import check_absence, extract_claim_v2, frames_for_absence
+from core_upgrades.z06_deception import annotate, assess
+from core_upgrades.z07_deception_level import apply_deception
+from core_upgrades.z08_insufficient import assess_evidence
+from core_upgrades.z09_guard import guard_brief
+from core_upgrades.z10_budget_mode import BudgetMonitor, fetch_budget, resolve_mode
 
 
 @dataclass

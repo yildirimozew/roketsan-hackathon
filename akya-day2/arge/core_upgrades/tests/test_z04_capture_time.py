@@ -5,8 +5,8 @@ from app.services.geo import haversine_m
 from app.services.reports import extract_claim, parse_coordinates
 from app.services.tracks import match_detections, tracks_at
 
-from core_fixes.tests.conftest import located_detection, report
-from core_fixes.z04_capture_time import (
+from core_upgrades.tests.conftest import located_detection, report
+from core_upgrades.z04_capture_time import (
     frame_for,
     is_relevant_at_capture,
     reports_near_at_capture,

@@ -24,7 +24,7 @@ An operator picks a drone frame and watches an agent, step by step:
 | P3 | Analysis UI | 🟡 step-player UI working on the synchronous API |
 | P4 | Batch precompute, replay mode, reports inspector, analyst chat | ⏳ |
 
-The organizer's data is not in the repo. Until it arrives, a **synthetic day in the exact raw formats** drives everything (see [Mock data](#mock-data)).
+The organizer's data is committed in `data/` (see [Organizer data](#organizer-data)). A **synthetic day in the exact raw formats** can still be generated for tests and demos (see [Mock data](#mock-data)).
 
 ---
 
@@ -70,7 +70,10 @@ frontend/src/
 
 **Prerequisites:** [uv](https://docs.astral.sh/uv/), Node 20+, [pnpm](https://pnpm.io/), GNU make. On Windows: `winget install ezwinports.make`; recipes work from Git Bash and PowerShell.
 
+This project lives in the `akya-day2/` folder of the `roketsan-hackathon` repo. Run every command below from `akya-day2/`; all relative paths in this project's docs (and "repo root" in `.env`, scripts and tests) mean that folder.
+
 ```bash
+cd akya-day2
 make install          # backend (uv) + frontend (pnpm) dependencies
 cp .env.example .env  # defaults point at the synthetic day
 make mock-data        # synthetic day -> data/stage2_mock/
@@ -92,7 +95,7 @@ make mock-data PPTX="path/to/case-brief.pptx"
 make install-detector   # ultralytics + CUDA 12.8 torch (~2.5 GB)
 ```
 
-Put the weights at `models/best.pt` and set `SENTINEL_DETECTOR_KIND=ultralytics` in `.env`. `/api/health` shows the device (GPU/CPU).
+Put the weights at `models/detector.pt` (the default; or point `SENTINEL_DETECTOR_WEIGHTS` at another file) and set `SENTINEL_DETECTOR_KIND=ultralytics` in `.env`. `/api/health` shows the device (GPU/CPU).
 
 - Inference runs at `imgsz` 960 (~55 ms on a GTX 1650), FP32 only: FP16 returned no boxes on GTX 16xx cards.
 - If the model fails at load or inference, the pipeline uses the precomputed boxes and marks the step as a warning.

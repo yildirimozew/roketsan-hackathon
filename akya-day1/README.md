@@ -53,13 +53,18 @@ metriğe göre yaklaşık 3 puan yüksek çıkıyor.
 
 ## Kurulum
 
+Bu klasör `roketsan-hackathon` reposunun `akya-day1/` alt klasörü. Aşağıdaki komutlar ve bütün göreli yollar
+(`data/`, `splits/`, `work/`, klasör README'leri ve script docstring'lerindeki "repo kökü") `akya-day1/` klasörüne
+göre yazıldı.
+
 ```bash
+cd akya-day1
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install torch==2.10.0 torchvision==0.25.0 --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
-Kaggle verisini aşağıdaki yapıyla `data/` klasörüne koyun. Veri Git'e dahil değil.
+Kaggle verisini aşağıdaki yapıyla `akya-day1/data/` klasörüne koyun. Veri Git'e dahil değil.
 
 ```text
 data/
@@ -72,8 +77,8 @@ data/
 
 ## Çalıştırma
 
-- **Final submission:** `roketsan_ensemble.ipynb` dosyasını repo kökünden çalıştırın. Çıktı
-  `work/submission.csv` olarak yazılır.
+- **Final submission:** `roketsan_ensemble.ipynb` dosyasını `akya-day1/` klasöründen çalıştırın. Çıktı
+  `akya-day1/work/submission.csv` olarak yazılır.
   - Eğitim bölümleri (3–7) birbirinden bağımsız, farklı makinelerde çalıştırılabilir.
   - Tahmin ve füzyon bölümleri (8–9) dört ağırlık dosyasının hepsine ihtiyaç duyar.
 - **Bir tahmin dosyasını skorlamak:**

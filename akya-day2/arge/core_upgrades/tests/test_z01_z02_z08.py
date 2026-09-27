@@ -10,18 +10,18 @@ from app.services import motion as motion_svc
 from app.services.behavior import behavior_class
 from app.services.tracks import match_detections, tracks_at
 
-from core_fixes.tests.conftest import located_detection
-from core_fixes.z01_detection_guard import (
+from core_upgrades.tests.conftest import located_detection
+from core_upgrades.z01_detection_guard import (
     StrictPrecomputedDetector,
     detect_with_fallback,
     validate_detections_file,
 )
-from core_fixes.z02_track_only import (
+from core_upgrades.z02_track_only import (
     explain_unmatched_detections,
     find_track_only,
     score_track_only,
 )
-from core_fixes.z08_insufficient import apply_to_brief, assess_evidence
+from core_upgrades.z08_insufficient import apply_to_brief, assess_evidence
 
 
 def _write(tmp_path: Path, data: object) -> Path:

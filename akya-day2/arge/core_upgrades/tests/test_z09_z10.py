@@ -9,9 +9,9 @@ from app.domain.analysis import Analysis
 from app.services.detection import PrecomputedDetector
 from app.services.risk import frame_level
 
-from core_fixes.tests.conftest import REPO_DIR
-from core_fixes.z09_guard import FactTable, check_text, extract_numbers, guard_brief
-from core_fixes.z10_budget_mode import (
+from core_upgrades.tests.conftest import REPO_DIR
+from core_upgrades.z09_guard import FactTable, check_text, extract_numbers, guard_brief
+from core_upgrades.z10_budget_mode import (
     BudgetMonitor,
     BudgetStatus,
     budget_url,
