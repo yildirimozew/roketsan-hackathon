@@ -26,6 +26,11 @@ EXPECTED_HASHES = {
         "train.txt": "f4cc66110bc17ba00bbbadb21de55c7f906d5bc505c1cfcbb49833cb2b148678",
         "val.txt": "c0ddf4ef726abebd8687a02ea036b0ec79947d801070ba9d03cb7b6849586029",
     },
+    "rfdetr-full-train-v2-ab": {
+        "annotations.csv": ANNOTATIONS_SHA256,
+        "train.txt": "c544705973b00df50c0f3c13373b1430bd780b14ef0c8c8fb02c26a817cff4a1",
+        "val.txt": "35b881a4c14fd8e61f09ddeabc440f595d16962b3cf9c680f4042c024f076c1e",
+    },
 }
 # Exact counts are pinned for v1, whose runs are already recorded; v2 is
 # checked for internal consistency against its own READY.json instead.
@@ -50,7 +55,7 @@ def main() -> None:
 
     assert ready["name"] in EXPECTED_HASHES, ready["name"]
     assert ready["classes"] == ["car", "van", "truck", "bus"]
-    full_train = ready["name"] == "rfdetr-full-train-v1-ab"
+    full_train = ready["name"].startswith("rfdetr-full-train-")
     assert ready["train_images"] == (6471 if full_train else 5176)
     assert ready["validation_images"] == 1295
     assert ready.get("validation_overlap_images", 0) == (1295 if full_train else 0)

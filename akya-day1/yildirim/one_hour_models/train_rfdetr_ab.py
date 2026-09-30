@@ -70,6 +70,7 @@ def main() -> None:
         "rfdetr-scene-holdout-v1-ab",
         "rfdetr-scene-holdout-v2-ab",
         "rfdetr-full-train-v1-ab",
+        "rfdetr-full-train-v2-ab",
     }:
         raise ValueError(f"Unexpected prepared dataset marker: {ready.get('name')}")
 

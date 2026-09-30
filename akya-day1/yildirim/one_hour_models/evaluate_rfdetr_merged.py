@@ -11,14 +11,15 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from PIL import Image
+from PIL import Image, ImageOps
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 from rfdetr import RFDETRLarge
-from torchvision.ops import batched_nms
+from torchvision.ops import batched_nms, box_iou
 
 
 CLASS_NAMES = ("car", "van", "truck", "bus")
+TTA_MODES = ("none", "flip", "nms", "wbf-mean", "wbf-max")
 
 
 def parse_args() -> argparse.Namespace:
@@ -41,6 +42,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--nms-iou", type=float, nargs="+", default=(0.4, 0.5, 0.6, 0.7))
     parser.add_argument("--owner-mode", choices=("both", "owner", "all"), default="both")
     parser.add_argument("--min-area", type=float, default=0.0)
+    parser.add_argument("--hflip", action="store_true", help="Also predict horizontally mirrored tiles.")
+    parser.add_argument("--tta-merge", nargs="+", choices=TTA_MODES, default=("none",))
+    parser.add_argument("--tta-iou", type=float, default=0.55)
     parser.add_argument("--wandb-run")
     return parser.parse_args()
 
@@ -119,6 +123,34 @@ def ownership_bounds(tile_images: list[dict], original_images: dict[str, dict]) 
     return result
 
 
+def tile_detections(
+    model: RFDETRLarge, images: list[Image.Image], threshold: float, hflip: bool
+) -> list[tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray] | None]:
+    """Predict tiles, optionally also mirrored; boxes are xyxy in unflipped tile pixels."""
+    views = [(images, False)]
+    if hflip:
+        views.append(([ImageOps.mirror(image) for image in images], True))
+    per_tile: list[list[tuple[np.ndarray, ...]]] = [[] for _ in images]
+    for view_images, flipped in views:
+        detections = model.predict(view_images, threshold=threshold, include_source_image=False)
+        for index, (image, detection) in enumerate(zip(view_images, detections, strict=True)):
+            if len(detection) == 0:
+                continue
+            boxes = np.asarray(detection.xyxy, dtype=np.float32).copy()
+            if flipped:
+                boxes[:, [0, 2]] = float(image.width) - boxes[:, [2, 0]]
+            per_tile[index].append((
+                boxes,
+                np.asarray(detection.confidence, dtype=np.float32),
+                np.asarray(detection.class_id, dtype=np.int16),
+                np.full(len(boxes), flipped, dtype=bool),
+            ))
+    return [
+        tuple(np.concatenate(parts) for parts in zip(*views_for_tile)) if views_for_tile else None
+        for views_for_tile in per_tile
+    ]
+
+
 def predict_tiles(args: argparse.Namespace, raw_path: Path) -> dict[str, np.ndarray]:
     tile_annotations = load_json(args.tiles / "_annotations.coco.json")
     original_annotations = load_json(args.original / "_annotations.coco.json")
@@ -146,6 +178,7 @@ def predict_tiles(args: argparse.Namespace, raw_path: Path) -> dict[str, np.ndar
     scores: list[np.ndarray] = []
     labels: list[np.ndarray] = []
     owners: list[np.ndarray] = []
+    flips: list[np.ndarray] = []
     tiles = sorted(tiles, key=lambda image: int(image["id"]))
 
     for start in range(0, len(tiles), args.batch_size):
@@ -170,19 +203,13 @@ def predict_tiles(args: argparse.Namespace, raw_path: Path) -> dict[str, np.ndar
                         padded.paste(crop, (0, 0))
                         crop = padded
                     images.append(crop)
-        detections = model.predict(
-            images,
-            threshold=args.score_threshold,
-            include_source_image=False,
-        )
+        detections = tile_detections(model, images, args.score_threshold, args.hflip)
         for tile, detection in zip(batch, detections, strict=True):
-            if len(detection) == 0:
+            if detection is None:
                 continue
             original_id = str(tile["original_image_id"])
             original = original_images[original_id]
-            current_boxes = np.asarray(detection.xyxy, dtype=np.float32).copy()
-            current_scores = np.asarray(detection.confidence, dtype=np.float32)
-            current_labels = np.asarray(detection.class_id, dtype=np.int16)
+            current_boxes, current_scores, current_labels, current_flips = detection
             current_boxes[:, [0, 2]] += float(tile["tile_x"])
             current_boxes[:, [1, 3]] += float(tile["tile_y"])
             current_boxes[:, [0, 2]] = current_boxes[:, [0, 2]].clip(0, float(original["width"]))
@@ -208,6 +235,7 @@ def predict_tiles(args: argparse.Namespace, raw_path: Path) -> dict[str, np.ndar
             scores.append(current_scores[valid])
             labels.append(current_labels[valid])
             owners.append(owner[valid])
+            flips.append(current_flips[valid])
         print(f"predicted {min(start + args.batch_size, len(tiles))}/{len(tiles)} tiles", flush=True)
 
     raw = {
@@ -216,28 +244,104 @@ def predict_tiles(args: argparse.Namespace, raw_path: Path) -> dict[str, np.ndar
         "scores": np.concatenate(scores),
         "labels": np.concatenate(labels),
         "owners": np.concatenate(owners),
+        "flipped": np.concatenate(flips),
     }
     np.savez_compressed(raw_path, **raw)
     return raw
 
 
+def fuse_views(
+    first: tuple[torch.Tensor, torch.Tensor, torch.Tensor],
+    second: tuple[torch.Tensor, torch.Tensor, torch.Tensor],
+    iou_threshold: float,
+    score_mode: str,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Weighted-box-fuse two score-sorted views one-to-one within each class."""
+    out_boxes, out_scores, out_labels = [], [], []
+    missing_factor = 0.5 if score_mode == "mean" else 1.0
+    for label in torch.unique(torch.cat((first[2], second[2]))).tolist():
+        a = first[2] == label
+        b = second[2] == label
+        boxes_a, scores_a = first[0][a].double(), first[1][a].double()
+        boxes_b, scores_b = second[0][b].double(), second[1][b].double()
+        matched_b = torch.zeros(len(boxes_b), dtype=torch.bool)
+        overlaps = box_iou(boxes_a, boxes_b).numpy() if len(boxes_a) and len(boxes_b) else None
+        for i in range(len(boxes_a)):
+            j = -1
+            if overlaps is not None:
+                row = overlaps[i].copy()
+                row[matched_b.numpy()] = -1
+                candidate = int(row.argmax())
+                if row[candidate] >= iou_threshold:
+                    j = candidate
+            if j < 0:
+                out_boxes.append(boxes_a[i])
+                out_scores.append(scores_a[i] * missing_factor)
+            else:
+                matched_b[j] = True
+                weight = scores_a[i] + scores_b[j]
+                out_boxes.append((boxes_a[i] * scores_a[i] + boxes_b[j] * scores_b[j]) / weight)
+                out_scores.append(
+                    weight / 2 if score_mode == "mean" else torch.maximum(scores_a[i], scores_b[j])
+                )
+            out_labels.append(label)
+        for j in torch.nonzero(~matched_b).flatten().tolist():
+            out_boxes.append(boxes_b[j])
+            out_scores.append(scores_b[j] * missing_factor)
+            out_labels.append(label)
+    if not out_boxes:
+        return torch.empty((0, 4)), torch.empty(0), torch.empty(0, dtype=torch.int64)
+    return (
+        torch.stack(out_boxes).float(),
+        torch.stack(out_scores).float(),
+        torch.tensor(out_labels, dtype=torch.int64),
+    )
+
+
 def merged_predictions(
-    raw: dict[str, np.ndarray], owner_only: bool, nms_iou: float, max_det: int, min_area: float = 0.0
+    raw: dict[str, np.ndarray],
+    owner_only: bool,
+    nms_iou: float,
+    max_det: int,
+    min_area: float = 0.0,
+    tta: str = "none",
+    tta_iou: float = 0.55,
 ) -> list[dict]:
+    if tta not in TTA_MODES:
+        raise ValueError(f"Unknown TTA merge mode: {tta}")
+    flipped = raw.get("flipped")
+    if flipped is None:
+        if tta != "none":
+            raise ValueError(f"TTA merge {tta!r} needs raw predictions made with --hflip")
+        flipped = np.zeros(len(raw["scores"]), dtype=bool)
     predictions = []
     for image_id in np.unique(raw["image_ids"]):
         mask = raw["image_ids"] == image_id
         if owner_only:
             mask &= raw["owners"]
+        if tta == "none":
+            mask &= ~flipped
+        elif tta == "flip":
+            mask &= flipped
         boxes = torch.from_numpy(raw["boxes"][mask])
         scores = torch.from_numpy(raw["scores"][mask])
         labels = torch.from_numpy(raw["labels"][mask].astype(np.int64))
+        view_flipped = torch.from_numpy(flipped[mask])
         if min_area > 0:
             large_enough = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1]) >= min_area
             boxes = boxes[large_enough]
             scores = scores[large_enough]
             labels = labels[large_enough]
-        keep = batched_nms(boxes, scores, labels, nms_iou)
+            view_flipped = view_flipped[large_enough]
+        if tta.startswith("wbf"):
+            views = []
+            for view in (~view_flipped, view_flipped):
+                keep = batched_nms(boxes[view], scores[view], labels[view], nms_iou)
+                views.append((boxes[view][keep], scores[view][keep], labels[view][keep]))
+            boxes, scores, labels = fuse_views(views[0], views[1], tta_iou, tta.split("-")[1])
+            keep = torch.argsort(scores, descending=True, stable=True)
+        else:
+            keep = batched_nms(boxes, scores, labels, nms_iou)
         keep = keep[:max_det]
         for index in keep.tolist():
             x1, y1, x2, y2 = boxes[index].tolist()
@@ -370,12 +474,15 @@ def main() -> None:
     }[args.owner_mode]
     for owner_only in owner_options:
         for nms_iou in args.nms_iou:
-            predictions = merged_predictions(raw, owner_only, nms_iou, args.max_det, args.min_area)
-            metrics = evaluate(annotation_path, predictions, args.max_det)
-            metrics["competition"] = competition_evaluate(annotation_path, predictions, args.min_area)
-            metrics.update({"owner_only": owner_only, "nms_iou": nms_iou})
-            all_results.append(metrics)
-            print(json.dumps(metrics, sort_keys=True), flush=True)
+            for tta in args.tta_merge:
+                predictions = merged_predictions(
+                    raw, owner_only, nms_iou, args.max_det, args.min_area, tta, args.tta_iou
+                )
+                metrics = evaluate(annotation_path, predictions, args.max_det)
+                metrics["competition"] = competition_evaluate(annotation_path, predictions, args.min_area)
+                metrics.update({"owner_only": owner_only, "nms_iou": nms_iou, "tta": tta})
+                all_results.append(metrics)
+                print(json.dumps(metrics, sort_keys=True), flush=True)
 
     best = max(all_results, key=lambda result: result["competition"]["map50"])
     best_predictions = merged_predictions(
@@ -384,6 +491,8 @@ def main() -> None:
         float(best["nms_iou"]),
         args.max_det,
         args.min_area,
+        str(best["tta"]),
+        args.tta_iou,
     )
     (args.output / "merged_predictions.json").write_text(json.dumps(best_predictions))
     summary = {

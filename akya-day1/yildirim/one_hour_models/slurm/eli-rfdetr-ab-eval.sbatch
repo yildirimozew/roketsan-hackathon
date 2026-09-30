@@ -16,13 +16,17 @@ if [[ "${AB_ARM:-}" != "a" && "${AB_ARM:-}" != "b" ]]; then
 fi
 
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
-REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
+REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/akya-day1
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
-PREPARED="$ELI_ROOT/prepared/rfdetr_scene_ab"
-RUN_DIR="$ELI_ROOT/runs/rfdetr_scene_$AB_ARM"
+PREPARED="${PREPARED:-$ELI_ROOT/prepared/rfdetr_scene_ab}"
+RUN_DIR="${RUN_DIR:-$ELI_ROOT/runs/rfdetr_scene_$AB_ARM}"
 EVAL_DIR="${EVAL_DIR:-$RUN_DIR/eval_original}"
 RUN_NAME="${RUN_NAME:-rfdetr-scene-$AB_ARM-eval}"
 CHECKPOINT="${CHECKPOINT:-$RUN_DIR/checkpoint_best_ema.pth}"
+tta_args=()
+if [[ "${HFLIP:-0}" == "1" ]]; then
+    tta_args+=(--hflip --tta-merge none flip nms wbf-mean wbf-max --tta-iou "${TTA_IOU:-0.55}")
+fi
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
@@ -31,7 +35,7 @@ export HF_HOME="$ELI_ROOT/cache/huggingface"
 export TORCH_HOME="$ELI_ROOT/cache/torch"
 export OMP_NUM_THREADS=8
 source "$SOURCE_DIR/wandb_karolina.env"
-export WANDB_RUN_GROUP=rfdetr-scene-ab
+export WANDB_RUN_GROUP="${WANDB_RUN_GROUP:-rfdetr-scene-ab}"
 export WANDB_DIR="$ELI_ROOT/runs/wandb/$RUN_NAME"
 mkdir -p "$WANDB_DIR"
 
@@ -52,4 +56,5 @@ test ! -e "$EVAL_DIR"
     --nms-iou 0.60 \
     --owner-mode owner \
     --min-area 200 \
+    "${tta_args[@]}" \
     --wandb-run "$RUN_NAME"

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fuse RF-DETR, Cascade R-CNN, and YOLO detections and write a submission."""
+"""Fuse detections from any set of models and write a submission."""
 
 from __future__ import annotations
 
@@ -23,15 +23,23 @@ DEFAULT_WEIGHTS = {
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--rfdetr", type=Path, required=True)
+    parser.add_argument(
+        "--source", nargs=2, action="append", default=[], metavar=("NAME", "PATH"),
+        help="Named prediction file: RF-DETR .json, image_id,label,conf,x,y,w,h .csv, "
+        "or archive.zip::member.csv. Repeat for each model.",
+    )
+    parser.add_argument("--rfdetr", type=Path)
     parser.add_argument(
         "--rfdetr-map", type=Path,
         help="COCO annotations used to map numeric validation IDs to original IDs",
     )
-    parser.add_argument("--cascade", type=Path, required=True)
-    parser.add_argument("--yolo-zip", type=Path, required=True)
-    parser.add_argument("--yolo-member", required=True)
-    parser.add_argument("--weights", default=json.dumps(DEFAULT_WEIGHTS))
+    parser.add_argument("--cascade", type=Path)
+    parser.add_argument("--yolo-zip", type=Path)
+    parser.add_argument("--yolo-member")
+    parser.add_argument(
+        "--weights", default=json.dumps(DEFAULT_WEIGHTS),
+        help="JSON {source: weight or {class: weight}}; unlisted sources get 1.0.",
+    )
     parser.add_argument("--iou", type=float, default=0.55)
     parser.add_argument("--support-boost", type=float, default=0.05)
     parser.add_argument(
@@ -73,6 +81,32 @@ def read_yolo(path: Path, member: str) -> pd.DataFrame:
     with zipfile.ZipFile(path) as archive:
         with archive.open(member) as handle:
             return pd.read_csv(handle, usecols=COLUMNS)
+
+
+def read_source(spec: str, mapping_path: Path | None) -> pd.DataFrame:
+    if "::" in spec:
+        archive, member = spec.split("::", 1)
+        return read_yolo(Path(archive), member)
+    path = Path(spec)
+    if path.suffix == ".json":
+        return read_rfdetr(path, mapping_path)
+    return pd.read_csv(path, usecols=COLUMNS)
+
+
+def source_weights(raw: dict, sources: list[str]) -> dict[str, dict[str, float]]:
+    unknown = set(raw) - set(sources)
+    if unknown and not set(raw) <= set(DEFAULT_WEIGHTS):
+        raise ValueError(f"weights name unknown sources: {sorted(unknown)}")
+    result = {}
+    for source in sources:
+        value = raw.get(source, 1.0)
+        if isinstance(value, dict):
+            if set(value) != set(CLASSES):
+                raise ValueError(f"weights for {source} must define {CLASSES}")
+            result[source] = {name: float(value[name]) for name in CLASSES}
+        else:
+            result[source] = {name: float(value) for name in CLASSES}
+    return result
 
 
 def iou_one_to_many(box: np.ndarray, boxes: np.ndarray) -> np.ndarray:
@@ -214,18 +248,16 @@ def write_submission(predictions: pd.DataFrame, sample_path: Path, output: Path)
 
 def main() -> None:
     args = parse_args()
-    weights = json.loads(args.weights)
-    if set(weights) != {"rfdetr", "cascade", "yolo"}:
-        raise ValueError("weights must define rfdetr, cascade, and yolo")
-    for source in weights:
-        if set(weights[source]) != set(CLASSES):
-            raise ValueError(f"weights for {source} must define {CLASSES}")
-
-    frames = {
-        "rfdetr": read_rfdetr(args.rfdetr, args.rfdetr_map),
-        "cascade": pd.read_csv(args.cascade, usecols=COLUMNS),
-        "yolo": read_yolo(args.yolo_zip, args.yolo_member),
-    }
+    frames = {name: read_source(spec, args.rfdetr_map) for name, spec in args.source}
+    if args.rfdetr:
+        frames["rfdetr"] = read_rfdetr(args.rfdetr, args.rfdetr_map)
+    if args.cascade:
+        frames["cascade"] = pd.read_csv(args.cascade, usecols=COLUMNS)
+    if args.yolo_zip:
+        frames["yolo"] = read_yolo(args.yolo_zip, args.yolo_member)
+    if len(frames) < 2:
+        raise ValueError("need at least two prediction sources")
+    weights = source_weights(json.loads(args.weights), list(frames))
     for source, frame in frames.items():
         print(f"loaded {len(frame)} {source} predictions", flush=True)
     predictions = fuse(

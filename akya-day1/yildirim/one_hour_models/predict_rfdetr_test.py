@@ -16,9 +16,11 @@ from rfdetr import RFDETRLarge
 
 from evaluate_rfdetr_merged import (
     CLASS_NAMES,
+    TTA_MODES,
     full_grid_tiles,
     merged_predictions,
     ownership_bounds,
+    tile_detections,
 )
 
 
@@ -37,6 +39,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-det", type=int, default=1000)
     parser.add_argument("--nms-iou", type=float, default=0.6)
     parser.add_argument("--min-area", type=float, default=0.0)
+    parser.add_argument("--hflip", action="store_true", help="Also predict horizontally mirrored tiles.")
+    parser.add_argument("--tta-merge", choices=TTA_MODES, default="none")
+    parser.add_argument("--tta-iou", type=float, default=0.55)
     parser.add_argument("--sample-submission", type=Path)
     parser.add_argument("--submission", type=Path)
     return parser.parse_args()
@@ -120,6 +125,7 @@ def predict_tiles(
     scores: list[np.ndarray] = []
     labels: list[np.ndarray] = []
     owners: list[np.ndarray] = []
+    flips: list[np.ndarray] = []
 
     for start in range(0, len(tiles), args.batch_size):
         batch = tiles[start : start + args.batch_size]
@@ -139,19 +145,13 @@ def predict_tiles(
                     crop = padded
                 images.append(crop)
 
-        detections = model.predict(
-            images,
-            threshold=args.score_threshold,
-            include_source_image=False,
-        )
+        detections = tile_detections(model, images, args.score_threshold, args.hflip)
         for tile, detection in zip(batch, detections, strict=True):
-            if len(detection) == 0:
+            if detection is None:
                 continue
             original_id = str(tile["original_image_id"])
             original = original_images[original_id]
-            current_boxes = np.asarray(detection.xyxy, dtype=np.float32).copy()
-            current_scores = np.asarray(detection.confidence, dtype=np.float32)
-            current_labels = np.asarray(detection.class_id, dtype=np.int16)
+            current_boxes, current_scores, current_labels, current_flips = detection
             current_boxes[:, [0, 2]] += float(tile["tile_x"])
             current_boxes[:, [1, 3]] += float(tile["tile_y"])
             current_boxes[:, [0, 2]] = current_boxes[:, [0, 2]].clip(
@@ -182,6 +182,7 @@ def predict_tiles(
             scores.append(current_scores[valid])
             labels.append(current_labels[valid])
             owners.append(owner[valid])
+            flips.append(current_flips[valid])
 
         completed = min(start + args.batch_size, len(tiles))
         if start == 0 or completed == len(tiles) or completed % (args.batch_size * 10) == 0:
@@ -193,6 +194,7 @@ def predict_tiles(
         "scores": np.concatenate(scores),
         "labels": np.concatenate(labels),
         "owners": np.concatenate(owners),
+        "flipped": np.concatenate(flips),
     }
     np.savez_compressed(raw_path, **raw)
     return raw
@@ -233,6 +235,8 @@ def main() -> None:
         nms_iou=args.nms_iou,
         max_det=args.max_det,
         min_area=args.min_area,
+        tta=args.tta_merge,
+        tta_iou=args.tta_iou,
     )
     predictions = []
     for prediction in numeric_predictions:
@@ -270,6 +274,9 @@ def main() -> None:
         "nms_iou": args.nms_iou,
         "max_det": args.max_det,
         "min_area": args.min_area,
+        "hflip": args.hflip,
+        "tta_merge": args.tta_merge,
+        "tta_iou": args.tta_iou,
         "submission": str(args.submission) if args.submission else None,
         "box_format": "xywh in original-image pixels",
         "class_names": list(CLASS_NAMES),

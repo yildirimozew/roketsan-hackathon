@@ -38,6 +38,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-centered-per-image", type=int, default=4)
     parser.add_argument("--high-ratio-max-centered-per-image", type=int, default=6)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--train-on-all",
+        action="store_true",
+        help="Train on the union of train.txt and val.txt; retain val.txt only as an overlapping sanity set.",
+    )
     return parser.parse_args()
 
 
@@ -243,9 +248,13 @@ def main() -> None:
         raise ValueError("Train and validation manifests overlap")
     if len(split_ids["train"]) != 5176 or len(split_ids["valid"]) != 1295:
         raise ValueError("Unexpected scene_holdout_v2 split sizes")
+    if args.train_on_all:
+        split_ids["train"] = list(dict.fromkeys(split_ids["train"] + split_ids["valid"]))
+        if len(split_ids["train"]) != 6471:
+            raise ValueError("Full-data training must contain exactly 6,471 images")
 
     annotations, duplicate_rows = read_annotations_deduplicated(annotation_path)
-    all_ids = split_ids["train"] + split_ids["valid"]
+    all_ids = list(dict.fromkeys(split_ids["train"] + split_ids["valid"]))
     paths, sizes = image_sizes(images_dir, all_ids)
     train_paths = {image_id: paths[image_id] for image_id in split_ids["train"]}
     train_sizes = {image_id: sizes[image_id] for image_id in split_ids["train"]}
@@ -301,10 +310,15 @@ def main() -> None:
         }
 
     marker = {
-        "name": "yolo26-s-p2-scene-holdout-v2-sliced-pilots",
+        "name": (
+            "yolo26-s-p2-full-train-v2-sliced"
+            if args.train_on_all
+            else "yolo26-s-p2-scene-holdout-v2-sliced-pilots"
+        ),
         "classes": list(CLASS_NAMES),
         "train_images": len(split_ids["train"]),
         "validation_images": len(split_ids["valid"]),
+        "validation_overlap_images": len(set(split_ids["train"]) & set(split_ids["valid"])),
         "deduplicated_annotation_rows": duplicate_rows,
         "source_hashes": {
             "annotations.csv": sha256_file(annotation_path),
@@ -323,6 +337,7 @@ def main() -> None:
             "high_ratio_max_centered_per_image": args.high_ratio_max_centered_per_image,
             "seed": args.seed,
             "focus_shares": {"van": 0.55, "truck": 0.30, "bus": 0.15},
+            "train_on_all": args.train_on_all,
         },
         "base_train_grid": {
             "images": len(train_grid),

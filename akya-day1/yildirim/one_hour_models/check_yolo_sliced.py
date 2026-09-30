@@ -25,15 +25,18 @@ def main() -> None:
     repo = args.repo.resolve()
     ready = json.loads((root / "READY.json").read_text())
 
-    assert ready["name"] == "yolo26-s-p2-scene-holdout-v2-sliced-pilots"
+    full_train = ready["name"] == "yolo26-s-p2-full-train-v2-sliced"
+    assert full_train or ready["name"] == "yolo26-s-p2-scene-holdout-v2-sliced-pilots"
     assert ready["classes"] == ["car", "van", "truck", "bus"]
-    assert ready["train_images"] == 5176
+    assert ready["train_images"] == (6471 if full_train else 5176)
     assert ready["validation_images"] == 1295
+    assert ready.get("validation_overlap_images", 0) == (1295 if full_train else 0)
     assert ready["parameters"]["tile_size"] == 704
     assert ready["parameters"]["tile_overlap"] == 0.25
     assert ready["parameters"]["negative_ratio"] == 0.20
     assert ready["parameters"]["seed"] == 42
-    assert set(ready["ratios"]) == {"ratio25", "ratio40"}
+    expected_ratios = {"ratio25": 0.25} if full_train else {"ratio25": 0.25, "ratio40": 0.40}
+    assert set(ready["ratios"]) == set(expected_ratios)
 
     sources = {
         "annotations.csv": repo / "data/train/annotations.csv",
@@ -48,7 +51,7 @@ def main() -> None:
     assert len(validation) == ready["validation"]["images"] == 1295
     assert all(path.exists() for path in validation)
 
-    for name, expected_ratio in (("ratio25", 0.25), ("ratio40", 0.40)):
+    for name, expected_ratio in expected_ratios.items():
         details = ready["ratios"][name]
         assert details["centered_ratio"] == expected_ratio
         assert details["max_centered_per_image"] == (4 if name == "ratio25" else 6)
@@ -67,7 +70,7 @@ def main() -> None:
         "prepared": str(root),
         "grid_images": ready["selected_grid"]["images"],
         "ratio25_images": ready["ratios"]["ratio25"]["total_train_images"],
-        "ratio40_images": ready["ratios"]["ratio40"]["total_train_images"],
+        "ratio40_images": ready["ratios"].get("ratio40", {}).get("total_train_images"),
         "status": "ok",
     }, indent=2))
 

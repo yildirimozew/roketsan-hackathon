@@ -16,11 +16,14 @@ if [[ "${AB_ARM:-}" != "a" && "${AB_ARM:-}" != "b" ]]; then
 fi
 
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
-REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
+REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/akya-day1
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
-DATA_ROOT="$ELI_ROOT/prepared/rfdetr_scene_ab/rfdetr_tiles"
-RUN_NAME="rfdetr-scene-$AB_ARM-train"
-RUN_DIR="$ELI_ROOT/runs/rfdetr_scene_$AB_ARM"
+PREPARED="${PREPARED:-$ELI_ROOT/prepared/rfdetr_scene_ab}"
+DATA_ROOT="$PREPARED/rfdetr_tiles"
+RUN_NAME="${RUN_NAME:-rfdetr-scene-$AB_ARM-train}"
+RUN_DIR="${RUN_DIR:-$ELI_ROOT/runs/rfdetr_scene_$AB_ARM}"
+EPOCHS="${EPOCHS:-3}"
+EVAL_INTERVAL="${EVAL_INTERVAL:-$EPOCHS}"
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
@@ -30,14 +33,14 @@ export TORCH_HOME="$ELI_ROOT/cache/torch"
 export TORCHINDUCTOR_CACHE_DIR="$ELI_ROOT/cache/torchinductor/$RUN_NAME"
 export OMP_NUM_THREADS=8
 source "$SOURCE_DIR/wandb_karolina.env"
-export WANDB_RUN_GROUP=rfdetr-scene-ab
+export WANDB_RUN_GROUP="${WANDB_RUN_GROUP:-rfdetr-scene-ab}"
 export WANDB_NAME="$RUN_NAME"
 export WANDB_DIR="$ELI_ROOT/runs/wandb/$RUN_NAME"
 export ELI_GIT_COMMIT="${ELI_GIT_COMMIT:-unknown}"
 mkdir -p "$WANDB_DIR" "$TORCHINDUCTOR_CACHE_DIR"
 
 "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/check_rfdetr_ab.py" \
-    --prepared "$ELI_ROOT/prepared/rfdetr_scene_ab"
+    --prepared "$PREPARED"
 
 if [[ "$AB_ARM" == "a" ]]; then
     RAW_WEIGHTS=1,1,1,1
@@ -50,6 +53,7 @@ fi
     --output "$RUN_DIR" \
     --run "$RUN_NAME" \
     --raw-class-weights "$RAW_WEIGHTS" \
-    --epochs 3 \
+    --epochs "$EPOCHS" \
+    --eval-interval "$EVAL_INTERVAL" \
     --batch-size 19 \
     --seed 42

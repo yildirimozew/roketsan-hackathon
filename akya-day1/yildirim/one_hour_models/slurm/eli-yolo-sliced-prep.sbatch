@@ -10,10 +10,14 @@
 
 set -euo pipefail
 
-REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
+REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/akya-day1
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
-PREPARED="$ELI_ROOT/prepared/yolo_scene_pilots"
+PREPARED="${PREPARED:-$ELI_ROOT/prepared/yolo_scene_pilots}"
+prep_args=()
+if [[ "${TRAIN_ON_ALL:-0}" == "1" ]]; then
+    prep_args+=(--train-on-all --centered-ratios 0.25)
+fi
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
@@ -29,11 +33,12 @@ else
         echo "Refusing to replace incomplete prepared directory: $PREPARED" >&2
         exit 1
     fi
-    BUILD="$ELI_ROOT/prepared/.yolo_scene_pilots.build-$SLURM_JOB_ID"
+    BUILD="$(dirname "$PREPARED")/.$(basename "$PREPARED").build-$SLURM_JOB_ID"
     "$ELI_ROOT/venvs/yolo/bin/python" "$SOURCE_DIR/prepare_yolo_sliced.py" \
         --repo "$REMOTE_REPO" \
         --split-dir "$REMOTE_REPO/splits/scene_holdout_v2" \
-        --output "$BUILD"
+        --output "$BUILD" \
+        "${prep_args[@]}"
     "$ELI_ROOT/venvs/yolo/bin/python" "$SOURCE_DIR/check_yolo_sliced.py" \
         --prepared "$BUILD" --repo "$REMOTE_REPO"
     mv "$BUILD" "$PREPARED"

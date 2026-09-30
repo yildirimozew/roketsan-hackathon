@@ -10,12 +10,13 @@
 
 set -euo pipefail
 
-REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
+REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/akya-day1
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
 RFDETR_REPO="$ELI_ROOT/repos/rf-detr"
 RFDETR_COMMIT=4f68814adb3df5a1ac4769fc11f7b32d8e2d404f
-PREPARED="$ELI_ROOT/prepared/rfdetr_scene_ab"
+SPLIT_NAME="${SPLIT_NAME:-scene_holdout_v1}"
+PREPARED="${PREPARED:-$ELI_ROOT/prepared/rfdetr_scene_ab}"
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
@@ -42,10 +43,10 @@ if [[ -e "$PREPARED" ]]; then
     exit 1
 fi
 
-BUILD="$ELI_ROOT/prepared/.rfdetr_scene_ab.build-$SLURM_JOB_ID"
+BUILD="$(dirname "$PREPARED")/.$(basename "$PREPARED").build-$SLURM_JOB_ID"
 "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/prepare_rfdetr_ab.py" \
     --repo "$REMOTE_REPO" \
-    --split-dir "$REMOTE_REPO/splits/scene_holdout_v1" \
+    --split-dir "$REMOTE_REPO/splits/$SPLIT_NAME" \
     --output "$BUILD"
 "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/check_rfdetr_ab.py" --prepared "$BUILD"
 mv "$BUILD" "$PREPARED"

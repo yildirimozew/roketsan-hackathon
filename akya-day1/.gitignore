@@ -21,6 +21,10 @@ scripts/
 *.onnx
 *.engine
 
+# Downloaded prediction bundles and generated submissions
+*.zip
+submission.csv
+
 # Python
 __pycache__/
 *.py[cod]

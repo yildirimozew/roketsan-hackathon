@@ -13,11 +13,11 @@ set -euo pipefail
 : "${TARGET_EPOCHS:?TARGET_EPOCHS must be set}"
 
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
-REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
+REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/akya-day1
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
-PREPARED="$ELI_ROOT/prepared/rfdetr_full_v1"
+PREPARED="${PREPARED:-$ELI_ROOT/prepared/rfdetr_full_v1}"
 DATA_ROOT="$PREPARED/rfdetr_tiles"
-RUN_DIR="$ELI_ROOT/runs/rfdetr_full_v1_from_e12"
+RUN_DIR="${RUN_DIR:-$ELI_ROOT/runs/rfdetr_full_v1_from_e12}"
 RUN_NAME="${RUN_NAME:-rfdetr-full-v1-from-e12-e${TARGET_EPOCHS}}"
 
 module purge
@@ -28,7 +28,7 @@ export TORCH_HOME="$ELI_ROOT/cache/torch"
 export TORCHINDUCTOR_CACHE_DIR="$ELI_ROOT/cache/torchinductor/$RUN_NAME"
 export OMP_NUM_THREADS=8
 source "$SOURCE_DIR/wandb_karolina.env"
-export WANDB_RUN_GROUP=rfdetr-full-v1-from-e12
+export WANDB_RUN_GROUP="${WANDB_RUN_GROUP:-rfdetr-full-v1-from-e12}"
 export WANDB_NAME="$RUN_NAME"
 export WANDB_DIR="$ELI_ROOT/runs/wandb/$RUN_NAME"
 export ELI_GIT_COMMIT="${ELI_GIT_COMMIT:-unknown}"

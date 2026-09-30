@@ -11,9 +11,10 @@
 set -euo pipefail
 
 ELI_ROOT=/mnt/proj1/open-37-16/yildirimozew/eli-training
-REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon
+REMOTE_REPO=/mnt/proj1/open-37-16/yildirimozew/roketsan-hackathon/akya-day1
 SOURCE_DIR="$REMOTE_REPO/yildirim/one_hour_models"
-PREPARED="$ELI_ROOT/prepared/rfdetr_full_v1"
+SPLIT_NAME="${SPLIT_NAME:-scene_holdout_v1}"
+PREPARED="${PREPARED:-$ELI_ROOT/prepared/rfdetr_full_v1}"
 
 module purge
 module load Python/3.12.3-GCCcore-13.3.0
@@ -34,7 +35,7 @@ fi
 BUILD="$(dirname "$PREPARED")/.$(basename "$PREPARED").build-$SLURM_JOB_ID"
 "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/prepare_rfdetr_ab.py" \
     --repo "$REMOTE_REPO" \
-    --split-dir "$REMOTE_REPO/splits/scene_holdout_v1" \
+    --split-dir "$REMOTE_REPO/splits/$SPLIT_NAME" \
     --output "$BUILD" \
     --train-on-all
 "$ELI_ROOT/venvs/rfdetr/bin/python" "$SOURCE_DIR/check_rfdetr_ab.py" --prepared "$BUILD"
